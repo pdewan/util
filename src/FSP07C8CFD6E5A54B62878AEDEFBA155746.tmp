@@ -1,0 +1,132 @@
+package util.session;
+
+import util.misc.Message;
+import util.misc.Misc;
+import util.models.BoundedBuffer;
+
+public class AMessageSenderRunnable implements MessageSenderRunnable {
+	BoundedBuffer<SentMessage> outputMessageQueue;
+	DelayManager sessionManagerClient;
+	ProcessGroup localMulticastGroup;
+	ProcessGroup multicastGroup;
+	SessionManager sessionManager;
+	Session session;
+	int delayToServer;
+	public AMessageSenderRunnable(BoundedBuffer<SentMessage> theMessageQueue,
+			DelayManager theSessionManagerClient,
+			SessionManager theSessionManager
+			) {
+		outputMessageQueue = theMessageQueue;
+		sessionManagerClient = theSessionManagerClient;
+		sessionManager = theSessionManager;
+		//multicastGroup = theMulticastGroup; // in case it is local
+		//multicastServer = theMulticastServer;
+	}
+	public void setLocalProcessGroup(ProcessGroup theMulticastGroup) {
+		localMulticastGroup = theMulticastGroup;
+		multicastGroup = localMulticastGroup;
+	}
+	public void setProcessGroup(ProcessGroup theProcessGroup) {
+		if (multicastGroup == null)
+			multicastGroup = theProcessGroup;
+		
+	}
+	void sleep (long delay) throws InterruptedException {
+		if (delay > 0) {
+			Message.info("Sender about to sleep for: " + delay);
+			Thread.sleep(delay);
+			Message.info("Sender wakes up from sleep of: " + delay);
+
+		}
+	}
+	void sleepIfRemoteMulticastGroup(long delay) throws InterruptedException {
+		if (localMulticastGroup == null)
+			sleep(delay);
+	}
+	public void run() {
+		
+		while (true) {
+		try {
+			SentMessage message = outputMessageQueue.get();
+			Object[] args = message.getArgs();
+			//long delay = multicastClient.getDelayToServer() - (System.currentTimeMillis() - message.timeStamp);
+			long delay = sessionManagerClient.calculateDelay(message.getTimeStamp());
+
+//			if (delay > 0)
+//				Thread.sleep(delay);
+			switch (message.getSentMessageType()) {
+			case Join:
+				sleep(delay);
+				sessionManager.newMessage(message);
+				//sessionManager.join((String) args[0], (String) args[1], (String) args[2], (MessageReceiver) args[3]);
+//				JoinInfo joinReturnValue = sessionManager.join((String) args[0], (String) args[1], (String) args[2], (MessageReceiver) args[3]);
+//				sleep(delay);// take into account delay for return value
+//				session = joinReturnValue.session;	
+//				if (multicastGroup == null)
+//					multicastGroup = joinReturnValue.processGroup;
+//				sessionManagerClient.setClients(joinReturnValue.clients);
+				//System.out.println("Setting clients of size" + joinReturnValue.clients.size());
+//				sessionManagerClient.setSerializedMulticastGroups(joinReturnValue.serializedProcessGroups);
+//				sessionManagerClient.notifyJoined();
+				break;
+			case Leave:
+				sleep(delay);
+				session.leave((String) args[0], (MessageReceiver) args[1], null);
+				break;
+			case Others:
+				if (multicastGroup == null) {
+					Message.info("Early event, ignoring");
+					break;
+				}
+				sleepIfRemoteMulticastGroup(delay);
+				if (localMulticastGroup != null)
+				   multicastGroup.toOthers(args[0], (String) args[1], (MessageReceiver) args[2], message.getTimeStamp());				
+				else
+					multicastGroup.newMessage(message);
+				System.out.println("Client sending:" + message.getUserMessage());
+				break;
+			case All:
+				if (multicastGroup == null) {
+					Message.info("Multicast event received before join, ignoring");
+					break;
+				}
+				sleepIfRemoteMulticastGroup(delay);
+				if (localMulticastGroup != null)
+					multicastGroup.toAll(args[0], (String) args[1], (MessageReceiver) args[2], message.getTimeStamp());
+				else
+					multicastGroup.newMessage(message);
+				break;
+			case User:
+				if (multicastGroup == null) {
+					Message.info("Early event, ignoring");
+					break;
+				}
+				sleepIfRemoteMulticastGroup(delay);
+				if (localMulticastGroup != null) 
+					multicastGroup.toUser(args[0], args[1], (String) args[2], (MessageReceiver) args[3], message.getTimeStamp());
+				else
+					multicastGroup.newMessage(message);
+				break;
+			case Hosts:
+				if (multicastGroup == null) {
+					Message.info("Early event, ignoring");
+					break;
+				}
+				sleepIfRemoteMulticastGroup(delay);
+				if (localMulticastGroup != null)
+					multicastGroup.toUsers((String[]) args[0],args[1], (String) args[2], (MessageReceiver) args[3], message.getTimeStamp());
+				else
+					multicastGroup.newMessage(message);
+				break;
+			
+			}
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		}
+
+	}
+
+}

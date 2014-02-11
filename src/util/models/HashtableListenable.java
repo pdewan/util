@@ -1,0 +1,1 @@
+package util.models;public interface HashtableListenable {	public void addHashtableListener(HashtableListener hashtableListener);	public void removeHashtableListener(HashtableListener hashtableListener);}

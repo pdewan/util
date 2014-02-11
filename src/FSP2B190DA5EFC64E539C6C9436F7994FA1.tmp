@@ -1,0 +1,48 @@
+package util.session;
+
+import util.misc.Misc;
+import util.models.BoundedBuffer;
+
+public class AMessageReceiverRunnable implements Runnable {
+	BoundedBuffer<ReceivedMessage> inputMessageQueue;
+	MessageDelayer multicastClient;
+	public AMessageReceiverRunnable(BoundedBuffer<ReceivedMessage> theMessageQueue,
+			MessageDelayer theMulticastClient) {
+		inputMessageQueue = theMessageQueue;
+		multicastClient = theMulticastClient;
+	}
+	public void run() {		
+		while (true) {
+		try {
+			//System.out.println("Waiting for input message queue");
+			ReceivedMessage message = inputMessageQueue.get();
+			//System.out.println("Receiver message from input message queue");
+
+			//long delay = multicastClient.getDelayToServer() - (System.currentTimeMillis() - message.timeStamp);
+			long delay =  multicastClient.calculateDelay(message.getTimeStamp());
+			if (delay > 0)
+				Thread.sleep(delay);			
+			switch (message.getReceivedMessageType()) {
+			case ClientLeft:
+				multicastClient.delayedUserLeft(message.getClientName(), message.getClient(), message.getApplicationName());				;
+				break;
+			case ClientJoined:
+				//multicastServer.leave((String) args[0], (RemoteMulticastClient) args[1]);
+				multicastClient.delayedUserJoined(message.getClientName(),  message.getClient(), message.getApplicationName(), message.isNewSession(), message.isNewApplication());				;
+				break;
+			case NewObject:
+				//multicastServer.toOthers(args[0], (String) args[1], (RemoteMulticastClient) args[2]);
+				multicastClient.delayedNewObject(message.getClientName(), message.getNewObject());
+				break;		
+			
+			}
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();			
+		}
+		}
+
+	}
+
+}

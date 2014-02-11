@@ -1,0 +1,1 @@
+package util.models;import java.util.Enumeration;public interface VectorInterface<ElementType> extends		ChangeableVector<ElementType> {	public Enumeration elements();	// public int size();	public ElementType elementAt(int i);//	public int indexOf(ElementType o);	public int indexOf(Object o);	public void clear();	void initSerializedObject();}

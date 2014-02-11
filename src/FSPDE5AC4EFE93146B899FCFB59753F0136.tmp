@@ -1,0 +1,16 @@
+package util.session;
+
+public class ACommunicatorSelector {
+	static CommunicatorCreator communicatorFactory = new ADirectCommunicatorCreator();
+	//static CommunicatorCreator communicatorFactory = new ARelayerCommunicatorCreator();
+
+	public static CommunicatorCreator getCommunicatorFactory() {
+		return communicatorFactory;
+	}
+
+	public static void setCommunicatorFactory(
+			CommunicatorCreator messageSenderFactory) {
+		ACommunicatorSelector.communicatorFactory = messageSenderFactory;
+	}
+	
+}
