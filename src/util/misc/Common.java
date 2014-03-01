@@ -1168,7 +1168,8 @@ public class Common {
 //			nse.printStackTrace();
 
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.out.println(e + ": " + orig);
+//			e.printStackTrace();
 		} catch (ClassNotFoundException cnfe) {
 //			cnfe.printStackTrace();
 		}

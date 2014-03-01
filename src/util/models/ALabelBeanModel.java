@@ -31,8 +31,8 @@ public class ALabelBeanModel implements LabelBeanModel {
 		return text;
 	}
 	public void setText(String newValue) {
-		String oldValue = newValue;
-		if (oldValue.equals(newValue)) return;
+		String oldValue = text;
+		if (oldValue == newValue) return; // redudant but useful for debugging
 		this.text = newValue;
 		propertyChangeSupport.firePropertyChange("Text", oldValue, newValue);
 	}
@@ -40,8 +40,8 @@ public class ALabelBeanModel implements LabelBeanModel {
 		return icon;
 	}
 	public void setIcon(Icon newValue) {
-		Icon oldValue = newValue;
-		if (oldValue.equals(newValue)) return;
+		Icon oldValue = icon;
+		if (oldValue == newValue) return; // redudant but useful for debugging
 		this.icon = newValue;
 		propertyChangeSupport.firePropertyChange("Icon", oldValue, newValue);
 	}
