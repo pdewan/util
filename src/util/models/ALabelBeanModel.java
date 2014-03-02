@@ -30,21 +30,29 @@ public class ALabelBeanModel implements LabelBeanModel {
 	public String getText() {
 		return text;
 	}
-	public void setText(String newValue) {
-		String oldValue = text;
-		if (oldValue == newValue) return; // redudant but useful for debugging
-		this.text = newValue;
-		propertyChangeSupport.firePropertyChange("Text", oldValue, newValue);
+	@Override
+	public void set (String newText, Icon newIcon) {
+		if (Common.equal(newText, text) && Common.equal(newIcon, icon)) return;
+		text = newText;
+		icon = newIcon;
+		propertyChangeSupport.firePropertyChange("this", null, this);
+
 	}
+//	public void setText(String newValue) {
+//		String oldValue = text;
+//		if (oldValue == newValue) return; // redudant but useful for debugging
+//		this.text = newValue;
+//		propertyChangeSupport.firePropertyChange("Text", oldValue, newValue);
+//	}
 	public Icon getIcon() {
 		return icon;
 	}
-	public void setIcon(Icon newValue) {
-		Icon oldValue = icon;
-		if (oldValue == newValue) return; // redudant but useful for debugging
-		this.icon = newValue;
-		propertyChangeSupport.firePropertyChange("Icon", oldValue, newValue);
-	}
+//	public void setIcon(Icon newValue) {
+//		Icon oldValue = icon;
+//		if (oldValue == newValue) return; // redudant but useful for debugging
+//		this.icon = newValue;
+//		propertyChangeSupport.firePropertyChange("Icon", oldValue, newValue);
+//	}
 	/*
 	 * useful when checking if a component is equal to
 	 * corresponding component of another object

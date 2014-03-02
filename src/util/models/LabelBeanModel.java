@@ -5,8 +5,9 @@ import javax.swing.ImageIcon;
 
 public interface LabelBeanModel extends PropertyListenerRegisterer{
 	public String getText() ;
-	public void setText(String text) ;
+//	public void setText(String text) ;
 	public Icon getIcon() ;
-	public void setIcon(Icon icon) ;
+//	public void setIcon(Icon icon) ;
+	void set(String newText, Icon newIcon);
 
 }
