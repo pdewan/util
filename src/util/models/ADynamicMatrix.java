@@ -80,9 +80,12 @@ public class ADynamicMatrix implements DynamicMatrix {
 	}
 
 	public int firstFilledRow(int rowNum) {
+		if (rowNum >= matrix.size() )
+			return -1;
 		int retVal = rowNum;
-		while (isRowEmpty(retVal))
+		while (isRowEmpty(retVal)) {
 			retVal++;
+		}
 		return retVal;
 	}
 
@@ -289,6 +292,26 @@ public class ADynamicMatrix implements DynamicMatrix {
 		}
 		return -1;
 	}
+	
+	public int firstFilledColumn(int rowNum, int colNum) {
+		if (rowNum >= matrix.size())
+			return -1;
+		// createCell (rowNum, 0);
+		Object o = matrix.elementAt(rowNum);
+		if (o == null)
+			return -1;
+		Vector row = (Vector) o;
+		for (int i = colNum; i < row.size(); i++) {
+			// if (childComponents[row][i] == null) continue;
+			if (row.elementAt(i) == null)
+				continue;
+			else
+				return i;
+
+		}
+		return -1;
+	}
+	
 
 	public int lastFilledColumn() {
 		int retVal = 0;
@@ -336,6 +359,10 @@ public class ADynamicMatrix implements DynamicMatrix {
 	@Override
 	public void clear() {
 		matrix.clear();
+	}
+	
+	public int size() {
+		return matrix.size();
 	}
 
 }

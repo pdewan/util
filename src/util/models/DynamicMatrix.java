@@ -72,8 +72,11 @@ public interface DynamicMatrix {
 	public void removeColumn(int colNum);
 
 	public int maxCols(int startRow, int stopRow);
+	public int firstFilledColumn(int rowNum, int colNum);
+
 
 	void clear();
 
 	boolean remove(Object item);
+	public int size();
 }
