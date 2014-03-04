@@ -9,5 +9,7 @@ public interface LabelBeanModel extends PropertyListenerRegisterer{
 	public Icon getIcon() ;
 //	public void setIcon(Icon icon) ;
 	void set(String newText, Icon newIcon);
+	void setText(String newValue);
+	void setIcon(Icon newValue);
 
 }

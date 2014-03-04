@@ -38,21 +38,25 @@ public class ALabelBeanModel implements LabelBeanModel {
 		propertyChangeSupport.firePropertyChange("this", null, this);
 
 	}
-//	public void setText(String newValue) {
+	@Override
+	public void setText(String newValue) {
+		set(newValue, null);
 //		String oldValue = text;
 //		if (oldValue == newValue) return; // redudant but useful for debugging
 //		this.text = newValue;
 //		propertyChangeSupport.firePropertyChange("Text", oldValue, newValue);
-//	}
+	}
 	public Icon getIcon() {
 		return icon;
 	}
-//	public void setIcon(Icon newValue) {
+	@Override
+	public void setIcon(Icon newValue) {
+		set(null, newValue);
 //		Icon oldValue = icon;
 //		if (oldValue == newValue) return; // redudant but useful for debugging
 //		this.icon = newValue;
 //		propertyChangeSupport.firePropertyChange("Icon", oldValue, newValue);
-//	}
+	}
 	/*
 	 * useful when checking if a component is equal to
 	 * corresponding component of another object
