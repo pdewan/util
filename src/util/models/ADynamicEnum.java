@@ -109,6 +109,9 @@ public class ADynamicEnum<ElementType> implements java.io.Serializable,
 		}
 
 	}
+	public void addChoice(ElementType newVal) {
+		maybeAddChoice(newVal);
+	}
 
 	public void setValue(ElementType newVal) {
 		Object oldChoice = currentChoice;
@@ -130,10 +133,10 @@ public class ADynamicEnum<ElementType> implements java.io.Serializable,
 		return currentChoice.toString();
 	}
 
-	// override it to add a choice that is not of ElementType
-	public void addUserChoice(String newValue) {
-
-	}
+//	// override it to add a choice that is not of ElementType
+//	public void addUserChoice(String newValue) {
+//
+//	}
 
 	public void replaceChoice(int index, ElementType newName) {
 		if (index >= choices.size() - 1)

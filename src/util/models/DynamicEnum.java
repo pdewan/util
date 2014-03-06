@@ -16,5 +16,7 @@ public interface DynamicEnum<ElementType> {
 	// public ElementType[] getChoices();
 
 	public void setValue(ElementType newVal);
+	public void addChoice(ElementType newVal);
+
 
 }
