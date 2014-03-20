@@ -1680,6 +1680,24 @@ public class Common {
 			return fontMetrics.getHeight();
 		
 		}
+		
+		public static Integer intSuffix(String aString) {
+			int startSuffix = aString.length() - 1;
+			for (int i = aString.length() - 1; i >= 0; i--) {
+				if (Character.isDigit(aString.charAt(i))) {
+					continue;
+//					start = i;
+				} else {
+					startSuffix = i + 1;
+					break;
+				}
+			}
+			String digitString = aString.substring(startSuffix);
+			if (digitString.length() > 0) {
+				return Integer.parseInt(digitString);
+			}
+			return null;
+		}
 
 
 }
