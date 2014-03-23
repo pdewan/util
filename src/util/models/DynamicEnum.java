@@ -22,5 +22,7 @@ public interface DynamicEnum<ElementType> extends PropertyListenerRegisterer{
 
 	void replaceChoices(List<ElementType> newValue);
 
+	void setChoices(List<ElementType> newValue, ElementType newChoice);
+
 
 }
