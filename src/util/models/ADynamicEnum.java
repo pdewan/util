@@ -46,7 +46,8 @@ public class ADynamicEnum<ElementType> implements java.io.Serializable,
 
 		if (choices.size() > 0) {
 			ElementType choice = choices.get(0);
-			currentChoice = choice;
+			setValue(choice);
+//			currentChoice = choice;
 			// setValue (choices.get(0));
 		}
 	}
