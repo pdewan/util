@@ -1701,7 +1701,7 @@ public class Common {
 
 		public static Object fromString (Class aClass, String aString) {
 			String aStringLC = aString.replaceAll("\\s+","").toLowerCase();
-			if (aClass.isEnum()) return null;
+			if (!aClass.isEnum()) return null;
 			Object[] enumConstants = aClass.getEnumConstants();
 			for (Object constant:enumConstants) {
 				if (constant.toString().replaceAll("\\s+","").toLowerCase().equals(aStringLC))
