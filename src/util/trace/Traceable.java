@@ -10,21 +10,18 @@ public abstract  class Traceable extends RuntimeException {
 	protected long timeStamp;	
 	protected boolean display;
 	protected boolean wait;
+	protected boolean exists;
 	abstract protected void maybePrintMessage(String aMessage, boolean isDuplicate);
 	public Traceable(String aMessage, Object aFinder) {
 		super(aMessage);
 		finder = aFinder;
 		timeStamp = System.currentTimeMillis();
-		boolean exists = messages.contains(aMessage);	
+		exists = messages.contains(aMessage);	
 		boolean retVal;
 		if (!exists)
 		 retVal =messages.add(aMessage);
-		maybePrintMessage(aMessage, exists);
-//		if (Tracer.getKeywordWaitStatus(this))
-//			wait = true;
-//		if (Tracer.getKeywordDisplayStatus(this))
-//			display = true;
-//		TraceableBus.newEvent(this);
+//		maybePrintMessage(aMessage, exists);
+
 		
 	}
 	public static Set<String> getMessages() {
@@ -32,6 +29,8 @@ public abstract  class Traceable extends RuntimeException {
 	}
 	
 	public void announce() {
+		maybePrintMessage(getMessage(), exists);
+
 		TraceableBus.newEvent(this);
 
 	}
