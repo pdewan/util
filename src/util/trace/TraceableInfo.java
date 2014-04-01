@@ -25,7 +25,9 @@ public  class TraceableInfo extends Traceable {
 	void maybePrintMessage(String aMessage, boolean isDuplicate) {
 
 		if (!isDuplicate) {
-			Tracer.info(finder, aMessage);
+			Tracer.info(finder, aMessage); // discriminate by event firer
+			Tracer.info(this, aMessage); // discriminate by event
+
 
 		}
 	}
