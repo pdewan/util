@@ -420,6 +420,7 @@ public class Common {
 				append(sb, nextLine);
 				sb.append("\n");
 			}
+			dataIn.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -439,6 +440,12 @@ public class Common {
 				break;
 			}
 			retVal.append(inputLine +"\n");
+		}
+		try {
+			aBufferedReader.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		return retVal;
 	}
