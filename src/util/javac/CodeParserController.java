@@ -20,6 +20,7 @@ import util.javac.dynamic.CharSequenceJavaFileObject;
 import util.javac.dynamic.ClassFileManager;
 import util.javac.dynamic.InputStreamJavaFileObject;
 import util.javac.dynamic.SimpleClassFileManager;
+import util.trace.javac.CompilerNotFound;
 
 /**
  * The controller class to initiate verification of java files using custom
@@ -43,6 +44,9 @@ public class CodeParserController {
 		// Gets the Java programming language compiler
 		JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
 		// Get a new instance of the standard file manager implementation
+		if (compiler == null) {
+			throw CompilerNotFound.newCase(this);
+		}
 		StandardJavaFileManager fileManager = compiler.getStandardFileManager(
 				null, null, null);
 		// Get the valid source files as a list
