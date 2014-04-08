@@ -54,7 +54,8 @@ return new SecureClassLoader() {
 }
 
 public byte[] getClassBytes() {
-	return jclassObject.getBytes();
+	return (jclassObject == null)?null:jclassObject.getBytes();
+//	return jclassObject.getBytes();
 }
 
 /**
