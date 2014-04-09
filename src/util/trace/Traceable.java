@@ -48,7 +48,7 @@ public abstract  class Traceable extends RuntimeException {
 	public Object getFinder() {
 		return finder;
 	}
-	public long getTmeStamp() {
+	public long getTimeStamp() {
 		return timeStamp;
 	}
 	
