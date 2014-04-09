@@ -570,6 +570,7 @@ public class Common {
 	}
 	
 	public static String getParentFileName (String aChildName) {
+		if (aChildName == null) return null;
 		int parentStart = aChildName.lastIndexOf("/");
 		return aChildName.substring(0, parentStart);			
 	}
