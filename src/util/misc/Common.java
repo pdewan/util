@@ -90,12 +90,23 @@ public class Common {
 	}
 
 	public static String toString(Object[] anArray) {
+		return toString(anArray, ", ");
+//		String retVal = "";
+//		if (anArray.length < 1)
+//			return "";
+//		retVal = anArray[0].toString();
+//		for (int i = 1; i < anArray.length; i++) {
+//			retVal += ", " + anArray[i];
+//		}
+//		return retVal;
+	}
+	public static String toString(Object[] anArray, String aSeparator) {
 		String retVal = "";
 		if (anArray.length < 1)
 			return "";
 		retVal = anArray[0].toString();
 		for (int i = 1; i < anArray.length; i++) {
-			return retVal + ", " + anArray[i];
+			retVal += aSeparator + anArray[i];
 		}
 		return retVal;
 	}
