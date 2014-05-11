@@ -591,10 +591,12 @@ public class Common {
 	}
 	public static String absoluteNameToLocalName (String anAbsoluteName) {
 		int lastSlashIndex = anAbsoluteName.lastIndexOf("/");
-		if (lastSlashIndex < 0)
-			return anAbsoluteName;
-		else
-			return anAbsoluteName.substring(lastSlashIndex + 1, anAbsoluteName.length());
+		if (lastSlashIndex < 0) {
+			lastSlashIndex = anAbsoluteName.lastIndexOf("\\");
+			if (lastSlashIndex < 0)
+				return anAbsoluteName;
+		} //else
+		return anAbsoluteName.substring(lastSlashIndex + 1, anAbsoluteName.length());
 		
 	}
 	
