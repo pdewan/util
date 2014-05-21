@@ -74,7 +74,9 @@ public class AMessageSenderRunnable implements MessageSenderRunnable {
 								message.getTimeStamp());
 					else
 						multicastGroup.newMessage(message); // rmi call
-					System.out.println("Client sending:"
+//					System.out.println("Client sending:"
+//							+ message.getUserMessage());
+					Tracer.info(this, "Client sending:"
 							+ message.getUserMessage());
 					break;
 				case All:
