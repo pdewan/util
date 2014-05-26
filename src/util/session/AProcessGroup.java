@@ -75,6 +75,8 @@ public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
 				minimumDelay, localCommunicator.getDelayVariation());
 		if (actualDelay <= 0)
 			return;
+		Tracer.info(this, "Client delaying sending message to absolute time: " + messageTime + " and delay:" +
+				  actualDelay);
 		try {
 			Thread.sleep(actualDelay);
 
@@ -86,7 +88,7 @@ public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
 	@Override
 	public void toOthers(Object object, String theClientName,
 			MessageReceiver theClient, long timeStamp) throws RemoteException {
-		Tracer.info("Processgroup sending message from:" + theClientName
+		Tracer.info(this, "Process group sending message from:" + theClientName
 				+ " object:" + object);
 		ReceivedMessage receivedMessage = receivedMessageCreator.newObject(
 				clients.get(theClient), theClient, object);
@@ -94,7 +96,7 @@ public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
 		if (isServer) {
 			for (MessageReceiver client : clients.keySet()) {
 				if (!client.equals(theClient)) {
-					Tracer.info("Server sending to: " + clients.get(client)
+					Tracer.info(this, "Server sending to: " + clients.get(client)
 							+ " object:" + object);
 					client.newMessage(receivedMessage);
 				}
@@ -104,10 +106,9 @@ public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
 			for (UserDelayRecord userDelayRecord : sortedClients) {
 				MessageReceiver client = userDelayRecord.getClient();
 				if (!client.equals(theClient)) {
-					Tracer.info("Client delaying sending to: "
-							+ clients.get(client) + " object:" + object);
+					
 					delay(client, timeStamp);
-					Tracer.info("Client sending to: " + clients.get(client)
+					Tracer.info(this, "Client sending to: " + clients.get(client)
 							+ " object:" + object);
 					client.newMessage(receivedMessage);
 				}

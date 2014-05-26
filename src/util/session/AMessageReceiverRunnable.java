@@ -27,17 +27,17 @@ public class AMessageReceiverRunnable implements MessageReceiverRunnable {
 	public void run() {
 		while (true) {
 			try {
-				Tracer.info("Receiver runnable waiting for input message queue");
+				Tracer.info(this, "Receiver runnable waiting for input message queue");
 				ReceivedMessage message = inputMessageQueue.get();
-				Tracer.info("Receiver runnable received message from input message queue:"
+				Tracer.info(this, "Receiver runnable received message from input message queue:"
 						+ message);
 				long delay = delayManager
 						.calculateDelay(message.getTimeStamp());
 				if (delay > 0 && isServerMessage(message)) {
-					Tracer.info("Receiver runnable about to sleep for: "
+					Tracer.info(this, "Receiver runnable about to sleep for: "
 							+ delay);
 					Thread.sleep(delay);
-					Tracer.info("Receiver runnable wakes up from  sleep of: "
+					Tracer.info(this, "Receiver runnable wakes up from  sleep of: "
 							+ delay);
 
 				}

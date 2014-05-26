@@ -97,7 +97,7 @@ public class AMessageReceiver implements MessageReceiver/*
 	@Override
 	public void newMessage(ReceivedMessage theReceivedMessage)
 			throws RemoteException {
-		Tracer.info("Client received message:" + theReceivedMessage);
+		Tracer.info(this, "Client received message:" + theReceivedMessage);
 
 		if (theReceivedMessage.getReceivedMessageType() == ReceivedMessageType.ClientJoined) {
 			processUndelayedUserJoined(theReceivedMessage.getProcessGroup(),
