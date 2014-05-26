@@ -12,6 +12,8 @@ import java.util.Map;
 import util.misc.Common;
 import util.models.BoundedBuffer;
 import util.trace.Tracer;
+import util.trace.session.MessageRetrievedFromReceivingQueue;
+import util.trace.session.MessageReceived;
 
 @util.annotations.StructurePattern(util.annotations.StructurePatternNames.BEAN_PATTERN)
 public class AMessageReceiver implements MessageReceiver/*
@@ -88,7 +90,7 @@ public class AMessageReceiver implements MessageReceiver/*
 	@Override
 	public synchronized void newObject(String clientName,
 			MessageReceiver client, Object value) { // rmi call
-		Tracer.info("Client received newObject from:" + clientName);
+		Tracer.info(this, "Client received newObject from:" + clientName);
 		ReceivedMessage receivedMesage = receivedMessageCreator.newObject(
 				clientName, client, value); // just making it into a queueble entity - nice thing about gipc is that we get the queuable entity, this now goes to another thread
 		inputMessageQueue.put(receivedMesage);
@@ -97,6 +99,7 @@ public class AMessageReceiver implements MessageReceiver/*
 	@Override
 	public void newMessage(ReceivedMessage theReceivedMessage)
 			throws RemoteException {
+		MessageReceived.newCase(theReceivedMessage, this);
 		Tracer.info(this, "Client received message:" + theReceivedMessage);
 
 		if (theReceivedMessage.getReceivedMessageType() == ReceivedMessageType.ClientJoined) {

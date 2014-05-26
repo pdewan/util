@@ -13,7 +13,7 @@ public class AMessageSenderRunnable implements MessageSenderRunnable {
 	ProcessGroup multicastGroup;
 	SessionManager sessionManager;
 	Session session;
-	int delayToServer;
+	long delayToServer;
 
 	public AMessageSenderRunnable(BoundedBuffer<SentMessage> theMessageQueue,
 			DelayManager theDelayManager, SessionManager theSessionManager) {
@@ -55,7 +55,7 @@ public class AMessageSenderRunnable implements MessageSenderRunnable {
 				long delay = delayManager
 						.calculateDelay(message.getTimeStamp());
 				if (delay > 0) {
-					SentMessageDelayed.newCase(message, this);
+					SentMessageDelayed.newCase(message, delay, this);
 				}
 				switch (message.getSentMessageType()) {
 				case Join:

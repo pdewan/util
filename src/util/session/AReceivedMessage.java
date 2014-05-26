@@ -2,6 +2,8 @@ package util.session;
 
 import java.util.Map;
 
+import util.misc.Common;
+
 public class AReceivedMessage implements ReceivedMessage {
 	ReceivedMessageType receivedMessageType;
 	String clientName;
@@ -238,15 +240,24 @@ public class AReceivedMessage implements ReceivedMessage {
 
 	}
 
-	public String toString() {
-		return "message object: " + getUserMessage();
-	}
+//	public String toString() {
+//		return "message object: " + getUserMessage();
+//	}
 
 	public static ReceivedMessage toReceivedMessage(SentMessage sentMessage) {
 		ReceivedMessage receivedMessage = new AReceivedMessage();
 		receivedMessage.setReceivedMessageType(ReceivedMessageType.NewObject);
 		receivedMessage.setUserMessage(sentMessage.getUserMessage());
 		return receivedMessage;
+	}
+	
+	public String toString() {
+		return "<-" + clientName + "[" +	
+				receivedMessageType + "," + 
+				timeStamp + "," + 
+				"[" + getUserMessage() + "]";
+
+				
 	}
 
 }

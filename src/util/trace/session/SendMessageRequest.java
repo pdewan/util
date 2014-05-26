@@ -2,7 +2,7 @@ package util.trace.session;
 
 
 
-public class SendMessageRequest extends AddressedMessageInfo{
+public class SendMessageRequest extends AddressedSentMessageInfo{
 
 	public SendMessageRequest(String aMessage, Object aDataItem,
 			String aSourceOrDestination, boolean anIsRelayed, Object aFinder) {

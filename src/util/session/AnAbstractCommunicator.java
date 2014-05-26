@@ -16,6 +16,7 @@ import util.misc.Common;
 import util.models.BoundedBuffer;
 import util.trace.Tracer;
 import util.trace.session.AddressedMessageInfo;
+import util.trace.session.AddressedSentMessageInfo;
 import util.trace.session.MessageInfo;
 import util.trace.session.MessageInSendingQueue;
 import util.trace.session.SendMessageRequest;
@@ -61,7 +62,7 @@ public abstract class AnAbstractCommunicator extends
 			Object[] args = { object, clientName, exportedMessageReceiver };
 			SentMessage message = sentMessageCreator.toOthers(object);
 			getSentMessageQueuer().put(message);
-			SendMessageRequest.newCase(object, AddressedMessageInfo.OTHERS, isRelayedCommunication, this);
+			SendMessageRequest.newCase(object, AddressedSentMessageInfo.OTHERS, isRelayedCommunication, this);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -73,7 +74,7 @@ public abstract class AnAbstractCommunicator extends
 			Object[] args = { object, clientName, exportedMessageReceiver };
 			SentMessage message = sentMessageCreator.toAll(object);
 			getSentMessageQueuer().put(message);
-			SendMessageRequest.newCase(object, AddressedMessageInfo.ALL, isRelayedCommunication, this);
+			SendMessageRequest.newCase(object, AddressedSentMessageInfo.ALL, isRelayedCommunication, this);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

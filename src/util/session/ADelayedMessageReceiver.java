@@ -12,6 +12,7 @@ import java.util.Map;
 import util.misc.Common;
 import util.models.BoundedBuffer;
 import util.trace.Tracer;
+import util.trace.session.ReceivedMessageDistributedToListeners;
 
 @util.annotations.StructurePattern(util.annotations.StructurePatternNames.BEAN_PATTERN)
 public class ADelayedMessageReceiver implements /*
@@ -63,6 +64,7 @@ public class ADelayedMessageReceiver implements /*
 	}
 
 	public synchronized void delayedNewObject(String clientName, Object value) {
+		ReceivedMessageDistributedToListeners.newCase(value, clientName, this);
 		for (PeerMessageListener listener : peerMessageListeners) {
 			listener.objectReceived(value, clientName);
 		}

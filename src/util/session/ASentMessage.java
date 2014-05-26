@@ -179,7 +179,10 @@ public class ASentMessage implements SentMessage {
 		return sendingUser + "->" + "[" +	
 				sentMessageType + "," + 
 				timeStamp + "," + 
-				"[" + Common.toString(args) + "]";
+//				"[" + Common.toString(args) + "]";
+				"[" + getUserMessage() + "]";
+	
+		
 				
 	}
 }
