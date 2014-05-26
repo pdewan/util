@@ -11,6 +11,24 @@ public class ASentMessage implements SentMessage {
 	String sendingUser;
 	Object args[];
 	long timeStamp;
+	boolean isUserMessage;
+	String applicationName;
+	String sessionName;
+
+	public ASentMessage(String theSessionName, String theApplicationName,
+			String theSendingUser, MessageReceiver theClient,
+			SentMessageType theMessageType, Object[] theArgs) {
+		applicationName = theApplicationName;
+		sessionName = theSessionName;
+		sendingUser = theSendingUser;
+		sentMessageType = theMessageType;
+		messageReceiver = theClient;
+		args = theArgs;
+		timeStamp = System.currentTimeMillis();
+		isUserMessage = theMessageType != SentMessageType.Join
+				&& theMessageType != SentMessageType.Leave;
+	}
+
 
 	public MessageReceiver getMessageReceiver() {
 		return messageReceiver;
@@ -38,24 +56,7 @@ public class ASentMessage implements SentMessage {
 		this.sessionName = sessionName;
 	}
 
-	boolean isUserMessage;
-	String applicationName;
-	String sessionName;
-
-	public ASentMessage(String theSessionName, String theApplicationName,
-			String theSendingUser, MessageReceiver theClient,
-			SentMessageType theMessageType, Object[] theArgs) {
-		applicationName = theApplicationName;
-		sessionName = theSessionName;
-		sendingUser = theSendingUser;
-		sentMessageType = theMessageType;
-		messageReceiver = theClient;
-		args = theArgs;
-		timeStamp = System.currentTimeMillis();
-		isUserMessage = theMessageType != SentMessageType.Join
-				&& theMessageType != SentMessageType.Leave;
-	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -173,5 +174,12 @@ public class ASentMessage implements SentMessage {
 		Object[] newArgs = { toUser, args[0], args[1], args[2] };
 		retVal.setArgs(newArgs);
 		return retVal;
+	}
+	public String toString() {
+		return sendingUser + "->" + "[" +	
+				sentMessageType + "," + 
+				timeStamp + "," + 
+				"[" + Common.toString(args) + "]";
+				
 	}
 }

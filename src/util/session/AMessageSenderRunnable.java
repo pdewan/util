@@ -3,6 +3,8 @@ package util.session;
 import util.misc.Common;
 import util.models.BoundedBuffer;
 import util.trace.Tracer;
+import util.trace.session.MessageSent;
+import util.trace.session.SentMessageDelayed;
 
 public class AMessageSenderRunnable implements MessageSenderRunnable {
 	BoundedBuffer<SentMessage> outputMessageQueue;
@@ -32,9 +34,9 @@ public class AMessageSenderRunnable implements MessageSenderRunnable {
 
 	void sleep(long delay) throws InterruptedException {
 		if (delay > 0) {
-			Tracer.info("Sender about to sleep for: " + delay);
+			Tracer.info(this, "Sender about to sleep for: " + delay);
 			Thread.sleep(delay);
-			Tracer.info("Sender wakes up from sleep of: " + delay);
+			Tracer.info(this, "Sender wakes up from sleep of: " + delay);
 
 		}
 	}
@@ -52,6 +54,9 @@ public class AMessageSenderRunnable implements MessageSenderRunnable {
 				Object[] args = message.getArgs();
 				long delay = delayManager
 						.calculateDelay(message.getTimeStamp());
+				if (delay > 0) {
+					SentMessageDelayed.newCase(message, this);
+				}
 				switch (message.getSentMessageType()) {
 				case Join:
 					sleep(delay);
@@ -121,6 +126,7 @@ public class AMessageSenderRunnable implements MessageSenderRunnable {
 					break;
 
 				}
+				MessageSent.newCase(message, this);
 
 			} catch (Exception e) {
 				e.printStackTrace();

@@ -15,6 +15,10 @@ import java.util.Set;
 import util.misc.Common;
 import util.models.BoundedBuffer;
 import util.trace.Tracer;
+import util.trace.session.AddressedMessageInfo;
+import util.trace.session.MessageInfo;
+import util.trace.session.MessageInSendingQueue;
+import util.trace.session.SendMessageRequest;
 
 @util.annotations.StructurePattern(util.annotations.StructurePatternNames.BEAN_PATTERN)
 public abstract class AnAbstractCommunicator extends
@@ -38,8 +42,8 @@ public abstract class AnAbstractCommunicator extends
 			Object[] args = { userName, object, clientName,
 					exportedMessageReceiver };
 			SentMessage message = sentMessageCreator.toUser(userName, object);
-
 			getSentMessageQueuer().put(message);
+			SendMessageRequest.newCase(object, userName, isRelayedCommunication, this);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -57,6 +61,7 @@ public abstract class AnAbstractCommunicator extends
 			Object[] args = { object, clientName, exportedMessageReceiver };
 			SentMessage message = sentMessageCreator.toOthers(object);
 			getSentMessageQueuer().put(message);
+			SendMessageRequest.newCase(object, AddressedMessageInfo.OTHERS, isRelayedCommunication, this);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -67,8 +72,8 @@ public abstract class AnAbstractCommunicator extends
 		try {
 			Object[] args = { object, clientName, exportedMessageReceiver };
 			SentMessage message = sentMessageCreator.toAll(object);
-
 			getSentMessageQueuer().put(message);
+			SendMessageRequest.newCase(object, AddressedMessageInfo.ALL, isRelayedCommunication, this);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
