@@ -255,7 +255,7 @@ public class AReceivedMessage implements ReceivedMessage {
 		return "<-" + clientName + "[" +	
 				receivedMessageType + "," + 
 				timeStamp + "," + 
-				"[" + getUserMessage() + "]";
+				getUserMessage() + "]";
 
 				
 	}

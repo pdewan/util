@@ -1,6 +1,7 @@
 package util.session;
 
 import util.models.BoundedBuffer;
+import util.trace.session.ReceivedMessageDistributedToListeners;
 
 public class AReceivedMessageProcessor implements
 		MessageProcessor<ReceivedMessage> {
@@ -12,6 +13,8 @@ public class AReceivedMessageProcessor implements
 
 	@Override
 	public void processMessage(ReceivedMessage message) {
+		ReceivedMessageDistributedToListeners.newCase(message, this);
+
 		switch (message.getReceivedMessageType()) {
 		case ClientLeft:
 			multicastClient.delayedUserLeft(message.getClientName(),

@@ -180,7 +180,7 @@ public class ASentMessage implements SentMessage {
 				sentMessageType + "," + 
 				timeStamp + "," + 
 //				"[" + Common.toString(args) + "]";
-				"[" + getUserMessage() + "]";
+				getUserMessage() + "]";
 	
 		
 				

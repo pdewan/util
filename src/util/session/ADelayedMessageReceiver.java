@@ -64,7 +64,6 @@ public class ADelayedMessageReceiver implements /*
 	}
 
 	public synchronized void delayedNewObject(String clientName, Object value) {
-		ReceivedMessageDistributedToListeners.newCase(value, clientName, this);
 		for (PeerMessageListener listener : peerMessageListeners) {
 			listener.objectReceived(value, clientName);
 		}
