@@ -176,7 +176,8 @@ public class ASentMessage implements SentMessage {
 		return retVal;
 	}
 	public String toString() {
-		return sendingUser + "->" + "[" +	
+		return //sendingUser + "->" + 
+				"[" +	
 				sentMessageType + "," + 
 				timeStamp + 
 //				"[" + Common.toString(args) + "]";

@@ -55,16 +55,21 @@ public class AMessageSenderRunnable implements MessageSenderRunnable {
 				long delay = delayManager
 						.calculateDelay(message.getTimeStamp());
 				if (delay > 0) {
+					// this seems to be the session manager delay. not client specific
 					SentMessageDelayed.newCase(message, delay, this);
 				}
 				switch (message.getSentMessageType()) {
 				case Join:
 					sleep(delay);
 					sessionManager.newMessage(message); // server call
+					MessageSent.newCase(SessionManager.SESSION_MANAGER_NAME, message, this);
+
 					break;
 				case Leave:
 					sleep(delay);
 					sessionManager.newMessage(message);
+					MessageSent.newCase(SessionManager.SESSION_MANAGER_NAME, message, this);
+
 //					session.leave((String) args[0], (MessageReceiver) args[1],
 //							null); // server call
 					break;
@@ -78,8 +83,11 @@ public class AMessageSenderRunnable implements MessageSenderRunnable {
 						localMulticastGroup.toOthers(args[0], (String) args[1],
 								(MessageReceiver) args[2],
 								message.getTimeStamp());
-					else
-						multicastGroup.newMessage(message); // rmi call
+					else {
+						multicastGroup.newMessage(message); // sever rmi call
+						MessageSent.newCase(SessionManager.SESSION_MANAGER_NAME, message, this);
+
+					}
 //					System.out.println("Client sending:"
 //							+ message.getUserMessage());
 					Tracer.info(this, "Client sending:"
@@ -95,8 +103,11 @@ public class AMessageSenderRunnable implements MessageSenderRunnable {
 						localMulticastGroup.toAll(args[0], (String) args[1],
 								(MessageReceiver) args[2],
 								message.getTimeStamp());
-					else
+					else {
 						multicastGroup.newMessage(message);
+						MessageSent.newCase(SessionManager.SESSION_MANAGER_NAME, message, this);
+
+					}
 					break;
 				case User:
 					if (multicastGroup == null) {
@@ -108,8 +119,11 @@ public class AMessageSenderRunnable implements MessageSenderRunnable {
 						localMulticastGroup.toUser(args[0], args[1],
 								(String) args[2], (MessageReceiver) args[3],
 								message.getTimeStamp());
-					else
+					else {
 						multicastGroup.newMessage(message);
+						MessageSent.newCase(SessionManager.SESSION_MANAGER_NAME, message, this);
+
+					}
 					break;
 				case Hosts:
 					if (multicastGroup == null) {
@@ -122,12 +136,15 @@ public class AMessageSenderRunnable implements MessageSenderRunnable {
 								args[1], (String) args[2],
 								(MessageReceiver) args[3],
 								message.getTimeStamp());
-					else
+					else {
 						multicastGroup.newMessage(message);
+						MessageSent.newCase(SessionManager.SESSION_MANAGER_NAME, message, this);
+
+					}
 					break;
 
 				}
-				MessageSent.newCase(message, this);
+//				MessageSent.newCase(message, this);
 
 			} catch (Exception e) {
 				e.printStackTrace();

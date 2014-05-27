@@ -13,6 +13,8 @@ import java.util.Set;
 import util.misc.Common;
 import util.models.BoundedBuffer;
 import util.trace.Tracer;
+import util.trace.session.MessageSent;
+import util.trace.session.SentMessageDelayed;
 
 public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
 	Map<MessageReceiver, String> clients = new HashMap();
@@ -66,7 +68,7 @@ public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
 		return sortedClients;
 	}
 
-	void delay(MessageReceiver client, long messageTime) {
+	void delay(MessageReceiver client, Object message, long messageTime) {
 		if (localCommunicator == null)
 			return;
 		int minimumDelay = localCommunicator.getMinimumDelayToPeer(clients
@@ -75,6 +77,7 @@ public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
 				minimumDelay, localCommunicator.getDelayVariation());
 		if (actualDelay <= 0)
 			return;
+		SentMessageDelayed.newCase(message, actualDelay, this);
 		Tracer.info(this, "Client delaying sending message to absolute time: " + messageTime + " and delay:" +
 				  actualDelay);
 		try {
@@ -99,6 +102,10 @@ public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
 					Tracer.info(this, "Server sending to: " + clients.get(client)
 							+ " object:" + object);
 					client.newMessage(receivedMessage);
+					MessageSent.newCase(clients.get(client), object, this);
+
+//					MessageSent.newCase(theClientName, receivedMessage, this);
+
 				}
 			}
 		} else {
@@ -107,29 +114,33 @@ public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
 				MessageReceiver client = userDelayRecord.getClient();
 				if (!client.equals(theClient)) {
 					
-					delay(client, timeStamp);
+					delay(client, object, timeStamp);
 					Tracer.info(this, "Client sending to: " + clients.get(client)
 							+ " object:" + object);
 					client.newMessage(receivedMessage);
+					MessageSent.newCase(clients.get(client), object , this);
 				}
 			}
 		}
 	}
-
+	// why is this sending newObject rather than newMessage
 	@Override
 	public void toAll(Object object, String theClientName,
 			MessageReceiver theClient, long timeStamp) throws RemoteException {
 		if (isServer) {
 			for (MessageReceiver client : clients.keySet()) {
 				client.newObject(clients.get(theClient), theClient, object);
+				MessageSent.newCase(clients.get(client), object, this);
 
 			}
 		} else {
 			List<UserDelayRecord> sortedClients = getSortedClients();
 			for (UserDelayRecord userDelayRecord : sortedClients) {
 				MessageReceiver client = userDelayRecord.getClient();
-				delay(client, timeStamp);
+				delay(client, object, timeStamp);
 				client.newObject(clients.get(theClient), theClient, object);
+				MessageSent.newCase(clients.get(client), object , this);
+
 			}
 		}
 	}

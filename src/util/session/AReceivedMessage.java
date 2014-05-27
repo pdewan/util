@@ -252,12 +252,12 @@ public class AReceivedMessage implements ReceivedMessage {
 	}
 	
 	public String toString() {
-		return "<-" + clientName + "[" +	
+		return "[" +	
 				receivedMessageType + "," + 
 				timeStamp + 
 //				"[" + sessionName + ", " + applicationName + ", " + clientName + ", " + client;
 				(getUserMessage() != null? "," + getUserMessage():"")
-				+ "]";
+				+ "]"  + "<-" + clientName;
 
 				
 	}
