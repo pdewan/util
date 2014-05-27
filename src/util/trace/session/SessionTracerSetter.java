@@ -17,7 +17,9 @@ public class SessionTracerSetter {
 		setSessionPrintStatus();		
 	}
 	
-	public static void setSessionPrintStatus() {		
+	public static void setSessionPrintStatus() {
+		Tracer.setKeywordPrintStatus(ClientJoined.class, true);
+		Tracer.setKeywordPrintStatus(ClientLeft.class, true);
 		Tracer.setKeywordPrintStatus(MessageInSendingQueue.class, true);
 		Tracer.setKeywordPrintStatus(SentMessageDelayed.class, true);
 		Tracer.setKeywordPrintStatus(MessageSent.class, true);

@@ -11,6 +11,8 @@ import java.util.Set;
 
 import util.misc.Common;
 import util.trace.Tracer;
+import util.trace.session.ClientJoined;
+import util.trace.session.ClientLeft;
 
 public class ASession extends ASessionListenable implements Session {
 	Map<String, ProcessGroup> multicastGroups = new HashMap();
@@ -52,7 +54,7 @@ public class ASession extends ASessionListenable implements Session {
 	public synchronized void join(String theClientName,
 			MessageReceiver theClient, String theApplicationName) {
 		try {
-			Tracer.info("Entering Session Join");
+			Tracer.info(this, "Entering Session Join");
 			JoinInfo retVal = new JoinInfo();
 			retVal.newSession = clients.size() == 0;
 			ProcessGroup processGroupRemote = multicastGroups
@@ -70,7 +72,6 @@ public class ASession extends ASessionListenable implements Session {
 						.exportObject(processGroup, 0);
 				multicastGroups.put(theApplicationName, processGroupRemote);
 				localProcessGroups.put(theApplicationName, procesGroupLocal);
-
 			}
 			clients.put(theClient, theClientName);
 			addSessionListener(theClient);
@@ -82,7 +83,8 @@ public class ASession extends ASessionListenable implements Session {
 					toSerializedProcesstGroups(), clients, myName,
 					theClientName, theClient, theApplicationName,
 					retVal.newSession, retVal.newApplication);
-			Tracer.info("Leaving Session Join");
+			Tracer.info(this, "Leaving Session Join");
+			ClientJoined.newCase(theClientName, theApplicationName, myName, this);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -95,6 +97,7 @@ public class ASession extends ASessionListenable implements Session {
 		clients.remove(theClient);
 		removeSessionListener(theClient);
 		notifyClentLeftRemote(theClientName, theClient, theApplicationName);
+		ClientLeft.newCase(theClientName, theApplicationName, myName, this);
 	}
 
 	@Override
