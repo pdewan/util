@@ -56,7 +56,7 @@ public class AMessageSenderRunnable implements MessageSenderRunnable {
 						.calculateDelay(message.getTimeStamp());
 				if (delay > 0) {
 					// this seems to be the session manager delay. not client specific
-					SentMessageDelayed.newCase(message, delay, this);
+					SentMessageDelayed.newCase(SessionManager.SESSION_MANAGER_NAME, message, delay, this);
 				}
 				switch (message.getSentMessageType()) {
 				case Join:

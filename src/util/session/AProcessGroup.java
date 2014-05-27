@@ -77,7 +77,7 @@ public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
 				minimumDelay, localCommunicator.getDelayVariation());
 		if (actualDelay <= 0)
 			return;
-		SentMessageDelayed.newCase(message, actualDelay, this);
+		SentMessageDelayed.newCase(clients.get(client), message, actualDelay, this);
 		Tracer.info(this, "Client delaying sending message to absolute time: " + messageTime + " and delay:" +
 				  actualDelay);
 		try {
