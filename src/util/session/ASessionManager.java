@@ -54,6 +54,16 @@ public class ASessionManager implements SessionManager, SessionManagerLocal {
 		return;
 	}
 
+	public void doLeave(String theSessionName, String theApplicationName,
+			String clientName, MessageReceiver client) {
+		try {
+			Session session = getOrCreateSession(theSessionName);
+			session.leave(clientName, client, theApplicationName);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return;
+	}
 	public void register() {
 		try {
 			createMessageSenderRunnable();

@@ -34,6 +34,10 @@ public class AServerMessageSenderRunnable implements Runnable {
 							message.getMessageReceiver());
 					break;
 				case Leave:
+					sessionManager.doLeave(message.getSessionName(),
+							message.getApplicationName(),
+							message.getSendingUser(),
+							message.getMessageReceiver());
 					break;
 				case Others:
 					multicastGroup.toOthers(args[0], (String) args[1],

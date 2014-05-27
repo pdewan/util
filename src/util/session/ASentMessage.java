@@ -178,9 +178,12 @@ public class ASentMessage implements SentMessage {
 	public String toString() {
 		return sendingUser + "->" + "[" +	
 				sentMessageType + "," + 
-				timeStamp + "," + 
+				timeStamp + 
 //				"[" + Common.toString(args) + "]";
-				getUserMessage() + "]";
+				(getUserMessage() != null? "," + getUserMessage():"") +
+
+//				getUserMessage() + 
+				"]";
 	
 		
 				

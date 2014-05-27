@@ -64,8 +64,9 @@ public class AMessageSenderRunnable implements MessageSenderRunnable {
 					break;
 				case Leave:
 					sleep(delay);
-					session.leave((String) args[0], (MessageReceiver) args[1],
-							null); // server call
+					sessionManager.newMessage(message);
+//					session.leave((String) args[0], (MessageReceiver) args[1],
+//							null); // server call
 					break;
 				case Others:
 					if (multicastGroup == null) {

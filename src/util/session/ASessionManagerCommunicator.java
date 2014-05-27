@@ -131,14 +131,18 @@ public abstract class ASessionManagerCommunicator extends ASessionListenable
 	}
 
 	public synchronized void asyncJoin() {
-		Object[] args = { sessionName, applicationName, clientName,
-				exportedMessageReceiver };
+//		Object[] args = { sessionName, applicationName, clientName,
+//				exportedMessageReceiver };
 		SentMessage message = sentMessageCreator.asyncJoin();
 		getSentMessageQueuer().put(message);
 	}
 
 	@Override
 	public synchronized void leave() {
+		SentMessage message = sentMessageCreator.leave();
+		getSentMessageQueuer().put(message);
+
+
 
 	}
 

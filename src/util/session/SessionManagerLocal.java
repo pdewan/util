@@ -14,5 +14,9 @@ public interface SessionManagerLocal {
 
 	public void doJoin(String theSessionName, String theApplicationName,
 			String clientName, MessageReceiver client);
+	
+	public void doLeave(String theSessionName, String theApplicationName,
+			String clientName, MessageReceiver client);
+
 
 }
