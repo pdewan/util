@@ -5,6 +5,7 @@ import java.io.File;
 import util.annotations.Visible;
 import util.models.AConsoleModel;
 import util.models.ConsoleModel;
+import util.trace.Tracer;
 
 public class AProcessExecer implements ProcessExecer {
 	Process process;
@@ -33,8 +34,8 @@ public class AProcessExecer implements ProcessExecer {
 	public Process execProcess() {
 		try {
 		   Runtime rt = Runtime.getRuntime();
-		   System.out.println("Execing command " + command);
-		   System.out.println("Working Directory = " +
+		   Tracer.info(this, "Execing command " + command);
+		   Tracer.info(this, "Working Directory = " +
 		           System.getProperty("user.dir"));
 		 
 		   File binDirectory = new File ("bin");
