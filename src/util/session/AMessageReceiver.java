@@ -7,7 +7,7 @@ import java.util.Map;
 
 import util.models.BoundedBuffer;
 import util.trace.Tracer;
-import util.trace.session.MessageReceivedNew;
+import util.trace.session.MessageReceived;
 
 @util.annotations.StructurePattern(util.annotations.StructurePatternNames.BEAN_PATTERN)
 public class AMessageReceiver implements MessageReceiver/*
@@ -93,7 +93,9 @@ public class AMessageReceiver implements MessageReceiver/*
 	@Override
 	public void newMessage(ReceivedMessage theReceivedMessage)
 			throws RemoteException {
-		MessageReceivedNew.newCase(ACommunicatorSelector.getProcessName(), theReceivedMessage, this);
+		MessageReceived.newCase(
+				ACommunicatorSelector.getProcessName(), 
+				theReceivedMessage.getUserMessage(), theReceivedMessage.getClientName(), this);
 		Tracer.info(this, "Client received message:" + theReceivedMessage);
 
 		if (theReceivedMessage.getReceivedMessageType() == ReceivedMessageType.ClientJoined) {

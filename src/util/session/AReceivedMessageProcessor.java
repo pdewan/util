@@ -1,6 +1,10 @@
 package util.session;
 
-import util.trace.session.ReceivedMessageDistributedToListeners;
+import util.trace.session.ReceivedJoinNotificationDistributedToListeners;
+import util.trace.session.ReceivedJoinNotificationDistributedToListenersNew;
+import util.trace.session.ReceivedLeaveNotificationDistributedToListeners;
+import util.trace.session.ReceivedLeaveNotificationDistributedToListenersNew;
+import util.trace.session.ReceivedMessageDistributedToListenersNew;
 
 public class AReceivedMessageProcessor implements
 		MessageProcessor<ReceivedMessage> {
@@ -12,15 +16,19 @@ public class AReceivedMessageProcessor implements
 
 	@Override
 	public void processMessage(ReceivedMessage message) {
-		ReceivedMessageDistributedToListeners.newCase(ACommunicatorSelector.getProcessName(), message, this);
 
 		switch (message.getReceivedMessageType()) {
 		case ClientLeft:
+			ReceivedLeaveNotificationDistributedToListenersNew.newCase(ACommunicatorSelector.getProcessName(), message.getUserMessage(), message.getClientName(), this);
+
 			multicastClient.delayedUserLeft(message.getClientName(),
 					message.getClient(), message.getApplicationName());
 			;
 			break;
 		case ClientJoined:
+//			ReceivedJoinNotificationDistributedToListeners.newCase(ACommunicatorSelector.getProcessName(), message.getUserMessage(), this);
+			ReceivedJoinNotificationDistributedToListenersNew.newCase(ACommunicatorSelector.getProcessName(), message.getUserMessage(), message.getClientName(), this);
+
 			multicastClient.delayedUserJoined(message.getClients(),
 					message.getClientName(), message.getClient(),
 					message.getApplicationName(), message.isNewSession(),
@@ -28,6 +36,8 @@ public class AReceivedMessageProcessor implements
 			;
 			break;
 		case NewObject:
+			ReceivedMessageDistributedToListenersNew.newCase(ACommunicatorSelector.getProcessName(), message.getUserMessage(), message.getClientName(), this);
+
 			multicastClient.delayedNewObject(message.getClientName(),
 					message.getUserMessage());
 			break;

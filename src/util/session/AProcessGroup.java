@@ -8,7 +8,7 @@ import java.util.Map;
 import util.models.BoundedBuffer;
 import util.trace.Tracer;
 import util.trace.session.MessageSentNew;
-import util.trace.session.SentMessageDelayedNew;
+import util.trace.session.SentMessageDelayed;
 
 public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
 	Map<MessageReceiver, String> clients = new HashMap();
@@ -62,7 +62,7 @@ public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
 		return sortedClients;
 	}
 
-	void delay(MessageReceiver client, Object message, long messageTime) {
+	void delay(MessageReceiver client, Object message, long messageTime, String aClientName) {
 		if (localCommunicator == null)
 			return;
 		int minimumDelay = localCommunicator.getMinimumDelayToPeer(clients
@@ -72,7 +72,7 @@ public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
 		if (actualDelay <= 0)
 			return;
 //		SentMessageDelayedNew.newCase(clients.get(client), message, actualDelay, this);
-		SentMessageDelayedNew.newCase(ACommunicatorSelector.getProcessName(), message, actualDelay, this);
+		SentMessageDelayed.newCase(ACommunicatorSelector.getProcessName(), message, aClientName,actualDelay, this);
 
 		Tracer.info(this, "Client delaying sending message to absolute time: " + messageTime + " and delay:" +
 				  actualDelay);
@@ -110,7 +110,7 @@ public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
 				MessageReceiver client = userDelayRecord.getClient();
 				if (!client.equals(theClient)) {
 					
-					delay(client, object, timeStamp);
+					delay(client, object, timeStamp, clients.get(client));
 					Tracer.info(this, "Client sending to: " + clients.get(client)
 							+ " object:" + object);
 					client.newMessage(receivedMessage);
@@ -135,7 +135,7 @@ public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
 			List<UserDelayRecord> sortedClients = getSortedClients();
 			for (UserDelayRecord userDelayRecord : sortedClients) {
 				MessageReceiver client = userDelayRecord.getClient();
-				delay(client, object, timeStamp);
+				delay(client, object, timeStamp, userDelayRecord.getName());
 				client.newObject(clients.get(theClient), theClient, object);
 //				MessageSent.newCase(clients.get(client), object , this);
 				MessageSentNew.newCase(ACommunicatorSelector.getProcessName(), object , clients.get(client),  this);

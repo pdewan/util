@@ -3,7 +3,7 @@ package util.session;
 import util.models.BoundedBuffer;
 import util.trace.Tracer;
 import util.trace.session.MessageSentNew;
-import util.trace.session.SentMessageDelayedNew;
+import util.trace.session.SentMessageDelayed;
 
 public class AMessageSenderRunnable implements MessageSenderRunnable {
 	BoundedBuffer<SentMessage> outputMessageQueue;
@@ -55,7 +55,7 @@ public class AMessageSenderRunnable implements MessageSenderRunnable {
 						.calculateDelay(message.getTimeStamp());
 				if (delay > 0) {
 					// this seems to be the session manager delay. not client specific
-					SentMessageDelayedNew.newCase(ACommunicatorSelector.getProcessName(), message, delay, this);
+					SentMessageDelayed.newCase(ACommunicatorSelector.getProcessName(), message, SessionManager.SESSION_MANAGER_NAME, delay, this);
 				}
 				switch (message.getSentMessageType()) {
 				case Join:

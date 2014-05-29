@@ -14,6 +14,6 @@ public class ProcessInfo extends TraceableInfo {
 		return processName;
 	}
 	public static String toString (String aProcessName) {
-		return "@" + aProcessName;
+		return "(" + System.currentTimeMillis() + ")" + "@" + aProcessName;
 	}	
 }
