@@ -20,10 +20,10 @@ public class AddressedSentMessageInfo extends AddressedMessageInfo {
 	public boolean isRelayed() {
 		return isRelayed;
 	}
-	public static String toString(Object aDataItem,
+	public static String toString(String aProcessName, Object aDataItem,
 			String aSourceOrDestination, 
 			boolean anIsRelayed) {
-		return toString(aDataItem, aSourceOrDestination) + (anIsRelayed?"Relayed":"Direct");
+		return toString(aProcessName, aDataItem, aSourceOrDestination) + (anIsRelayed?"Relayed":"Direct");
 	}
 	
 }

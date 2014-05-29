@@ -12,7 +12,7 @@ public class SendMessageRequest extends AddressedSentMessageInfo{
 	public static SendMessageRequest newCase(String aProcessName,
 			Object aDataItem,
 			String aSourceOrDestination, boolean anIsRelayed, Object aFinder) {			
-		String aMessage = toString(aDataItem, aSourceOrDestination, anIsRelayed);
+		String aMessage = toString(aProcessName, aDataItem, aSourceOrDestination, anIsRelayed);
 		SendMessageRequest retVal = new SendMessageRequest(aMessage, aProcessName, aDataItem, aSourceOrDestination, anIsRelayed, aFinder);
 		retVal.announce();
 		return retVal;

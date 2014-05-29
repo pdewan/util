@@ -1,6 +1,6 @@
 package util.session;
 
-import util.trace.session.ReceivedMessageDistributedToListenersNew;
+import util.trace.session.ReceivedMessageDistributedToListeners;
 
 public class AReceivedMessageProcessor implements
 		MessageProcessor<ReceivedMessage> {
@@ -12,7 +12,7 @@ public class AReceivedMessageProcessor implements
 
 	@Override
 	public void processMessage(ReceivedMessage message) {
-		ReceivedMessageDistributedToListenersNew.newCase(ACommunicatorSelector.getProcessName(), message, this);
+		ReceivedMessageDistributedToListeners.newCase(ACommunicatorSelector.getProcessName(), message, this);
 
 		switch (message.getReceivedMessageType()) {
 		case ClientLeft:

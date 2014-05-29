@@ -2,7 +2,7 @@ package util.session;
 
 import util.models.BoundedBuffer;
 import util.trace.Tracer;
-import util.trace.session.MessageRetrievedFromReceivingQueueNew;
+import util.trace.session.MessageRetrievedFromReceivingQueue;
 import util.trace.session.ReceivedMessageDelayedNew;
 
 public class AMessageReceiverRunnable implements MessageReceiverRunnable {
@@ -33,7 +33,7 @@ public class AMessageReceiverRunnable implements MessageReceiverRunnable {
 			try {
 				Tracer.info(this, "Receiver runnable waiting for input message queue");
 				ReceivedMessage message = inputMessageQueue.get();
-				MessageRetrievedFromReceivingQueueNew.newCase(ACommunicatorSelector.getProcessName(), message, this);
+				MessageRetrievedFromReceivingQueue.newCase(ACommunicatorSelector.getProcessName(), message, this);
 
 				Tracer.info(this, "Receiver runnable received message from input message queue:"
 						+ message);

@@ -6,7 +6,7 @@ import java.util.Map;
 
 import util.trace.Tracer;
 import util.trace.session.ClientJoined;
-import util.trace.session.ClientLeftNew;
+import util.trace.session.ClientLeft;
 
 public class ASession extends ASessionListenable implements Session {
 	Map<String, ProcessGroup> multicastGroups = new HashMap();
@@ -91,7 +91,7 @@ public class ASession extends ASessionListenable implements Session {
 		clients.remove(theClient);
 		removeSessionListener(theClient);
 		notifyClentLeftRemote(theClientName, theClient, theApplicationName);
-		ClientLeftNew.newCase(ACommunicatorSelector.getProcessName(), theClientName, theApplicationName, myName, this);
+		ClientLeft.newCase(ACommunicatorSelector.getProcessName(), theClientName, theApplicationName, myName, this);
 	}
 
 	@Override

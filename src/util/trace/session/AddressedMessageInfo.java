@@ -19,9 +19,9 @@ public class AddressedMessageInfo extends MessageInfo {
 		return sourceOrDestination;
 	}
 	
-	public static String toString(Object aDataItem,
+	public static String toString(String aProcessName, Object aDataItem,
 			String aSourceOrDestination) {
-		return aDataItem + "[" + aSourceOrDestination + "]"  ;
+		return toString(aProcessName) + " " + aDataItem + "[" + aSourceOrDestination + "]"  ;
 	}
 	
 }
