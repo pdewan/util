@@ -6,9 +6,9 @@ public class AddressedMessageInfo extends MessageInfo {
 	
 	Object data;
 	String sourceOrDestination;
-	public AddressedMessageInfo(String aMessage, Object aDataItem,
+	public AddressedMessageInfo(String aMessage, String aProcessName, Object aDataItem,
 			String aSourceOrDestination,  Object aFinder) {
-		super(aMessage,  aDataItem, aFinder);
+		super(aMessage, aProcessName,  aDataItem, aFinder);
 		this.data = aDataItem;
 		this.sourceOrDestination = aSourceOrDestination;
 	}

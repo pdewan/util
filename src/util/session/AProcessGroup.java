@@ -1,20 +1,14 @@
 package util.session;
 
-import java.awt.Frame;
 import java.rmi.RemoteException;
-import java.rmi.registry.Registry;
-import java.rmi.server.UnicastRemoteObject;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
-import util.misc.Common;
 import util.models.BoundedBuffer;
 import util.trace.Tracer;
-import util.trace.session.MessageSent;
-import util.trace.session.SentMessageDelayed;
+import util.trace.session.MessageSentNew;
+import util.trace.session.SentMessageDelayedNew;
 
 public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
 	Map<MessageReceiver, String> clients = new HashMap();
@@ -77,7 +71,9 @@ public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
 				minimumDelay, localCommunicator.getDelayVariation());
 		if (actualDelay <= 0)
 			return;
-		SentMessageDelayed.newCase(clients.get(client), message, actualDelay, this);
+//		SentMessageDelayedNew.newCase(clients.get(client), message, actualDelay, this);
+		SentMessageDelayedNew.newCase(ACommunicatorSelector.getProcessName(), message, actualDelay, this);
+
 		Tracer.info(this, "Client delaying sending message to absolute time: " + messageTime + " and delay:" +
 				  actualDelay);
 		try {
@@ -102,7 +98,7 @@ public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
 					Tracer.info(this, "Server sending to: " + clients.get(client)
 							+ " object:" + object);
 					client.newMessage(receivedMessage);
-					MessageSent.newCase(clients.get(client), object, this);
+					MessageSentNew.newCase(ACommunicatorSelector.getProcessName(),  object, clients.get(client), this);
 
 //					MessageSent.newCase(theClientName, receivedMessage, this);
 
@@ -118,7 +114,7 @@ public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
 					Tracer.info(this, "Client sending to: " + clients.get(client)
 							+ " object:" + object);
 					client.newMessage(receivedMessage);
-					MessageSent.newCase(clients.get(client), object , this);
+					MessageSentNew.newCase(ACommunicatorSelector.getProcessName(), object , clients.get(client),  this);
 				}
 			}
 		}
@@ -130,7 +126,9 @@ public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
 		if (isServer) {
 			for (MessageReceiver client : clients.keySet()) {
 				client.newObject(clients.get(theClient), theClient, object);
-				MessageSent.newCase(clients.get(client), object, this);
+//				MessageSent.newCase(clients.get(client), object, this);
+				MessageSentNew.newCase(ACommunicatorSelector.getProcessName(), object , clients.get(client),  this);
+
 
 			}
 		} else {
@@ -139,7 +137,9 @@ public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
 				MessageReceiver client = userDelayRecord.getClient();
 				delay(client, object, timeStamp);
 				client.newObject(clients.get(theClient), theClient, object);
-				MessageSent.newCase(clients.get(client), object , this);
+//				MessageSent.newCase(clients.get(client), object , this);
+				MessageSentNew.newCase(ACommunicatorSelector.getProcessName(), object , clients.get(client),  this);
+
 
 			}
 		}
@@ -151,6 +151,8 @@ public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
 		for (MessageReceiver client : clients.keySet()) {
 			if (clients.get(client).equals(userName)) {
 				client.newObject(clients.get(theClient), theClient, object); // rmi call in the client object
+				MessageSentNew.newCase(ACommunicatorSelector.getProcessName(), object , clients.get(client),  this);
+
 				return;
 			}
 		}

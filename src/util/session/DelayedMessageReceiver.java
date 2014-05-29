@@ -1,6 +1,5 @@
 package util.session;
 
-import java.rmi.RemoteException;
 import java.util.Map;
 
 public interface DelayedMessageReceiver {

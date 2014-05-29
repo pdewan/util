@@ -1,7 +1,5 @@
 package util.session;
 
-import java.awt.TrayIcon.MessageType;
-
 import util.misc.Common;
 import util.trace.Tracer;
 

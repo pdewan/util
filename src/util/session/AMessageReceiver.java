@@ -2,18 +2,12 @@ package util.session;
 
 import java.io.Serializable;
 import java.rmi.RemoteException;
-import java.rmi.registry.Registry;
-import java.rmi.server.UnicastRemoteObject;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import util.misc.Common;
 import util.models.BoundedBuffer;
 import util.trace.Tracer;
-import util.trace.session.MessageRetrievedFromReceivingQueue;
-import util.trace.session.MessageReceived;
+import util.trace.session.MessageReceivedNew;
 
 @util.annotations.StructurePattern(util.annotations.StructurePatternNames.BEAN_PATTERN)
 public class AMessageReceiver implements MessageReceiver/*
@@ -99,7 +93,7 @@ public class AMessageReceiver implements MessageReceiver/*
 	@Override
 	public void newMessage(ReceivedMessage theReceivedMessage)
 			throws RemoteException {
-		MessageReceived.newCase(theReceivedMessage, this);
+		MessageReceivedNew.newCase(ACommunicatorSelector.getProcessName(), theReceivedMessage, this);
 		Tracer.info(this, "Client received message:" + theReceivedMessage);
 
 		if (theReceivedMessage.getReceivedMessageType() == ReceivedMessageType.ClientJoined) {

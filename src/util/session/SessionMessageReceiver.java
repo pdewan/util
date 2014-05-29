@@ -2,7 +2,6 @@ package util.session;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.util.Map;
 
 public interface SessionMessageReceiver extends Remote {
 	;

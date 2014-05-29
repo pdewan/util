@@ -1,40 +1,19 @@
 package util.trace.session;
 
-import util.trace.TraceableInfo;
 
-public class SessionInfo extends TraceableInfo {
-	String userName;
-//	String applicationName;
-//	String sessionName;
-	public SessionInfo(String aMessage, 
-			String aUserName, 
-			String anApplicationName, 
-//			String aSessionName, 
-			Object aFinder) {
-		super(aMessage, aFinder);
-		userName = aUserName;
-//		applicationName = anApplicationName;
-//		sessionName = aSessionName;
+public class SessionInfo extends BasicSessionInfo {	
+	String sessionName;
+	public SessionInfo(String aMessage, String aProcessName, String aUserName, String anApplicationName, String aSessionName, Object aFinder) {
+		super(aMessage, aProcessName, aUserName, anApplicationName, aFinder);		
+		sessionName = aSessionName;
 	}
-	public String getUserName() {
-		return userName;
+	public String getSessionName() {
+		return sessionName;
 	}
-//	public String getApplicationName() {
-//		return applicationName;
-//	}
-//	public String getSessionName() {
-//		return applicationName;
-//	}
-	public static String toString (String aUserName, String anApplicationName) {
-		return 
-//				"("
-			 aUserName 
-//			((anApplicationName == null || anApplicationName.isEmpty())?"":", anApplicationName")
-			+ "," + anApplicationName
-//			+ "," + aSessionName
-			;
-//				+ ")";
+	public static String toString (String aProcessName, String aUserName, String anApplicationName, String aSessionName) {
+		return  toString(aProcessName, aUserName, anApplicationName)
+			+ "," + aSessionName;
 	}	
-//	
+	
 	
 }

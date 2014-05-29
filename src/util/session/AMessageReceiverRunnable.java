@@ -1,10 +1,9 @@
 package util.session;
 
-import util.misc.Common;
 import util.models.BoundedBuffer;
 import util.trace.Tracer;
-import util.trace.session.MessageRetrievedFromReceivingQueue;
-import util.trace.session.ReceivedMessageDelayed;
+import util.trace.session.MessageRetrievedFromReceivingQueueNew;
+import util.trace.session.ReceivedMessageDelayedNew;
 
 public class AMessageReceiverRunnable implements MessageReceiverRunnable {
 	BoundedBuffer<ReceivedMessage> inputMessageQueue;
@@ -34,7 +33,7 @@ public class AMessageReceiverRunnable implements MessageReceiverRunnable {
 			try {
 				Tracer.info(this, "Receiver runnable waiting for input message queue");
 				ReceivedMessage message = inputMessageQueue.get();
-				MessageRetrievedFromReceivingQueue.newCase(message, this);
+				MessageRetrievedFromReceivingQueueNew.newCase(ACommunicatorSelector.getProcessName(), message, this);
 
 				Tracer.info(this, "Receiver runnable received message from input message queue:"
 						+ message);
@@ -43,7 +42,7 @@ public class AMessageReceiverRunnable implements MessageReceiverRunnable {
 				if (delay > 0 && isServerMessage(message)) {
 					Tracer.info(this, "Receiver runnable about to sleep for: "
 							+ delay);
-					ReceivedMessageDelayed.newCase(message, delay, this);
+					ReceivedMessageDelayedNew.newCase(ACommunicatorSelector.getProcessName(), message, delay, this);
 					Thread.sleep(delay);
 					Tracer.info(this, "Receiver runnable wakes up from  sleep of: "
 							+ delay);

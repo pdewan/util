@@ -4,14 +4,14 @@ package util.trace.session;
 
 public class MessageInSendingQueue extends MessageInfo{
 
-	public MessageInSendingQueue(String aMessage, Object aDataItem, Object aFinder) {
-		super(aMessage, aDataItem,  aFinder);
+	public MessageInSendingQueue(String aMessage, String aProcessName, Object aDataItem, Object aFinder) {
+		super(aMessage, aProcessName, aDataItem,  aFinder);
 	}
 	
-	public static MessageInSendingQueue newCase(
+	public static MessageInSendingQueue newCase(String aProcessName,
 			Object aDataItem, Object aFinder) {			
-		String aMessage = toString(aDataItem);
-		MessageInSendingQueue retVal = new MessageInSendingQueue(aMessage, aDataItem, aFinder);
+		String aMessage = toString(aProcessName, aDataItem);
+		MessageInSendingQueue retVal = new MessageInSendingQueue(aMessage, aProcessName, aDataItem, aFinder);
 		retVal.announce();
 		return retVal;
 	}

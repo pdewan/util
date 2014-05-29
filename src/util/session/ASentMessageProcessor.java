@@ -13,7 +13,7 @@ public class ASentMessageProcessor implements MessageProcessor<SentMessage> {
 
 	@Override
 	public void processMessage(SentMessage theMessage) {
-		MessageInSendingQueue.newCase(theMessage, this);
+		MessageInSendingQueue.newCase(ACommunicatorSelector.getProcessName(), theMessage, this);
 		outBuffer.put(theMessage);
 
 	}

@@ -4,16 +4,16 @@ package util.trace.session;
 
 public class SendMessageRequest extends AddressedSentMessageInfo{
 
-	public SendMessageRequest(String aMessage, Object aDataItem,
+	public SendMessageRequest(String aMessage, String aProcessName, Object aDataItem,
 			String aSourceOrDestination, boolean anIsRelayed, Object aFinder) {
-		super(aMessage, aDataItem, aSourceOrDestination, anIsRelayed, aFinder);
+		super(aMessage, aProcessName, aDataItem, aSourceOrDestination, anIsRelayed, aFinder);
 	}
 	
-	public static SendMessageRequest newCase(
+	public static SendMessageRequest newCase(String aProcessName,
 			Object aDataItem,
 			String aSourceOrDestination, boolean anIsRelayed, Object aFinder) {			
 		String aMessage = toString(aDataItem, aSourceOrDestination, anIsRelayed);
-		SendMessageRequest retVal = new SendMessageRequest(aMessage, aDataItem, aSourceOrDestination, anIsRelayed, aFinder);
+		SendMessageRequest retVal = new SendMessageRequest(aMessage, aProcessName, aDataItem, aSourceOrDestination, anIsRelayed, aFinder);
 		retVal.announce();
 		return retVal;
 	}

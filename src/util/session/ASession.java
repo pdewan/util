@@ -1,18 +1,12 @@
 package util.session;
 
-import java.awt.Frame;
-import java.rmi.RemoteException;
-import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
-import util.misc.Common;
 import util.trace.Tracer;
 import util.trace.session.ClientJoined;
-import util.trace.session.ClientLeft;
+import util.trace.session.ClientLeftNew;
 
 public class ASession extends ASessionListenable implements Session {
 	Map<String, ProcessGroup> multicastGroups = new HashMap();
@@ -84,7 +78,7 @@ public class ASession extends ASessionListenable implements Session {
 					theClientName, theClient, theApplicationName,
 					retVal.newSession, retVal.newApplication);
 			Tracer.info(this, "Leaving Session Join");
-			ClientJoined.newCase(theClientName, theApplicationName, myName, this);
+			ClientJoined.newCase(ACommunicatorSelector.getProcessName(), theClientName, theApplicationName, myName, this);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -97,7 +91,7 @@ public class ASession extends ASessionListenable implements Session {
 		clients.remove(theClient);
 		removeSessionListener(theClient);
 		notifyClentLeftRemote(theClientName, theClient, theApplicationName);
-		ClientLeft.newCase(theClientName, theApplicationName, myName, this);
+		ClientLeftNew.newCase(ACommunicatorSelector.getProcessName(), theClientName, theApplicationName, myName, this);
 	}
 
 	@Override

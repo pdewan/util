@@ -2,29 +2,21 @@ package util.trace.session;
 
 import util.trace.TraceableInfo;
 
-public class MessageInfo extends TraceableInfo {
-//	public static final String OTHERS = "others";
-//	public static final String ALL = "all";
+public class MessageInfo extends ProcessInfo {
+
 	Object data;
-//	String sourceOrDestination;
-//	boolean isRelayed;
-	public MessageInfo(String aMessage, Object aDataItem, Object aFinder) {
-		super(aMessage, aFinder);
+
+	public MessageInfo(String aProcessName, String aMessage, Object aDataItem, Object aFinder) {
+		super(aProcessName, aMessage, aFinder);
 		this.data = aDataItem;
-//		this.sourceOrDestination = aSourceOrDestination;
-//		this.isRelayed = anIsRelayed;
+
 	}
 	public Object getData() {
 		return data;
 	}
-//	public String getSourceOrDestination() {
-//		return sourceOrDestination;
-//	}
-//	public boolean isRelayed() {
-//		return isRelayed;
-//	}
-	public static String toString(Object aDataItem) {
-		return aDataItem.toString() ;
+
+	public static String toString(String aProcessName, Object aDataItem) {
+		return toString(aProcessName) + " " + (aDataItem  != null? aDataItem.toString():null) ;
 	}
 	
 }

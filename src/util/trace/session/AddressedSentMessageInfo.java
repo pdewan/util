@@ -6,9 +6,9 @@ public class AddressedSentMessageInfo extends AddressedMessageInfo {
 	public static final String OTHERS = "others";
 	public static final String ALL = "all";
 	boolean isRelayed;
-	public AddressedSentMessageInfo(String aMessage, Object aDataItem,
+	public AddressedSentMessageInfo(String aMessage, String aProcessName, Object aDataItem,
 			String aSourceOrDestination, boolean anIsRelayed, Object aFinder) {
-		super(aMessage,  aDataItem, aSourceOrDestination, aFinder);
+		super(aMessage,  aProcessName, aDataItem, aSourceOrDestination, aFinder);
 		this.isRelayed = anIsRelayed;
 	}
 	public Object getData() {

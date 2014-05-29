@@ -2,8 +2,6 @@ package util.session;
 
 import java.util.Map;
 
-import util.misc.Common;
-
 public class AReceivedMessage implements ReceivedMessage {
 	ReceivedMessageType receivedMessageType;
 	String clientName;

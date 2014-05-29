@@ -1,8 +1,6 @@
 package util.session;
 
-import util.misc.Common;
 import util.models.BoundedBuffer;
-import util.trace.Tracer;
 
 public class AServerMessageSenderRunnable implements Runnable {
 	BoundedBuffer<SentMessage> outputMessageQueue;

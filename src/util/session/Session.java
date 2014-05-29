@@ -1,8 +1,5 @@
 package util.session;
 
-import java.rmi.Remote;
-import java.rmi.RemoteException;
-import java.util.Collection;
 import java.util.Map;
 
 // forget trying to allow Sessions to be accessed directly, makes it hard to use sockets
