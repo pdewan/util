@@ -12,7 +12,7 @@ public class DelayedMessageInfo extends AddressedMessageInfo {
 	}
 
 	public static String toString(String aProcessName, Object aDataItem, String aSourceOrDestination, long delay) {
-		return toString (aProcessName, aDataItem, aSourceOrDestination) +  delay + "ms";
+		return toString (aProcessName, aDataItem, aSourceOrDestination) +  "" + delay + "ms";
 	}
 	
 }

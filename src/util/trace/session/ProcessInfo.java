@@ -1,5 +1,7 @@
 package util.trace.session;
 
+import java.util.Date;
+
 import util.trace.TraceableInfo;
 
 public class ProcessInfo extends TraceableInfo {
@@ -13,7 +15,13 @@ public class ProcessInfo extends TraceableInfo {
 	public String getUserName() {
 		return processName;
 	}
+	public static String toTime(Date aDate) {
+		return aDate.getHours() + ":" + aDate.getMinutes() + ":" + aDate.getSeconds();
+	}
 	public static String toString (String aProcessName) {
-		return "(" + System.currentTimeMillis() + ")" + "@" + aProcessName;
+		long time = System.currentTimeMillis();
+		Date date = new Date(time);
+		
+		return "(" + time + "," + toTime(date) + ")" + "@" + aProcessName;
 	}	
 }
