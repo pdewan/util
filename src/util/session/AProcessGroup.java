@@ -7,7 +7,7 @@ import java.util.Map;
 
 import util.models.BoundedBuffer;
 import util.trace.Tracer;
-import util.trace.session.MessageSentNew;
+import util.trace.session.MessageSent;
 import util.trace.session.SentMessageDelayed;
 
 public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
@@ -98,7 +98,7 @@ public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
 					Tracer.info(this, "Server sending to: " + clients.get(client)
 							+ " object:" + object);
 					client.newMessage(receivedMessage);
-					MessageSentNew.newCase(ACommunicatorSelector.getProcessName(),  object, clients.get(client), this);
+					MessageSent.newCase(ACommunicatorSelector.getProcessName(),  object, clients.get(client), this);
 
 //					MessageSent.newCase(theClientName, receivedMessage, this);
 
@@ -114,7 +114,7 @@ public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
 					Tracer.info(this, "Client sending to: " + clients.get(client)
 							+ " object:" + object);
 					client.newMessage(receivedMessage);
-					MessageSentNew.newCase(ACommunicatorSelector.getProcessName(), object , clients.get(client),  this);
+					MessageSent.newCase(ACommunicatorSelector.getProcessName(), object , clients.get(client),  this);
 				}
 			}
 		}
@@ -127,7 +127,7 @@ public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
 			for (MessageReceiver client : clients.keySet()) {
 				client.newObject(clients.get(theClient), theClient, object);
 //				MessageSent.newCase(clients.get(client), object, this);
-				MessageSentNew.newCase(ACommunicatorSelector.getProcessName(), object , clients.get(client),  this);
+				MessageSent.newCase(ACommunicatorSelector.getProcessName(), object , clients.get(client),  this);
 
 
 			}
@@ -138,7 +138,7 @@ public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
 				delay(client, object, timeStamp, userDelayRecord.getName());
 				client.newObject(clients.get(theClient), theClient, object);
 //				MessageSent.newCase(clients.get(client), object , this);
-				MessageSentNew.newCase(ACommunicatorSelector.getProcessName(), object , clients.get(client),  this);
+				MessageSent.newCase(ACommunicatorSelector.getProcessName(), object , clients.get(client),  this);
 
 
 			}
@@ -151,7 +151,7 @@ public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
 		for (MessageReceiver client : clients.keySet()) {
 			if (clients.get(client).equals(userName)) {
 				client.newObject(clients.get(theClient), theClient, object); // rmi call in the client object
-				MessageSentNew.newCase(ACommunicatorSelector.getProcessName(), object , clients.get(client),  this);
+				MessageSent.newCase(ACommunicatorSelector.getProcessName(), object , clients.get(client),  this);
 
 				return;
 			}

@@ -2,7 +2,7 @@ package util.session;
 
 import util.models.BoundedBuffer;
 import util.trace.Tracer;
-import util.trace.session.MessageSentNew;
+import util.trace.session.MessageSent;
 import util.trace.session.SentMessageDelayed;
 
 public class AMessageSenderRunnable implements MessageSenderRunnable {
@@ -61,13 +61,13 @@ public class AMessageSenderRunnable implements MessageSenderRunnable {
 				case Join:
 					sleep(delay);
 					sessionManager.newMessage(message); // server call
-					MessageSentNew.newCase(ACommunicatorSelector.getProcessName(), message, SessionManager.SESSION_MANAGER_NAME, this);
+					MessageSent.newCase(ACommunicatorSelector.getProcessName(), message, SessionManager.SESSION_MANAGER_NAME, this);
 
 					break;
 				case Leave:
 					sleep(delay);
 					sessionManager.newMessage(message);
-					MessageSentNew.newCase(ACommunicatorSelector.getProcessName(), message, SessionManager.SESSION_MANAGER_NAME, this);
+					MessageSent.newCase(ACommunicatorSelector.getProcessName(), message, SessionManager.SESSION_MANAGER_NAME, this);
 
 //					session.leave((String) args[0], (MessageReceiver) args[1],
 //							null); // server call
@@ -84,7 +84,7 @@ public class AMessageSenderRunnable implements MessageSenderRunnable {
 								message.getTimeStamp());
 					else {
 						multicastGroup.newMessage(message); // sever rmi call
-						MessageSentNew.newCase(ACommunicatorSelector.getProcessName(),  message, SessionManager.SESSION_MANAGER_NAME, this);
+						MessageSent.newCase(ACommunicatorSelector.getProcessName(),  message, SessionManager.SESSION_MANAGER_NAME, this);
 
 					}
 //					System.out.println("Client sending:"
@@ -104,7 +104,7 @@ public class AMessageSenderRunnable implements MessageSenderRunnable {
 								message.getTimeStamp());
 					else {
 						multicastGroup.newMessage(message);
-						MessageSentNew.newCase(ACommunicatorSelector.getProcessName(),  message, SessionManager.SESSION_MANAGER_NAME, this);
+						MessageSent.newCase(ACommunicatorSelector.getProcessName(),  message, SessionManager.SESSION_MANAGER_NAME, this);
 
 					}
 					break;
@@ -120,7 +120,7 @@ public class AMessageSenderRunnable implements MessageSenderRunnable {
 								message.getTimeStamp());
 					else {
 						multicastGroup.newMessage(message);
-						MessageSentNew.newCase(ACommunicatorSelector.getProcessName(), message, SessionManager.SESSION_MANAGER_NAME, this);
+						MessageSent.newCase(ACommunicatorSelector.getProcessName(), message, SessionManager.SESSION_MANAGER_NAME, this);
 
 					}
 					break;
@@ -138,7 +138,7 @@ public class AMessageSenderRunnable implements MessageSenderRunnable {
 					else {
 						multicastGroup.newMessage(message);
 //						MessageSentNew.newCase(SessionManager.SESSION_MANAGER_NAME, message, this);
-						MessageSentNew.newCase(ACommunicatorSelector.getProcessName(),  message, SessionManager.SESSION_MANAGER_NAME, this);
+						MessageSent.newCase(ACommunicatorSelector.getProcessName(),  message, SessionManager.SESSION_MANAGER_NAME, this);
 
 
 					}

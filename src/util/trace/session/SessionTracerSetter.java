@@ -17,10 +17,10 @@ public class SessionTracerSetter {
 		Tracer.setKeywordPrintStatus(ClientLeft.class, true);
 		Tracer.setKeywordPrintStatus(MessageInSendingQueue.class, true);
 		Tracer.setKeywordPrintStatus(SentMessageDelayed.class, true);
-		Tracer.setKeywordPrintStatus(MessageSentNew.class, true);
+		Tracer.setKeywordPrintStatus(MessageSent.class, true);
 		Tracer.setKeywordPrintStatus(SendDataRequest.class, true);
 		Tracer.setKeywordPrintStatus(MessageReceived.class, true);
-		Tracer.setKeywordPrintStatus(MessageRetrievedFromReceivingQueueNew.class, true);
+		Tracer.setKeywordPrintStatus(MessageRetrievedFromReceivingQueue.class, true);
 		Tracer.setKeywordPrintStatus(ReceivedMessageDelayed.class, true);
 		Tracer.setKeywordPrintStatus(ReceivedMessageDistributedToListenersNew.class, true);
 
