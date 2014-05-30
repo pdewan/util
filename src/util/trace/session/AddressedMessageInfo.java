@@ -21,7 +21,7 @@ public class AddressedMessageInfo extends MessageInfo {
 	
 	public static String toString(String aProcessName, Object aDataItem,
 			String aSourceOrDestination) {
-		return toString(aProcessName) + " " + aDataItem + "[" + aSourceOrDestination + "]"  ;
+		return toString(aProcessName) + " " + ((aDataItem == null)?"": aDataItem) + "[" + aSourceOrDestination + "]"  ;
 	}
 	
 }

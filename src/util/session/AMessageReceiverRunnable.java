@@ -35,7 +35,7 @@ public class AMessageReceiverRunnable implements MessageReceiverRunnable {
 				ReceivedMessage message = inputMessageQueue.get();
 				MessageRetrievedFromReceivingQueueNew.newCase(
 						ACommunicatorSelector.getProcessName(), 
-						message.getUserMessage(), 
+						message, 
 						message.getClientName(),
 						this);
 
@@ -46,7 +46,7 @@ public class AMessageReceiverRunnable implements MessageReceiverRunnable {
 				if (delay > 0 && isServerMessage(message)) {
 					Tracer.info(this, "Receiver runnable about to sleep for: "
 							+ delay);
-					ReceivedMessageDelayed.newCase(ACommunicatorSelector.getProcessName(), message.getUserMessage(), message.getClientName(), delay, this);
+					ReceivedMessageDelayed.newCase(ACommunicatorSelector.getProcessName(), message, message.getClientName(), delay, this);
 					Thread.sleep(delay);
 					Tracer.info(this, "Receiver runnable wakes up from  sleep of: "
 							+ delay);

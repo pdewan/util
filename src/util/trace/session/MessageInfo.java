@@ -16,7 +16,7 @@ public class MessageInfo extends ProcessInfo {
 	}
 
 	public static String toString(String aProcessName, Object aDataItem) {
-		return toString(aProcessName) + " " + (aDataItem  != null? aDataItem.toString():null) ;
+		return toString(aProcessName) + " " + (aDataItem  != null? aDataItem.toString():"No Data") ;
 	}
 	
 }

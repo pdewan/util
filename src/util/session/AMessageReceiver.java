@@ -95,7 +95,7 @@ public class AMessageReceiver implements MessageReceiver/*
 			throws RemoteException {
 		MessageReceived.newCase(
 				ACommunicatorSelector.getProcessName(), 
-				theReceivedMessage.getUserMessage(), theReceivedMessage.getClientName(), this);
+				theReceivedMessage, theReceivedMessage.getClientName(), this);
 		Tracer.info(this, "Client received message:" + theReceivedMessage);
 
 		if (theReceivedMessage.getReceivedMessageType() == ReceivedMessageType.ClientJoined) {

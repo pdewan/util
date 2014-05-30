@@ -9,6 +9,8 @@ import java.util.Map;
 import util.misc.Common;
 import util.models.BoundedBuffer;
 import util.trace.Tracer;
+import util.trace.session.JoinRequest;
+import util.trace.session.LeaveRequest;
 
 @util.annotations.StructurePattern(util.annotations.StructurePatternNames.BEAN_PATTERN)
 public abstract class ASessionManagerCommunicator extends ASessionListenable
@@ -130,12 +132,15 @@ public abstract class ASessionManagerCommunicator extends ASessionListenable
 	public synchronized void asyncJoin() {
 //		Object[] args = { sessionName, applicationName, clientName,
 //				exportedMessageReceiver };
+		JoinRequest.newCase(ACommunicatorSelector.getProcessName(), null, SessionManager.SESSION_MANAGER_NAME, this);
 		SentMessage message = sentMessageCreator.asyncJoin();
 		getSentMessageQueuer().put(message);
 	}
 
 	@Override
 	public synchronized void leave() {
+		LeaveRequest.newCase(ACommunicatorSelector.getProcessName(), null, SessionManager.SESSION_MANAGER_NAME, this);
+
 		SentMessage message = sentMessageCreator.leave();
 		getSentMessageQueuer().put(message);
 

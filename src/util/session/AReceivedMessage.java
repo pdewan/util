@@ -255,7 +255,7 @@ public class AReceivedMessage implements ReceivedMessage {
 				timeStamp + 
 //				"[" + sessionName + ", " + applicationName + ", " + clientName + ", " + client;
 				(getUserMessage() != null? "," + getUserMessage():"")
-				+ "]"  + "<-" + clientName;
+				+ "]" ;
 
 				
 	}

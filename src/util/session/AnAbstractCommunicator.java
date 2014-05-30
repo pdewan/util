@@ -1,7 +1,7 @@
 package util.session;
 
 import util.trace.session.AddressedSentMessageInfo;
-import util.trace.session.SendMessageRequest;
+import util.trace.session.SendDataRequest;
 
 @util.annotations.StructurePattern(util.annotations.StructurePatternNames.BEAN_PATTERN)
 public abstract class AnAbstractCommunicator extends
@@ -22,11 +22,12 @@ public abstract class AnAbstractCommunicator extends
 	@Override
 	public void toUser(String userName, Object object) {
 		try {
+			SendDataRequest.newCase(ACommunicatorSelector.getProcessName(), object, userName, isRelayedCommunication, this);
+
 			Object[] args = { userName, object, clientName,
 					exportedMessageReceiver };
 			SentMessage message = sentMessageCreator.toUser(userName, object);
 			getSentMessageQueuer().put(message);
-			SendMessageRequest.newCase(ACommunicatorSelector.getProcessName(), object, userName, isRelayedCommunication, this);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -41,10 +42,11 @@ public abstract class AnAbstractCommunicator extends
 	@Override
 	public void toOthers(Object object) {
 		try {
+			SendDataRequest.newCase(ACommunicatorSelector.getProcessName(),object, AddressedSentMessageInfo.OTHERS, isRelayedCommunication, this);
+
 			Object[] args = { object, clientName, exportedMessageReceiver };
 			SentMessage message = sentMessageCreator.toOthers(object);
 			getSentMessageQueuer().put(message);
-			SendMessageRequest.newCase(ACommunicatorSelector.getProcessName(),object, AddressedSentMessageInfo.OTHERS, isRelayedCommunication, this);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -53,10 +55,11 @@ public abstract class AnAbstractCommunicator extends
 	@Override
 	public void toAll(Object object) {
 		try {
+			SendDataRequest.newCase(ACommunicatorSelector.getProcessName(), object, AddressedSentMessageInfo.ALL, isRelayedCommunication, this);
+
 			Object[] args = { object, clientName, exportedMessageReceiver };
 			SentMessage message = sentMessageCreator.toAll(object);
 			getSentMessageQueuer().put(message);
-			SendMessageRequest.newCase(ACommunicatorSelector.getProcessName(), object, AddressedSentMessageInfo.ALL, isRelayedCommunication, this);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
