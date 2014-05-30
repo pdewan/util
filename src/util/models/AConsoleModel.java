@@ -13,6 +13,7 @@ import util.annotations.ComponentWidth;
 import util.annotations.DisplayToString;
 import util.annotations.Position;
 import util.annotations.PreferredWidgetClass;
+import util.annotations.Row;
 import util.annotations.Visible;
 
 public class AConsoleModel implements ConsoleModel {
@@ -22,6 +23,8 @@ public class AConsoleModel implements ConsoleModel {
 	PrintStream printStream;
 	Process process;
 	String title;
+	public static final int CONSOLE_WIDTH = 320;
+	public static final int CONSOLE_HEIGHT =350;
 	PropertyChangeSupport propertyChangeSupport;
 	public AConsoleModel(Process aProcess, String aTitle) {
 		propertyChangeSupport = new PropertyChangeSupport(this);
@@ -47,8 +50,10 @@ public class AConsoleModel implements ConsoleModel {
 //		outputThread.start();
 //		errorThread.start();
 //	}
-	@ComponentWidth(1200)
-	@Position(1)
+//	@ComponentWidth(1200)
+	@ComponentWidth(CONSOLE_WIDTH)
+//	@Position(1)
+	@Row(1)
 	public String getInput() {
 		return input;
 	}	
@@ -66,8 +71,10 @@ public class AConsoleModel implements ConsoleModel {
 	}
 	@DisplayToString(true)
 	@PreferredWidgetClass(JTextArea.class)
-	@ComponentWidth(1200)
-	@Position(0)
+//	@ComponentWidth(1200)
+	@ComponentWidth(CONSOLE_WIDTH)
+//	@Position(0)
+	@Row(0)
 	public StringBuilder getOutput() {
 		return output;
 	}	
