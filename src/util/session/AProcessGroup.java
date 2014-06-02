@@ -13,6 +13,7 @@ import util.trace.session.SentMessageDelayed;
 public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
 	Map<MessageReceiver, String> clients = new HashMap();
 	String applicationName;
+	String sessionName;
 	AnAbstractCommunicator localCommunicator;
 	List<UserDelayRecord> sortedClients;
 	MessageProcessor<SentMessage> sentMessageProcessor;
@@ -22,11 +23,13 @@ public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
 	Runnable messageSenderRunnable;
 	ServerMessageFilter sentMessageQueuer;
 	ReceivedMessageCreator receivedMessageCreator;
+	
 
-	public AProcessGroup(String theApplicationName,
-			AnAbstractCommunicator theLocalCommunicator) {
-		applicationName = theApplicationName;
-		localCommunicator = theLocalCommunicator;
+	public AProcessGroup(String aSessionName, String anApplicationName,
+			AnAbstractCommunicator aLocalCommunicator) {
+		sessionName = aSessionName;
+		applicationName = anApplicationName;
+		localCommunicator = aLocalCommunicator;
 		isServer = localCommunicator == null;
 		receivedMessageCreator = new AReceivedMessageCreator();
 		createMessageSenderRunnable();
@@ -174,7 +177,7 @@ public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
 	/* throws RemoteException */{
 		if (theApplicationName.equals(applicationName)) {
 			clients.put(client, clientName);
-			sentMessageQueuer.userJoined(clientName);
+			sentMessageQueuer.userJoined(sessionName, applicationName, clientName);
 		}
 
 	}

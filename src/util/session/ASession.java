@@ -1,6 +1,7 @@
 package util.session;
 
 import java.rmi.server.UnicastRemoteObject;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,8 +41,12 @@ public class ASession extends ASessionListenable implements Session {
 	}
 
 	@Override
-	public Map<MessageReceiver, String> getClients(MessageReceiver theClient) {
+	public Map<MessageReceiver, String> getClients() {
 		return clients;
+	}
+	@Override
+	public Collection<String> getClientNames() {
+		return clients.values();
 	}
 
 	@Override
@@ -58,7 +63,7 @@ public class ASession extends ASessionListenable implements Session {
 			retVal.newApplication = processGroupRemote == null;
 
 			if (processGroupRemote == null) {
-				AProcessGroup processGroup = new AProcessGroup(
+				AProcessGroup processGroup = new AProcessGroup(myName,
 						theApplicationName, null);
 				procesGroupLocal = processGroup;
 				addSessionListenerLocal(procesGroupLocal);

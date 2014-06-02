@@ -17,6 +17,7 @@ public interface SessionManagerLocal {
 	
 	public void doLeave(String theSessionName, String theApplicationName,
 			String clientName, MessageReceiver client);
+//	public void register();
 
 
 }

@@ -1,5 +1,6 @@
 package util.session;
 
+import java.util.Collection;
 import java.util.Map;
 
 // forget trying to allow Sessions to be accessed directly, makes it hard to use sockets
@@ -16,6 +17,8 @@ public interface Session /* extends Remote */{
 
 	public String[] getUserNames(MessageReceiver theClient);
 
-	public Map<MessageReceiver, String> getClients(MessageReceiver theClient);
+	public Map<MessageReceiver, String> getClients();
+
+	Collection<String> getClientNames();
 
 }

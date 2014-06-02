@@ -23,7 +23,7 @@ public class ADirectCommunicator extends AnAbstractCommunicator /*
 
 	void createOutputBufferAndThread() {
 		super.createOutputBufferAndThread();
-		localProcessGroup = new AProcessGroup(applicationName, this);
+		localProcessGroup = new AProcessGroup(sessionName, applicationName, this);
 		addSessionListenerLocal(localProcessGroup);
 		messageSenderRunnable.setLocalProcessGroup(localProcessGroup);
 	}
