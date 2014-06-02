@@ -4,7 +4,7 @@ import util.trace.session.ReceivedJoinNotificationDistributedToListeners;
 import util.trace.session.ReceivedJoinNotificationDistributedToListeners;
 import util.trace.session.ReceivedLeaveNotificationDistributedToListeners;
 import util.trace.session.ReceivedLeaveNotificationDistributedToListeners;
-import util.trace.session.ReceivedMessageDistributedToListenersNew;
+import util.trace.session.ReceivedMessageDistributedToListeners;
 
 public class AReceivedMessageProcessor implements
 		MessageProcessor<ReceivedMessage> {
@@ -36,7 +36,7 @@ public class AReceivedMessageProcessor implements
 			;
 			break;
 		case NewObject:
-			ReceivedMessageDistributedToListenersNew.newCase(ACommunicatorSelector.getProcessName(), message.getUserMessage(), message.getClientName(), this);
+			ReceivedMessageDistributedToListeners.newCase(ACommunicatorSelector.getProcessName(), message.getUserMessage(), message.getClientName(), this);
 
 			multicastClient.delayedNewObject(message.getClientName(),
 					message.getUserMessage());

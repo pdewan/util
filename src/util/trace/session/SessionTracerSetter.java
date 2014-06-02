@@ -22,7 +22,7 @@ public class SessionTracerSetter {
 		Tracer.setKeywordPrintStatus(MessageReceived.class, true);
 		Tracer.setKeywordPrintStatus(MessageRetrievedFromReceivingQueue.class, true);
 		Tracer.setKeywordPrintStatus(ReceivedMessageDelayed.class, true);
-		Tracer.setKeywordPrintStatus(ReceivedMessageDistributedToListenersNew.class, true);
+		Tracer.setKeywordPrintStatus(ReceivedMessageDistributedToListeners.class, true);
 
 
 	}

@@ -14,7 +14,7 @@ public class MessageUnBuffered extends MessageBufferInfo{
 	
 	public static MessageUnBuffered newCase(String aProcessName,
 			Object aDataItem, String aSourceOrDestination, List aCurrentBuffer, Object aFinder) {			
-		String aMessage = toString(aProcessName, aDataItem, aSourceOrDestination);
+		String aMessage = toString(aProcessName, aDataItem, aSourceOrDestination, aCurrentBuffer);
 		MessageUnBuffered retVal = new MessageUnBuffered(aMessage,  aProcessName, aDataItem, aSourceOrDestination, aCurrentBuffer, aFinder);
 		retVal.announce();
 		return retVal;

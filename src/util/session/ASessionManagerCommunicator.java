@@ -33,7 +33,7 @@ public abstract class ASessionManagerCommunicator extends ASessionListenable
 	BoundedBuffer<SentMessage> outputMessageQueue;
 	MessageSenderRunnable messageSenderRunnable;
 	Thread messageSenderThread;
-	Map<MessageReceiver, String> clients = new HashMap();
+	Map<MessageReceiver, String>  messageReceiverToClientName = new HashMap();
 	SerializedProcessGroups serializedMulticastGroups;
 	JoinLock joinLock = new AJoinLock();
 	DelayManager delayManager;
@@ -208,17 +208,17 @@ public abstract class ASessionManagerCommunicator extends ASessionListenable
 	@Override
 	public String[] getOtherUserNames() {
 		String[] values = {};
-		values = clients.values().toArray(values);
+		values = messageReceiverToClientName.values().toArray(values);
 		return values;
 	}
 
 	public void setClients(Map<MessageReceiver, String> theClients) {
-		clients = theClients;
+		messageReceiverToClientName = theClients;
 	}
 
 	@Override
 	public Map<MessageReceiver, String> getClients() {
-		return clients;
+		return messageReceiverToClientName;
 	}
 
 	public void setSentMessageQueuer(
