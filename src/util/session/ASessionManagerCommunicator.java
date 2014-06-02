@@ -206,7 +206,8 @@ public abstract class ASessionManagerCommunicator extends ASessionListenable
 	}
 
 	@Override
-	public String[] getOtherUserNames() {
+	// seems to return all user names
+	public String[] getUserNames() {
 		String[] values = {};
 		values = messageReceiverToClientName.values().toArray(values);
 		return values;

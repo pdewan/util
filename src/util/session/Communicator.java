@@ -48,7 +48,7 @@ public interface Communicator {
 
 	public void removePeerMessageListener(PeerMessageListener listener);
 
-	public String[] getOtherUserNames();
+	public String[] getUserNames();
 
 	public Map<MessageReceiver, String> getClients();
 

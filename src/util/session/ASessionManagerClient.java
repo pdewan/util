@@ -292,7 +292,7 @@ public abstract class ASessionManagerClient extends ASessionListenable
 	}
 
 	@Override
-	public String[] getOtherUserNames() {
+	public String[] getUserNames() {
 		String[] values = {};
 		values = clients.values().toArray(values);
 		return values;
