@@ -6,6 +6,7 @@ import java.util.List;
 
 public class MessageBufferInfo extends AddressedMessageInfo{
 	List<Object> buffer;
+//	int referenceCount;
 
 	public MessageBufferInfo(String aMessage, String aProcessName,  Object aDataItem, String aSourceOrDestination, List<Object> aBuffer, Object aFinder) {
 		super(aMessage, aProcessName, aDataItem,  aSourceOrDestination, aFinder);
@@ -13,8 +14,8 @@ public class MessageBufferInfo extends AddressedMessageInfo{
 	}
 	
 	public static String toString(String aProcessName, Object aDataItem,
-			String aSourceOrDestination, List<String> aBuffer) {
-		return toString(aProcessName, aDataItem, aSourceOrDestination) + aBuffer;
+			String aSourceOrDestination/*, int aReferenceCount*/, List<String> aBuffer) {
+		return toString(aProcessName, aDataItem, aSourceOrDestination); // + "RC" + "(" + aReferenceCount + ")" + aBuffer;
 	}
 	
 	public List<Object> getBuffer() {
