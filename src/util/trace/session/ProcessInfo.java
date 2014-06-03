@@ -5,7 +5,7 @@ import java.util.Date;
 import util.trace.TraceableInfo;
 
 public class ProcessInfo extends TraceableInfo {
-	protected static boolean longMessage = false;
+	protected static boolean longMessage = true;
 	protected String processName;
 	public ProcessInfo(String aMessage, 
 			String aProcessName,
