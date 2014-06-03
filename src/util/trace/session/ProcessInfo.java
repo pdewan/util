@@ -5,6 +5,7 @@ import java.util.Date;
 import util.trace.TraceableInfo;
 
 public class ProcessInfo extends TraceableInfo {
+	protected static boolean longMessage = false;
 	protected String processName;
 	public ProcessInfo(String aMessage, 
 			String aProcessName,
@@ -24,6 +25,6 @@ public class ProcessInfo extends TraceableInfo {
 		long time = System.currentTimeMillis();
 		Date date = new Date(time);
 		
-		return "(" + time + "," + toTime(date) + ")" + "@" + aProcessName;
+		return  " TS(" + time + "," + toTime(date) + ")" + "@" + aProcessName;
 	}	
 }
