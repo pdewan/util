@@ -21,7 +21,9 @@ public class AddressedMessageInfo extends MessageInfo {
 	
 	public static String toString(String aProcessName, Object aDataItem,
 			String aSourceOrDestination) {
-		return toString(aProcessName) + " " + ((aDataItem == null)?"": aDataItem) + "[" + aSourceOrDestination + "]"  ;
+//		return toString(aProcessName) + " " + ((aDataItem == null)?"": "Msg(" + aDataItem + ")") + " Peer(" + aSourceOrDestination + ")"  ;
+		return toString(aProcessName, aDataItem) + ", " + "Peer(" + aSourceOrDestination + ")"  ;
+
 	}
 	
 }

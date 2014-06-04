@@ -250,12 +250,19 @@ public class AReceivedMessage implements ReceivedMessage {
 	}
 	
 	public String toString() {
-		return "[" +	
-				receivedMessageType + "," + 
-				timeStamp + 
-//				"[" + sessionName + ", " + applicationName + ", " + clientName + ", " + client;
-				(getUserMessage() != null? "," + getUserMessage():"")
-				+ "]" ;
+		return 
+				"(Received"
+				+
+				ASentMessage.toString(receivedMessageType, timeStamp, getUserMessage()) 
+
+//				
+//				"[" +	
+//				receivedMessageType + "," + 
+//				timeStamp + 
+////				"[" + sessionName + ", " + applicationName + ", " + clientName + ", " + client;
+//				(getUserMessage() != null? "," + getUserMessage():"")
+//				+ "]" ;
+				+ ")";
 
 				
 	}

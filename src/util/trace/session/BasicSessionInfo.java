@@ -10,7 +10,7 @@ public class BasicSessionInfo extends ProcessInfo {
 			String aUserName, 
 			String anApplicationName, 
 			Object aFinder) {
-		super(aProcessName, aMessage, aFinder);
+		super(aMessage, aProcessName,  aFinder);
 		userName = aUserName;
 		applicationName = anApplicationName;
 	}
@@ -22,7 +22,8 @@ public class BasicSessionInfo extends ProcessInfo {
 	}
 
 	public static String toString (String aProcessName, String aUserName, String anApplicationName) {
-		return toString(aProcessName) + aUserName+ "," + anApplicationName;
+		return toString(aProcessName) + " User(" + aUserName+ ")" + ", " 
+				+"App(" + anApplicationName + ")";
 
 	}	
 

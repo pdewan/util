@@ -12,7 +12,7 @@ public class SessionInfo extends BasicSessionInfo {
 	}
 	public static String toString (String aProcessName, String aUserName, String anApplicationName, String aSessionName) {
 		return  toString(aProcessName, aUserName, anApplicationName)
-			+ "," + aSessionName;
+			+ ", " + "Session(" + aSessionName + ")";
 	}	
 	
 	

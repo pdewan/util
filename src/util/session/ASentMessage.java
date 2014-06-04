@@ -173,16 +173,25 @@ public class ASentMessage implements SentMessage {
 		retVal.setArgs(newArgs);
 		return retVal;
 	}
+	public static String toString(Object aType, long aTimeStamp, Object aUserMessage) {
+		return  "(" +
+				"Type(" + aType + ")" + ", " + 
+				"TS(" + aTimeStamp + ")" + ", " +
+//				"[" + Common.toString(args) + "]";
+				"Data(" + (aUserMessage != null? aUserMessage:"") + ")"
+				+")";
+	}
 	public String toString() {
 		return //sendingUser + "->" + 
-				"[" +	
-				sentMessageType + "," + 
-				timeStamp + 
-//				"[" + Common.toString(args) + "]";
-				(getUserMessage() != null? "," + getUserMessage():"") +
+				"Sent(" +	
+				toString(sentMessageType, timeStamp, getUserMessage()) +
+//				"Type(" + sentMessageType + ")" + "," + 
+//				"TS(" + timeStamp + ")" +
+////				"[" + Common.toString(args) + "]";
+//				"Data(" + (getUserMessage() != null? "," + getUserMessage():"") + ")" +
 
 //				getUserMessage() + 
-				"]";
+				")";
 	
 		
 				
