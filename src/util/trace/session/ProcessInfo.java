@@ -25,7 +25,7 @@ public class ProcessInfo extends TraceableInfo {
 		long time = System.currentTimeMillis();
 		Date date = new Date(time);
 		
-		return  " Time(" + time + " " + toTime(date) + ")" + 
+		return  " Time(" + time + ", " + toTime(date) + ")" + 
 		" " + "Process(" + aProcessName + ")" +
 		" " + "Thread(" + Thread.currentThread().getName() + ")";
 	}	
