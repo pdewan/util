@@ -90,9 +90,13 @@ public class Tracer {
 			infoWithPrefix(keyWord, info);
 		}
 	}
+	
+	public static final String EVENT_SOURCE = "EvtSrc";
+	public static final String EVENT_TYPE = "EvtType";
+
 
 	public static void infoWithPrefix(String prefix, String info) {
-		String qualifier = prefix.contains("trace")?"EvtType":"EvtSrc";
+		String qualifier = prefix.contains("trace")?EVENT_TYPE:EVENT_SOURCE;
 		info(qualifier + "(" + prefix + ") " + info);
 	}
 

@@ -8,7 +8,8 @@ import java.util.Set;
 public  class Traceable extends RuntimeException {
 	static Set<String> messages = new HashSet<String>();
 	protected Object finder;
-	protected long timeStamp;	
+	protected Long timeStamp;	
+	protected String threadName;
 	protected boolean display;
 	protected boolean wait;
 	protected boolean exists;
@@ -17,7 +18,7 @@ public  class Traceable extends RuntimeException {
 	}
 	public Traceable(String aMessage, Object aFinder) {
 		super(aMessage);
-		init(aMessage, aFinder, System.currentTimeMillis());
+		init(aMessage, aFinder, System.currentTimeMillis(), Thread.currentThread().getName());
 //		finder = aFinder;
 //		timeStamp = System.currentTimeMillis();
 //		exists = messages.contains(aMessage);	
@@ -25,17 +26,18 @@ public  class Traceable extends RuntimeException {
 //		if (!exists)
 //		 retVal =messages.add(aMessage);
 	}
-	public void init (String aMessage, Object aFinder, long aTimeStamp) {
+	public void init (String aMessage, Object aFinder, Long aTimeStamp, String aThreadName) {
 		finder = aFinder;
 		timeStamp = aTimeStamp;
+		threadName = aThreadName;
 		exists = messages.contains(aMessage);	
 		boolean retVal;
 		if (!exists)
 		 retVal =messages.add(aMessage);
 	}
-	public Traceable(String aMessage, Object aFinder, long aTimeStamp) {
+	public Traceable(String aMessage, Long aTimeStamp, String aThreadName, Object aFinder) {
 		super(aMessage);
-		init(aMessage, aFinder, aTimeStamp);
+		init(aMessage, aFinder, aTimeStamp, aThreadName);
 //		finder = aFinder;
 //		timeStamp = System.currentTimeMillis();
 //		exists = messages.contains(aMessage);	
@@ -43,6 +45,10 @@ public  class Traceable extends RuntimeException {
 //		if (!exists)
 //		 retVal =messages.add(aMessage);
 //		maybePrintMessage(aMessage, exists);		
+	}
+	
+	public String getThreadName() {
+		return threadName;
 	}
 	public static Set<String> getMessages() {
 		return messages;
@@ -95,12 +101,22 @@ public  class Traceable extends RuntimeException {
 	public static String toTime(Date aDate) {
 		return aDate.getHours() + ":" + aDate.getMinutes() + ":" + aDate.getSeconds();
 	}
+	public static TraceableInfo toTraceable (String aMessage) {
+		return null;
+	}
+
+	public static final String TIME = "Time";
+	public static final String THREAD = "Thread";
 	public static String toString (long aTime) {
 		
 		Date date = new Date(aTime);
 		
-		return  " Time(" + aTime + ", " + toTime(date) + ")" + 
-		" " + "Thread(" + Thread.currentThread().getName() + ")" ;
+//		return   " Time(" + aTime + ", " + toTime(date) + ")" + 
+//		" " + "Thread(" + Thread.currentThread().getName() + ")" ;
+		return  " " + TIME + "(" + aTime + ", " + toTime(date) + ")" +
+//				" Time(" + aTime + ", " + toTime(date) + ")" + 
+//		" " + "Thread(" + Thread.currentThread().getName() + ")" ;
+		" " +  THREAD + "(" +  Thread.currentThread().getName() + ")" ;
 		
 	}
 	
