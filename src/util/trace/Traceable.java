@@ -46,6 +46,16 @@ public  class Traceable extends RuntimeException {
 //		 retVal =messages.add(aMessage);
 //		maybePrintMessage(aMessage, exists);		
 	}
+	public Traceable(String aMessage, Traceable aTraceable) {
+		super(aMessage);
+		init(aMessage, aTraceable.getFinder(), aTraceable.getTimeStamp(), aTraceable.getThreadName());
+//		finder = aFinder;
+//		timeStamp = System.currentTimeMillis();
+//		exists = messages.contains(aMessage);	
+//		boolean retVal;
+//		if (!exists)
+//		 retVal =messages.add(aMessage);
+	}
 	
 	public String getThreadName() {
 		return threadName;
