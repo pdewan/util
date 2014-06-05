@@ -20,10 +20,10 @@ public class FileToTraceableList {
         		String aMessage = scanner.nextLine();
         		if (!aMessage.startsWith("I***"))
         			continue;
-        		Class traceableClass = TraceableInfo.toEvtSourceClass(aMessage);
+        		Class traceableClass = TraceableInfo.toEvtTypeClass(aMessage);
         		Class[] parameterTypes = {String.class}; 
         		Method parsingMethod = traceableClass.getMethod("toTraceable", parameterTypes);
-        		Traceable newElement =  (Traceable) parsingMethod.invoke(aMessage);
+        		Traceable newElement =  (Traceable) parsingMethod.invoke(traceableClass, aMessage);
         		retVal.add(newElement);
         		
         	} catch (Exception e) {
