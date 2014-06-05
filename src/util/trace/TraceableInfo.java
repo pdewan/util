@@ -84,6 +84,14 @@ public  class TraceableInfo extends Traceable {
 			return null;
 		}
 	}
+	public static Class toEvtTypeClass (String aTraceLine) {
+		try {
+			List<String> anArgs = getArgs(aTraceLine, Tracer.EVENT_TYPE);
+			return Class.forName(anArgs.get(0));
+		} catch (Exception e) {
+			return null;
+		}
+	}
 	public static Long toTimeStamp (String aTraceLine) {
 		try {
 			List<String> anArgs = getArgs(aTraceLine, TIME);
