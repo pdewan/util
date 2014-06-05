@@ -1,28 +1,48 @@
 package util.trace;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-
-public abstract  class Traceable extends RuntimeException {
+// will not make it abstract as we will unparse a string into it
+public  class Traceable extends RuntimeException {
 	static Set<String> messages = new HashSet<String>();
 	protected Object finder;
 	protected long timeStamp;	
 	protected boolean display;
 	protected boolean wait;
 	protected boolean exists;
-	abstract protected void maybePrintMessage(String aMessage, boolean isDuplicate);
+	protected void maybePrintMessage(String aMessage, boolean isDuplicate) {
+		
+	}
 	public Traceable(String aMessage, Object aFinder) {
 		super(aMessage);
+		init(aMessage, aFinder, System.currentTimeMillis());
+//		finder = aFinder;
+//		timeStamp = System.currentTimeMillis();
+//		exists = messages.contains(aMessage);	
+//		boolean retVal;
+//		if (!exists)
+//		 retVal =messages.add(aMessage);
+	}
+	public void init (String aMessage, Object aFinder, long aTimeStamp) {
 		finder = aFinder;
-		timeStamp = System.currentTimeMillis();
+		timeStamp = aTimeStamp;
 		exists = messages.contains(aMessage);	
 		boolean retVal;
 		if (!exists)
 		 retVal =messages.add(aMessage);
-//		maybePrintMessage(aMessage, exists);
-
-		
+	}
+	public Traceable(String aMessage, Object aFinder, long aTimeStamp) {
+		super(aMessage);
+		init(aMessage, aFinder, aTimeStamp);
+//		finder = aFinder;
+//		timeStamp = System.currentTimeMillis();
+//		exists = messages.contains(aMessage);	
+//		boolean retVal;
+//		if (!exists)
+//		 retVal =messages.add(aMessage);
+//		maybePrintMessage(aMessage, exists);		
 	}
 	public static Set<String> getMessages() {
 		return messages;
@@ -71,6 +91,17 @@ public abstract  class Traceable extends RuntimeException {
 	
 	public void setWait(boolean newVal) {
 		wait = newVal;
+	}
+	public static String toTime(Date aDate) {
+		return aDate.getHours() + ":" + aDate.getMinutes() + ":" + aDate.getSeconds();
+	}
+	public static String toString (long aTime) {
+		
+		Date date = new Date(aTime);
+		
+		return  " Time(" + aTime + ", " + toTime(date) + ")" + 
+		" " + "Thread(" + Thread.currentThread().getName() + ")" ;
+		
 	}
 	
 

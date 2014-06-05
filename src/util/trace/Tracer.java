@@ -92,7 +92,8 @@ public class Tracer {
 	}
 
 	public static void infoWithPrefix(String prefix, String info) {
-		info("(" + prefix + ") " + info);
+		String qualifier = prefix.contains("trace")?"EvtType":"EvtSrc";
+		info(qualifier + "(" + prefix + ") " + info);
 	}
 
 	public static void info(Object object, String keyWord, String info) {

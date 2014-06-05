@@ -1,5 +1,7 @@
 package util.trace;
 
+import java.util.Date;
+
 
 
 public  class TraceableInfo extends Traceable {
@@ -26,6 +28,7 @@ public  class TraceableInfo extends Traceable {
 //		TraceableBus.newEvent(this);
 		
 	}
+	
 	@Override
 	protected
 	void maybePrintMessage(String aMessage, boolean isDuplicate) {
