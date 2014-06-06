@@ -19,7 +19,7 @@ public class AddressedSentMessageInfo extends AddressedMessageInfo {
 		isRelayed = anIsRelayed;
 	}
 	public AddressedSentMessageInfo(String aMessage, AddressedSentMessageInfo aThisClassInfo) {
-		this(aMessage, aThisClassInfo.isRelayed(aMessage), aThisClassInfo);
+		this(aMessage, aThisClassInfo.isRelayed(), aThisClassInfo);
 	}
 	public static AddressedSentMessageInfo toTraceable(String aMessage) {
 		return new AddressedSentMessageInfo(aMessage, isRelayed(aMessage), AddressedMessageInfo.toTraceable(aMessage));
