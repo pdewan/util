@@ -8,6 +8,14 @@ public class ReceivedJoinNotificationDistributedToListeners extends AddressedMes
 		super(aMessage, aProcessName, aDataItem,  aSourceOrDestination, aFinder);
 	}
 	
+	public ReceivedJoinNotificationDistributedToListeners(String aMessage, AddressedMessageInfo aSuperClassInfo) {
+		super(aMessage, aSuperClassInfo);
+	}
+	
+	public static ReceivedJoinNotificationDistributedToListeners toTraceable(String aMessage) {
+		return new ReceivedJoinNotificationDistributedToListeners(aMessage, AddressedMessageInfo.toTraceable(aMessage));
+	}
+	
 	public static ReceivedJoinNotificationDistributedToListeners newCase(String aProcessName,
 			Object aDataItem, String aSourceOrDestination, Object aFinder) {			
 		String aMessage = toString(aProcessName, aDataItem, aSourceOrDestination);

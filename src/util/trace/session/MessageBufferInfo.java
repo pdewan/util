@@ -13,6 +13,13 @@ public class MessageBufferInfo extends AddressedMessageInfo{
 		buffer = aBuffer;
 	}
 	
+	public MessageBufferInfo(String aMessage, AddressedMessageInfo aSuperClassInfo) {
+		super(aMessage, aSuperClassInfo);
+	}
+	
+	public static MessageBufferInfo toTraceable(String aMessage) {
+		return new MessageBufferInfo(aMessage, AddressedMessageInfo.toTraceable(aMessage));
+	}
 	public static String toString(String aProcessName, Object aDataItem,
 			String aSourceOrDestination/*, int aReferenceCount*/, List<String> aBuffer) {
 		return toString(aProcessName, aDataItem, aSourceOrDestination); // + "RC" + "(" + aReferenceCount + ")" + aBuffer;

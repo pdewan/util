@@ -1,6 +1,7 @@
 package util.session;
 
 import util.misc.Common;
+import util.trace.Traceable;
 import util.trace.Tracer;
 
 public class ASentMessage implements SentMessage {
@@ -176,7 +177,7 @@ public class ASentMessage implements SentMessage {
 	public static String toString(Object aType, long aTimeStamp, Object aUserMessage) {
 		return  "(" +
 				"Type(" + aType + ")" + ", " + 
-				"TS(" + aTimeStamp + ")" + ", " +
+				(Traceable.isPrintTime()? "TS(" + aTimeStamp + ")" + ", " :"")+
 //				"[" + Common.toString(args) + "]";
 				"Data(" + (aUserMessage != null? aUserMessage:"") + ")"
 				+")";

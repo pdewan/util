@@ -8,6 +8,14 @@ public class MessageRetrievedFromReceivingQueue extends AddressedMessageInfo{
 		super(aMessage, aProcessName, aDataItem,  aSourceOrDestination, aFinder);
 	}
 	
+	public MessageRetrievedFromReceivingQueue(String aMessage, AddressedMessageInfo aSuperClassInfo) {
+		super(aMessage, aSuperClassInfo);
+	}
+	
+	public static MessageRetrievedFromReceivingQueue toTraceable(String aMessage) {
+		return new MessageRetrievedFromReceivingQueue(aMessage, AddressedMessageInfo.toTraceable(aMessage));
+	}
+	
 	public static MessageRetrievedFromReceivingQueue newCase(String aProcessName,
 			Object aDataItem, String aSourceOrDestination, Object aFinder) {			
 		String aMessage = toString(aProcessName, aDataItem, aSourceOrDestination);

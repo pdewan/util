@@ -9,6 +9,20 @@ public class SendDataRequest extends AddressedSentMessageInfo{
 		super(aMessage, aProcessName, aDataItem, aSourceOrDestination, anIsRelayed, aFinder);
 	}
 	
+	
+	
+	public SendDataRequest(String aMessage, AddressedSentMessageInfo aSuperClassInfo) {
+		super(aMessage, aSuperClassInfo);
+	}
+	
+	public static SendDataRequest toTraceable(String aMessage) {
+		return new SendDataRequest(aMessage, AddressedSentMessageInfo.toTraceable(aMessage));
+	}
+	
+	
+	
+	
+	
 	public static SendDataRequest newCase(String aProcessName,
 			Object aDataItem,
 			String aSourceOrDestination, boolean anIsRelayed, Object aFinder) {			

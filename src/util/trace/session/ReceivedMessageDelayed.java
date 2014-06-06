@@ -8,6 +8,15 @@ public class ReceivedMessageDelayed extends DelayedMessageInfo{
 		super(aMessage, aProcessName, aDataItem, aSourceOrDestination, aDelay,  aFinder);
 	}
 	
+	public ReceivedMessageDelayed(String aMessage, DelayedMessageInfo aSuperClassInfo) {
+		super(aMessage, aSuperClassInfo);
+	}
+	
+	public static ReceivedMessageDelayed toTraceable(String aMessage) {
+		return new ReceivedMessageDelayed(aMessage, DelayedMessageInfo.toTraceable(aMessage));
+	}
+	
+	
 	public static ReceivedMessageDelayed newCase(String aProcessName,
 			Object aDataItem, String aSourceOrDestination, long aDelay, Object aFinder) {			
 		String aMessage = toString(aProcessName, aDataItem, aSourceOrDestination, aDelay);

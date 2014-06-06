@@ -8,6 +8,14 @@ public class MessageReceived extends AddressedMessageInfo{
 		super(aMessage, aProcessName, aDataItem,  aSourceOrDestination, aFinder);
 	}
 	
+	public MessageReceived(String aMessage, AddressedMessageInfo aSuperClassInfo) {
+		super(aMessage, aSuperClassInfo);
+	}
+	
+	public static MessageReceived toTraceable(String aMessage) {
+		return new MessageReceived(aMessage, AddressedMessageInfo.toTraceable(aMessage));
+	}
+	
 	public static MessageReceived newCase(String aProcessName,
 			Object aDataItem, String aSourceOrDestination, Object aFinder) {			
 		String aMessage = toString(aProcessName, aDataItem, aSourceOrDestination);

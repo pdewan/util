@@ -16,6 +16,11 @@ public  class Traceable extends RuntimeException {
 	protected boolean display;
 	protected boolean wait;
 	protected boolean exists;
+	
+	static boolean printThread = true; // rmi threads can be have different names in different invocations
+	
+
+	static boolean printTime = true; // again time makes it difficult to diff different traces
 	protected void maybePrintMessage(String aMessage, boolean isDuplicate) {
 		
 	}
@@ -131,10 +136,10 @@ public  class Traceable extends RuntimeException {
 		
 //		return   " Time(" + aTime + ", " + toTime(date) + ")" + 
 //		" " + "Thread(" + Thread.currentThread().getName() + ")" ;
-		return  " " + TIME + "(" + aTime + ", " + toTime(date) + ")" +
+		return (printTime?  TIME + "(" + aTime + ", " + toTime(date) + ")":"") +
 //				" Time(" + aTime + ", " + toTime(date) + ")" + 
 //		" " + "Thread(" + Thread.currentThread().getName() + ")" ;
-		" " +  THREAD + "(" +  Thread.currentThread().getName() + ")" ;
+		(printThread?" " +  THREAD + "(" +  Thread.currentThread().getName() + ")" :"");
 		
 	}
 	public static Traceable toTraceable (String aMessage) {
@@ -201,6 +206,18 @@ public  class Traceable extends RuntimeException {
 		} catch (Exception e) {
 			return null;
 		}
+	}
+	public static boolean isPrintThread() {
+		return printThread;
+	}
+	public static void setPrintThread(boolean isPrintThread) {
+		Traceable.printThread = isPrintThread;
+	}
+	public static boolean isPrintTime() {
+		return printTime;
+	}
+	public static void setPrintTime(boolean isPrintTime) {
+		Traceable.printTime = isPrintTime;
 	}
 
 }

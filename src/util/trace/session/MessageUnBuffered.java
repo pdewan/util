@@ -11,6 +11,14 @@ public class MessageUnBuffered extends MessageBufferInfo{
 //		buffer = aBuffer;
 	}	
 	
+	public MessageUnBuffered(String aMessage, AddressedMessageInfo aSuperClassInfo) {
+		super(aMessage, aSuperClassInfo);
+	}
+	
+	public static MessageUnBuffered toTraceable(String aMessage) {
+		return new MessageUnBuffered(aMessage, AddressedMessageInfo.toTraceable(aMessage));
+	}
+	
 	public static MessageUnBuffered newCase(String aProcessName,
 			Object aDataItem, String aSourceOrDestination, List aCurrentBuffer/*, int aReferenceCount*/, Object aFinder) {			
 		String aMessage = toString(aProcessName, aDataItem, aSourceOrDestination, /*aReferenceCount,*/ aCurrentBuffer);

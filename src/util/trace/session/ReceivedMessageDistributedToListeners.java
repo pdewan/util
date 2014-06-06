@@ -8,6 +8,15 @@ public class ReceivedMessageDistributedToListeners extends AddressedMessageInfo{
 		super(aMessage, aProcessName, aDataItem,  aSourceOrDestination, aFinder);
 	}
 	
+	public ReceivedMessageDistributedToListeners(String aMessage, AddressedMessageInfo aSuperClassInfo) {
+		super(aMessage, aSuperClassInfo);
+	}
+	
+	public static ReceivedMessageDistributedToListeners toTraceable(String aMessage) {
+		return new ReceivedMessageDistributedToListeners(aMessage, AddressedMessageInfo.toTraceable(aMessage));
+	}
+	
+	
 	public static ReceivedMessageDistributedToListeners newCase(String aProcessName,
 			Object aDataItem, String aSourceOrDestination, Object aFinder) {			
 		String aMessage = toString(aProcessName, aDataItem, aSourceOrDestination);

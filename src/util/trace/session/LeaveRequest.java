@@ -9,6 +9,14 @@ public class LeaveRequest extends AddressedMessageInfo{
 		super(aMessage, aProcessName, aDataItem, aSourceOrDestination,  aFinder);
 	}
 	
+	public LeaveRequest(String aMessage, AddressedMessageInfo aSuperClassInfo) {
+		super(aMessage, aSuperClassInfo);
+	}
+	
+	public static LeaveRequest toTraceable(String aMessage) {
+		return new LeaveRequest(aMessage, AddressedMessageInfo.toTraceable(aMessage));
+	}
+	
 	public static LeaveRequest newCase(String aProcessName,
 			Object aDataItem,
 			String aSourceOrDestination, Object aFinder) {			

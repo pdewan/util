@@ -151,7 +151,29 @@ public class Tracer {
 		}
 
 	}
-	
+	// duplciating code above, but the two kinds of info calls create an issue
+	public static String infoPrintBody(Class object) {
+		
+		switch (messagePrefixKind) {
+		case SHORT_CLASS_NAME:
+			return object.getSimpleName();
+
+		case FULL_CLASS_NAME:
+			return object.getName();
+
+		case PACKAGE_NAME:
+			return object.getPackage().getName();
+		case OBJECT_TO_STRING:
+			return object.toString();
+
+		case NONE:
+			return "";
+			default:
+				return "";
+
+		}
+
+	}
 	public static void info(Class caller, String info) {
 
 		info(caller, getImplicitPrintKeyword(caller), info);

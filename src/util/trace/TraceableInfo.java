@@ -41,14 +41,19 @@ public  class TraceableInfo extends Traceable {
 		
 	}
 	
+	
+	
 	@Override
 	protected
 	void maybePrintMessage(String aMessage, boolean isDuplicate) {
 
 		if (printDuplicates || !isDuplicate) {
 			Class sourceClass = (finder instanceof Class)? ((Class) finder):finder.getClass();
-			String aFinderMessage = printTraceable? Tracer.EVENT_SOURCE + "(" + this.getClass().getSimpleName() + ") " + aMessage:aMessage;
-			String aTraceableMessage = printSource? Tracer.EVENT_TYPE + "(" + sourceClass.getSimpleName() + ") " + aMessage:aMessage;
+			String aFinderMessage = printTraceable? Tracer.EVENT_TYPE + "(" + Tracer.infoPrintBody(getClass()) + ") " + aMessage:aMessage;
+//			String aFinderMessage = printTraceable? Tracer.EVENT_SOURCE + "(" + this.getClass().getSimpleName() + ") " + aMessage:aMessage;
+//			String aTraceableMessage = printSource? Tracer.EVENT_TYPE + "(" + sourceClass.getSimpleName() + ") " + aMessage:aMessage;
+			String aTraceableMessage = printSource? Tracer.EVENT_SOURCE + "(" + Tracer.infoPrintBody(sourceClass) + ") " + aMessage:aMessage;
+
 			Tracer.info(finder, aFinderMessage); // discriminate by event firer
 			Tracer.info(this, aTraceableMessage); // discriminate by event
 		}
