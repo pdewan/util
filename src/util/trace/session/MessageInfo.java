@@ -34,7 +34,7 @@ public class MessageInfo extends ProcessInfo {
 	}
 	
 	public static MessageInfo toTraceable(String aMessage) {
-		ProcessInfo aProcessInfo = toTraceable(aMessage);
+		ProcessInfo aProcessInfo = ProcessInfo.toTraceable(aMessage);
 		return new MessageInfo(aMessage, getData(aMessage), aProcessInfo);
 	}
 

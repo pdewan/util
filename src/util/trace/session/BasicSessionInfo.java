@@ -23,6 +23,12 @@ public class BasicSessionInfo extends ProcessInfo {
 		userName = aUserName;
 		applicationName = anApplicationName;
 	}
+	public BasicSessionInfo(String aMessage,
+			BasicSessionInfo aBasicSessionInfo) {
+		this(aMessage, aBasicSessionInfo.getUserName(), aBasicSessionInfo.getApplicationName(),
+				aBasicSessionInfo);
+		
+	}
 	public String getUserName() {
 		return userName;
 	}
