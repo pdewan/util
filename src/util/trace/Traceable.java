@@ -152,12 +152,27 @@ public  class Traceable extends RuntimeException {
 //	this(aMessage, aTimeStamp, aThreadName, aFinder);
 //	
 //}
+	public static String getArgOfCompositeDescriptor(String aTraceLine, String aDescriptor) {
+		int aStartDesciptorIndex = aTraceLine.indexOf(aDescriptor + "_");
+		if (aStartDesciptorIndex < 0)
+			return null;
+		int startArgIndex = aStartDesciptorIndex + 1 + aDescriptor.length();
+		int endArgIndex = aTraceLine.indexOf(')', aStartDesciptorIndex) + 1; // incude closing paren in inner operation which is the arg
+
+		return aTraceLine.substring(startArgIndex, endArgIndex);
+	}
 	public static List<String> getArgs(String aTraceLine, String aDescriptor) {
 //		aTraceLine = aTraceLine.trim();
 		List<String> retVal = new ArrayList();
 		
 		try {
-			int startArgsIndex = aTraceLine.indexOf(aDescriptor + "(") + aDescriptor.length() + 1; // need to go past descriptor and the parenthesis
+			int startDesciptorIndex = aTraceLine.indexOf(aDescriptor + "(") ;
+			if (startDesciptorIndex < 0) {
+				return retVal;
+			}
+//			int startArgsIndex = aTraceLine.indexOf(aDescriptor + "(") + aDescriptor.length() + 1; // need to go past descriptor and the parenthesis
+			int startArgsIndex = startDesciptorIndex + aDescriptor.length() + 1; // need to go past descriptor and the parenthesis
+
 			int endArgsIndex = aTraceLine.indexOf(')', startArgsIndex);
 			String anArgsString = aTraceLine.substring(startArgsIndex, endArgsIndex).trim();
 			int startArgIndex = 0;			
