@@ -161,6 +161,14 @@ public  class Traceable extends RuntimeException {
 
 		return aTraceLine.substring(startArgIndex, endArgIndex);
 	}
+	public static String getSuffixOfCompositeDescriptor(String aTraceLine, String aDescriptor) {
+		int aStartDesciptorIndex = aTraceLine.indexOf(aDescriptor + "_");
+		if (aStartDesciptorIndex < 0)
+			return null;
+		int startArgIndex = aStartDesciptorIndex + 1 + aDescriptor.length();
+
+		return aTraceLine.substring(startArgIndex, aTraceLine.length());
+	}
 	public static List<String> getArgs(String aTraceLine, String aDescriptor) {
 //		aTraceLine = aTraceLine.trim();
 		List<String> retVal = new ArrayList();
@@ -181,7 +189,7 @@ public  class Traceable extends RuntimeException {
 				if (endArgIndex == -1)
 					endArgIndex = anArgsString.length();
 				String arg = anArgsString.substring(startArgIndex, endArgIndex);
-				retVal.add(arg);
+				retVal.add(arg.trim());
 				if (endArgIndex == anArgsString.length())
 					return retVal;
 				startArgIndex = endArgIndex + 1;				

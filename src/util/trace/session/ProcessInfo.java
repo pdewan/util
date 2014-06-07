@@ -1,6 +1,7 @@
 package util.trace.session;
 
 import java.util.Date;
+import java.util.List;
 
 import util.trace.Traceable;
 import util.trace.TraceableInfo;
@@ -46,13 +47,21 @@ public class ProcessInfo extends TraceableInfo {
 		return new ProcessInfo(aMessage, aProcessName, aTraceable);
 		
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.out.println(e);
+
+			System.out.println("Did not find process info in:" + aMessage);
 			return null;
 		}		
 	}
 	
 	public static String getProcessName(String aMessage) {
-		return getArgs(aMessage, PROCESS_NAME).get(0);
+		List<String> args = getArgs(aMessage, PROCESS_NAME);
+		if (args.isEmpty())
+			return null;
+		return
+				args.get(0);
+		
+//		return getArgs(aMessage, PROCESS_NAME).get(0);
 	}
 	
 	public static final String PROCESS_NAME = "Process";
