@@ -5,6 +5,8 @@ import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.io.File;
+import java.io.IOException;
 import java.io.PrintStream;
 
 import javax.swing.JTextArea;
@@ -15,6 +17,7 @@ import util.annotations.Position;
 import util.annotations.PreferredWidgetClass;
 import util.annotations.Row;
 import util.annotations.Visible;
+import util.misc.Common;
 
 public class AConsoleModel implements ConsoleModel {
 	String input = "";
@@ -23,6 +26,8 @@ public class AConsoleModel implements ConsoleModel {
 	PrintStream printStream;
 	Process process;
 	String title;
+	String transcriptFile;
+	
 	public static final int CONSOLE_WIDTH = 320;
 	public static final int CONSOLE_HEIGHT =350;
 	PropertyChangeSupport propertyChangeSupport;
@@ -66,6 +71,13 @@ public class AConsoleModel implements ConsoleModel {
 	}
 	@Visible(false)
 	public void addOutput(String newVal) {
+		if (transcriptFile != null)
+			try {
+				Common.appendText(transcriptFile, newVal + "\n");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		output.append(newVal + "\n");
 		propertyChangeSupport.firePropertyChange(new PropertyChangeEvent(this, "output", null, output ));
 	}
@@ -94,6 +106,16 @@ public class AConsoleModel implements ConsoleModel {
 	public void initFrame(Frame aFrame) {
 //		aFrame.addWindowListener(this);
 	}	
+	@Visible(false)
+	@Override
+	public String getTranscriptFile() {
+		return transcriptFile;
+	}
+	@Visible(false)
+	@Override
+	public void setTranscriptFile(String transcriptFile) {
+		this.transcriptFile = transcriptFile;
+	}
 //	@Visible(false)
 //	@Override
 //	public void windowActivated(WindowEvent arg0) {	}
