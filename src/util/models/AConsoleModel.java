@@ -65,7 +65,10 @@ public class AConsoleModel implements ConsoleModel {
 	public void setInput(String newVal) {
 		addOutput(newVal);
 		printStream.println(newVal);
-		printStream.flush();
+		printStream.flush();		
+		// fire the actual value first for other interactors
+		propertyChangeSupport.firePropertyChange(new PropertyChangeEvent(this, "input", null, newVal ));
+		// and then the reset value
 		propertyChangeSupport.firePropertyChange(new PropertyChangeEvent(this, "input", null, input ));
 
 	}
