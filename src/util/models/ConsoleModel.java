@@ -4,6 +4,7 @@ import java.awt.Frame;
 import java.awt.event.WindowListener;
 
 public interface ConsoleModel extends PropertyListenerRegisterer/*, WindowListener*/{
+	public final String OUTPUT_LINE = "outputLine";
 	public String getInput() ;
 	public void addOutput(String newVal) ;
 	public void setInput(String newVal);

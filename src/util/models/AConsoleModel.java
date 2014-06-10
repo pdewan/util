@@ -82,6 +82,8 @@ public class AConsoleModel implements ConsoleModel {
 				e.printStackTrace();
 			}
 		output.append(newVal + "\n");
+		propertyChangeSupport.firePropertyChange(new PropertyChangeEvent(this, OUTPUT_LINE, null, newVal ));
+
 		propertyChangeSupport.firePropertyChange(new PropertyChangeEvent(this, "output", null, output ));
 	}
 	@DisplayToString(true)
