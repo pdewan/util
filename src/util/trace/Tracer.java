@@ -36,6 +36,7 @@ public class Tracer {
 	}
 
 	public static void showInfo(boolean newValue) {
+		if (showInfo == newValue) return;
 		System.out.println("Tracer: showInfo = " + newValue);
 		showInfo = newValue;
 	}
