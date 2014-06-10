@@ -5,4 +5,6 @@ public interface ProcessExecer {
 	public Process getProcess();	
 	public ConsoleModel consoleModel();
 	void destroy();
+	ConsoleModel getConsoleModel();
+	void setConsoleModel(ConsoleModel consoleModel);
 }

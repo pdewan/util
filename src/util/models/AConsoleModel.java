@@ -31,8 +31,27 @@ public class AConsoleModel implements ConsoleModel {
 	public static final int CONSOLE_WIDTH = 320;
 	public static final int CONSOLE_HEIGHT =350;
 	PropertyChangeSupport propertyChangeSupport;
-	public AConsoleModel(Process aProcess, String aTitle) {
+	public AConsoleModel() {
 		propertyChangeSupport = new PropertyChangeSupport(this);
+	}
+	public AConsoleModel(Process aProcess, String aTitle) {
+		this();
+		init(aProcess, aTitle);
+
+//		propertyChangeSupport = new PropertyChangeSupport(this);
+//		process = aProcess;
+//		title = aTitle;
+//		printStream = new PrintStream(
+//				process.getOutputStream());
+//	    outputThread = new Thread(				
+//				new AConsoleModelStreamReader("out", process.getInputStream(), this));
+//		errorThread = new Thread(				
+//				new AConsoleModelStreamReader("error", process.getErrorStream(),  this));
+//		outputThread.start();
+//		errorThread.start();
+	}
+	@Override
+	public void init(Process aProcess, String aTitle) {
 		process = aProcess;
 		title = aTitle;
 		printStream = new PrintStream(

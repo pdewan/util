@@ -12,6 +12,7 @@ public class AProcessExecer implements ProcessExecer {
 	String className;
 	String args;
 	ConsoleModel consoleModel;
+	
 	String command;
 	String title;
 	public AProcessExecer( Class aJavaClass, String anArgs) {
@@ -26,6 +27,7 @@ public class AProcessExecer implements ProcessExecer {
 
         title = aJavaClass.getSimpleName() + " " + args;
 	}	
+	
 //	public AProcessExecer( String aCommand) {
 //		command = aCommand;  
 //		title = aCommand;
@@ -40,7 +42,12 @@ public class AProcessExecer implements ProcessExecer {
 		 
 		   File binDirectory = new File ("bin");
 		   process = rt.exec(command, null, binDirectory);
-		   consoleModel = new AConsoleModel(process, title);
+//		   consoleModel = new AConsoleModel(process, title);
+		   if (consoleModel == null)
+			   consoleModel = new AConsoleModel(process, title);
+		   else
+			   consoleModel.init(process, title);
+			   
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -60,6 +67,14 @@ public class AProcessExecer implements ProcessExecer {
 	}
 	public String getTitle() {
 		return title;
+	}
+	@Override
+	public ConsoleModel getConsoleModel() {
+		return consoleModel;
+	}
+	@Override
+	public void setConsoleModel(ConsoleModel consoleModel) {
+		this.consoleModel = consoleModel;
 	}
 
 }

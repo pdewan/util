@@ -30,7 +30,10 @@ public class Tracer {
 
 
 
-
+	public static boolean isInfo(String aText) {
+		return aText.contains(INFO_PREFIX);
+		
+	}
 	public static void showWarnings(boolean newValue) {
 		showWarnings = newValue;
 	}
@@ -77,12 +80,12 @@ public class Tracer {
 			System.out.println("W***" + warning);
 		}
 	}
-
+	public static final String INFO_PREFIX = "I***";
 	public static void info(String info) {
 		if (showInfo) {
-			System.out.println("I***" + info);
+			System.out.println(INFO_PREFIX + info);
 		} else if (tracingLevel.ordinal() >= TracingLevel.INFO.ordinal()) {
-			System.out.println("I***" + info);
+			System.out.println(INFO_PREFIX + info);
 		}
 	}
 
