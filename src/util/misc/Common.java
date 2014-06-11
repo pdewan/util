@@ -1384,7 +1384,9 @@ public class Common {
 	// }
 	// close(fos);
 	// }
-	public static void appendText(String aFileName, String text) throws IOException {
+	
+	// multiple console threads could be appending at the same time
+	public synchronized static void appendText(String aFileName, String text) throws IOException {
 		File file = new File(aFileName);
 		if (file.exists())
 			appendText(file, text);

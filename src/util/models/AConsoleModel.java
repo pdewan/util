@@ -34,6 +34,7 @@ public class AConsoleModel implements ConsoleModel {
 	PropertyChangeSupport propertyChangeSupport;
 	public AConsoleModel() {
 		propertyChangeSupport = new PropertyChangeSupport(this);
+		
 	}
 	public AConsoleModel(Process aProcess, String aTitle) {
 		this();
@@ -52,9 +53,10 @@ public class AConsoleModel implements ConsoleModel {
 //		errorThread.start();
 	}
 	@Override
-	public void init(Process aProcess, String aTitle) {
+	public void init(Process aProcess, String aTitle) {	
 		process = aProcess;
 		title = aTitle;
+		setGlobalPrefix();
 		printStream = new PrintStream(
 				process.getOutputStream());
 	    outputThread = new Thread(				
@@ -95,12 +97,19 @@ public class AConsoleModel implements ConsoleModel {
 		// put a sleep after each firing, some kind of deadlock occurs
 
 	}
+	String globalPrefix;
+	protected String globalPrefix() {
+		return  "(" + title.trim() + ") ";
+	}
+	protected void setGlobalPrefix() {
+		globalPrefix = globalPrefix();
+	}
 	@Visible(false)
 	public void addOutput(String newVal) {
 		String actualOutput = newVal + "\n";
 		if (globalTranscriptFile != null)
 			try {
-				Common.appendText(globalTranscriptFile, actualOutput);
+				Common.appendText(globalTranscriptFile, globalPrefix + actualOutput);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
