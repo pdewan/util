@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class TraceUtilities {
+public class TraceUtility {
 	
 	public static Traceable toTraceable(String aMessage) {
 //		if (!aMessage.startsWith("I***"))

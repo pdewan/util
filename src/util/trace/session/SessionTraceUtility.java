@@ -2,7 +2,7 @@ package util.trace.session;
 
 import util.trace.Traceable;
 
-public class SessionTraceUtilities {
+public class SessionTraceUtility {
 	public static boolean clientJoined(Traceable aTraceable, String aUserName) {
 		if (!(aTraceable instanceof ClientJoined))
 			return false;

@@ -35,6 +35,9 @@ public class ConsoleModelUtility {
 	public static boolean containsText(PropertyChangeEvent aConsoleModelEvent,  String aText) {
 		return (aConsoleModelEvent.getNewValue().toString()).contains(aText);
 	}
+	public static void setConsoleInput (PropertyChangeEvent aConsoleModelEvent, String anInput) {
+		((ConsoleModel) aConsoleModelEvent.getSource()).setInput(anInput);
+	}
 	
 	
 
