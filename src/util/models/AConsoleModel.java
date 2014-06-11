@@ -26,7 +26,8 @@ public class AConsoleModel implements ConsoleModel {
 	PrintStream printStream;
 	Process process;
 	String title;
-	String transcriptFile;
+	String globalTranscriptFile, localTranscriptFile;
+	
 	
 	public static final int CONSOLE_WIDTH = 320;
 	public static final int CONSOLE_HEIGHT =350;
@@ -89,18 +90,29 @@ public class AConsoleModel implements ConsoleModel {
 		propertyChangeSupport.firePropertyChange(new PropertyChangeEvent(this, "input", null, newVal ));
 		// and then the reset value
 		propertyChangeSupport.firePropertyChange(new PropertyChangeEvent(this, "input", null, input ));
+		
+		
+		// put a sleep after each firing, some kind of deadlock occurs
 
 	}
 	@Visible(false)
 	public void addOutput(String newVal) {
-		if (transcriptFile != null)
+		String actualOutput = newVal + "\n";
+		if (globalTranscriptFile != null)
 			try {
-				Common.appendText(transcriptFile, newVal + "\n");
+				Common.appendText(globalTranscriptFile, actualOutput);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		output.append(newVal + "\n");
+		if (localTranscriptFile != null)
+			try {
+				Common.appendText(localTranscriptFile, actualOutput);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		output.append(actualOutput);
 		propertyChangeSupport.firePropertyChange(new PropertyChangeEvent(this, OUTPUT_LINE, null, newVal ));
 
 		propertyChangeSupport.firePropertyChange(new PropertyChangeEvent(this, "output", null, output ));
@@ -132,13 +144,23 @@ public class AConsoleModel implements ConsoleModel {
 	}	
 	@Visible(false)
 	@Override
-	public String getTranscriptFile() {
-		return transcriptFile;
+	public String getGlobalTranscriptFile() {
+		return globalTranscriptFile;
 	}
 	@Visible(false)
 	@Override
-	public void setTranscriptFile(String transcriptFile) {
-		this.transcriptFile = transcriptFile;
+	public void setGlobalTranscriptFile(String transcriptFile) {
+		this.globalTranscriptFile = transcriptFile;
+	}
+	@Override
+	@Visible(false)
+	public String getLocalTranscriptFile() {
+		return localTranscriptFile;
+	}
+	@Override
+	@Visible(false)
+	public void setLocalTranscriptFile(String localTranscriptFile) {
+		this.localTranscriptFile = localTranscriptFile;
 	}
 //	@Visible(false)
 //	@Override

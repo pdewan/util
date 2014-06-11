@@ -13,8 +13,10 @@ public interface ConsoleModel extends PropertyListenerRegisterer/*, WindowListen
 	public void exit();
 //	void setOutput(StringBuilder newVal);
 	void initFrame(Frame aFrame);
-	String getTranscriptFile();
-	void setTranscriptFile(String transcriptFile);
+	String getGlobalTranscriptFile();
+	void setGlobalTranscriptFile(String transcriptFile);
 	void init(Process aProcess, String aTitle);
+	String getLocalTranscriptFile();
+	void setLocalTranscriptFile(String localTranscriptFile);
 
 }

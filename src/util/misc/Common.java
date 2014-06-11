@@ -1416,6 +1416,22 @@ public class Common {
 //		}
 //		Common.close(fos);
 	}
+	public static void clearOrCreateFile (String aFileName) throws IOException {
+		File aFile = new File (aFileName);
+//		try {
+		if (!aFile.exists()) {
+				File aFolder = aFile.getParentFile();
+				if (!aFolder.exists()) 
+					aFolder.mkdirs();
+				aFile.createNewFile();
+			}
+		
+		writeText(aFile, "" );
+//	} catch (IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+	}
 	public static void writeText(File file, String text) throws IOException {
 		FileOutputStream fos = null;
 		try {
