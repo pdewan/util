@@ -24,7 +24,7 @@ public class ConsoleOutput extends TraceableInfo{
 	}
 	public static final String OUTPUT = "Output";
 	public static String toString (String anOutput) {
-		return OUTPUT + "(" + anOutput + ")";
+		return  toString(System.currentTimeMillis()) + " " + OUTPUT + "(" + anOutput + ")";
 	}
 	public static String getOutput(String aMessage) {
 		return getArgs(aMessage, OUTPUT).get(0);

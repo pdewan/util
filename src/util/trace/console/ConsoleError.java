@@ -6,35 +6,35 @@ import util.trace.session.ClientJoined;
 import util.trace.session.MessageInfo;
 
 public class ConsoleError extends TraceableInfo{
-	String output;
+	String error;
 	
-	public ConsoleError(String aMessage, String anOutput, Object aFinder) {
+	public ConsoleError(String aMessage, String anError, Object aFinder) {
 		super(aMessage, aFinder);
-		output = anOutput;
+		error = anError;
 	}
-	public ConsoleError(String aMessage, String anOutput) {
+	public ConsoleError(String aMessage, String anError) {
 		super(aMessage);
-		output = anOutput;
+		error = anError;
 	}
-	public String getOutput() {
-		return output;
+	public String getError() {
+		return error;
 	}
-	public void setOutput(String output) {
-		this.output = output;
+	public void setError(String error) {
+		this.error = error;
 	}
-	public static final String INPUT = "Output";
-	public static String toString (String anOutput) {
-		return INPUT + "(" + anOutput + ")";
+	public static final String ERROR = "Error";
+	public static String toString (String anError) {
+		return toString(System.currentTimeMillis()) + " " + ERROR + "(" + anError + ")";
 	}
-	public static String getOutput(String aMessage) {
-		return getArgs(aMessage, INPUT).get(0);
+	public static String getError(String aMessage) {
+		return getArgs(aMessage, ERROR).get(0);
 	}
 	public static ConsoleError toTraceable(String aMessage) {
-		return new ConsoleError (aMessage, getOutput(aMessage));
+		return new ConsoleError (aMessage, getError(aMessage));
 	}
-	public static ConsoleError newCase (String anOutput, Object aFinder) {
-		String aMessage = toString (anOutput);
-		ConsoleError retVal = new ConsoleError(aMessage, anOutput, aFinder);
+	public static ConsoleError newCase (String anError, Object aFinder) {
+		String aMessage = toString (anError);
+		ConsoleError retVal = new ConsoleError(aMessage, anError, aFinder);
 		retVal.announce();
 		return retVal;
 	}

@@ -24,7 +24,7 @@ public class ConsoleInput extends TraceableInfo{
 	}
 	public static final String INPUT = "Input";
 	public static String toString (String anInput) {
-		return INPUT + "(" + anInput + ")";
+		return  toString(System.currentTimeMillis()) + " " + INPUT + "(" + anInput + ")";
 	}
 	public static String getInput(String aMessage) {
 		return getArgs(aMessage, INPUT).get(0);

@@ -19,6 +19,8 @@ import util.annotations.Row;
 import util.annotations.Visible;
 import util.misc.Common;
 import util.trace.Tracer;
+import util.trace.console.ConsoleError;
+import util.trace.console.ConsoleInput;
 import util.trace.console.ConsoleOutput;
 
 public class AConsoleModel implements ConsoleModel {
@@ -92,6 +94,12 @@ public class AConsoleModel implements ConsoleModel {
 		printStream.flush();		
 		// fire the actual value first for other interactors
 		propertyChangeSupport.firePropertyChange(new PropertyChangeEvent(this, "input", null, newVal ));
+		if (Tracer.isInfo(newVal))
+			return;
+		ConsoleInput consoleInput = ConsoleInput.newCase(newVal, this);
+		String infoString = Tracer.toInfo(consoleInput, consoleInput.getMessage());
+		if (infoString != null)
+			addOutput(infoString);
 		// and then the reset value
 		propertyChangeSupport.firePropertyChange(new PropertyChangeEvent(this, "input", null, input ));
 		
@@ -115,6 +123,12 @@ public class AConsoleModel implements ConsoleModel {
 	@Visible(false)
 	public void newError(String anError) {
 		addOutput(anError);
+		if (Tracer.isInfo(anError))
+			return;
+		ConsoleError consoleError = ConsoleError.newCase(anError, this);
+		String infoString = Tracer.toInfo(consoleError, consoleError.getMessage());
+		if (infoString != null)
+			addOutput(infoString);
 	}
 	
 	String globalPrefix;
