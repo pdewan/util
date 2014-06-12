@@ -1439,6 +1439,7 @@ public class Common {
 		try {
 			fos = new FileOutputStream(file);
 			fos.write(text.getBytes());
+			fos.flush();
 			
 		} catch (IOException e) {
 			System.out.println(file.getName() + " " + e.getMessage());
