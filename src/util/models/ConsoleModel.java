@@ -18,5 +18,7 @@ public interface ConsoleModel extends PropertyListenerRegisterer/*, WindowListen
 	void init(Process aProcess, String aTitle);
 	String getLocalTranscriptFile();
 	void setLocalTranscriptFile(String localTranscriptFile);
+	void newOutput(String anOutput);
+	void newError(String anError);
 
 }

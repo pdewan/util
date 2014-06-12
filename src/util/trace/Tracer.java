@@ -88,6 +88,15 @@ public class Tracer {
 			System.out.println(INFO_PREFIX + info);
 		}
 	}
+	
+	public static String toInfo(String info) {
+		if (showInfo) {
+			return INFO_PREFIX + info;
+		} else if (tracingLevel.ordinal() >= TracingLevel.INFO.ordinal()) {
+			return INFO_PREFIX + info;
+		}
+		return null;
+	}
 
 	public static void info(String keyWord, String info) {
 		if (getKeywordPrintStatus(keyWord)) {
@@ -100,33 +109,62 @@ public class Tracer {
 
 
 	public static void infoWithPrefix(String prefix, String info) {
+//		String qualifier = prefix.contains("trace")?EVENT_TYPE:EVENT_SOURCE;
+//		info(qualifier + "(" + prefix + ") " + info);
+		printInfo(toInfo(prefix, info));
+	}
+	
+	public static String toInfoWithPrefix(String prefix, String info) {
 		String qualifier = prefix.contains("trace")?EVENT_TYPE:EVENT_SOURCE;
-		info(qualifier + "(" + prefix + ") " + info);
+		return toInfo(qualifier + "(" + prefix + ") " + info);
 	}
 
 	public static void info(Object object, String keyWord, String info) {
+		printInfo(toInfo(object, keyWord, info));
+//		if (!getKeywordPrintStatus(keyWord))
+//			return;
+//		switch (messagePrefixKind) {
+//		case SHORT_CLASS_NAME:
+//			infoWithPrefix(object.getClass().getSimpleName(), info);
+//			break;
+//
+//		case FULL_CLASS_NAME:
+//			infoWithPrefix(object.getClass().getName(), info);
+//			break;
+//
+//		case PACKAGE_NAME:
+//			infoWithPrefix(keyWord, info);
+//			break;
+//		case OBJECT_TO_STRING:
+//			infoWithPrefix(object.toString(), info);
+//			break;
+//
+//		case NONE:
+//			info(info);
+//
+//		}
+
+	}
+	public static String toInfo(Object object, String keyWord, String info) {
 		if (!getKeywordPrintStatus(keyWord))
-			return;
+			return null;
 		switch (messagePrefixKind) {
 		case SHORT_CLASS_NAME:
-			infoWithPrefix(object.getClass().getSimpleName(), info);
-			break;
+			return toInfoWithPrefix(object.getClass().getSimpleName(), info);
 
 		case FULL_CLASS_NAME:
-			infoWithPrefix(object.getClass().getName(), info);
-			break;
+			return toInfoWithPrefix(object.getClass().getName(), info);
 
 		case PACKAGE_NAME:
-			infoWithPrefix(keyWord, info);
-			break;
+			return toInfoWithPrefix(keyWord, info);
 		case OBJECT_TO_STRING:
-			infoWithPrefix(object.toString(), info);
-			break;
+			return toInfoWithPrefix(object.toString(), info);
 
 		case NONE:
-			info(info);
+			return toInfo(info);
 
 		}
+		return null;
 
 	}
 	
@@ -185,7 +223,16 @@ public class Tracer {
 
 	public static void info(Object caller, String info) {
 
-		info(caller, getImplicitPrintKeyword(caller), info);
+//		info(caller, getImplicitPrintKeyword(caller), info);
+		printInfo(toInfo(caller, info));
+	}
+	static void  printInfo(String anInfo) {
+		if (anInfo == null) return;
+		System.out.println(anInfo);
+	}
+	public static String toInfo(Object caller, String info) {
+
+		return toInfo(caller, getImplicitPrintKeyword(caller), info);
 	}
 
 	public static String getImplicitPrintKeyword(Object caller) {

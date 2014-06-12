@@ -18,6 +18,8 @@ import util.annotations.PreferredWidgetClass;
 import util.annotations.Row;
 import util.annotations.Visible;
 import util.misc.Common;
+import util.trace.Tracer;
+import util.trace.console.ConsoleOutput;
 
 public class AConsoleModel implements ConsoleModel {
 	String input = "";
@@ -60,9 +62,9 @@ public class AConsoleModel implements ConsoleModel {
 		printStream = new PrintStream(
 				process.getOutputStream());
 	    outputThread = new Thread(				
-				new AConsoleModelStreamReader("out", process.getInputStream(), this));
+				new AConsoleModelStreamReader(AConsoleModelStreamReader.OUTPUT, process.getInputStream(), this));
 		errorThread = new Thread(				
-				new AConsoleModelStreamReader("error", process.getErrorStream(),  this));
+				new AConsoleModelStreamReader(AConsoleModelStreamReader.ERROR, process.getErrorStream(),  this));
 		outputThread.start();
 		errorThread.start();
 	}
@@ -94,9 +96,23 @@ public class AConsoleModel implements ConsoleModel {
 		propertyChangeSupport.firePropertyChange(new PropertyChangeEvent(this, "input", null, input ));
 		
 		
-		// put a sleep after each firing, some kind of deadlock occurs
+		// put a sleep after each firing, as some kind of deadlock occurs
 
 	}
+	@Override
+	@Visible(false)
+	public void newOutput(String anOutput) {
+		addOutput(anOutput);
+		ConsoleOutput consoleOutput = ConsoleOutput.newCase(anOutput, this);
+		
+		Tracer.info(consoleOutput, consoleOutput.getMessage());
+	}
+	@Override
+	@Visible(false)
+	public void newError(String anError) {
+		addOutput(anError);
+	}
+	
 	String globalPrefix;
 	protected String globalPrefix() {
 		return  "(" + title.trim() + ") ";
