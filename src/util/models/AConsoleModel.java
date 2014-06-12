@@ -103,9 +103,13 @@ public class AConsoleModel implements ConsoleModel {
 	@Visible(false)
 	public void newOutput(String anOutput) {
 		addOutput(anOutput);
+		if (Tracer.isInfo(anOutput))
+			return;
 		ConsoleOutput consoleOutput = ConsoleOutput.newCase(anOutput, this);
+		String infoString = Tracer.toInfo(consoleOutput, consoleOutput.getMessage());
+		if (infoString != null)
+			addOutput(infoString);
 		
-		Tracer.info(consoleOutput, consoleOutput.getMessage());
 	}
 	@Override
 	@Visible(false)

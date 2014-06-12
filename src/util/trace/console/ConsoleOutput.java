@@ -22,12 +22,12 @@ public class ConsoleOutput extends TraceableInfo{
 	public void setOutput(String output) {
 		this.output = output;
 	}
-	public static final String INPUT = "Output";
+	public static final String OUTPUT = "Output";
 	public static String toString (String anOutput) {
-		return INPUT + "(" + anOutput + ")";
+		return OUTPUT + "(" + anOutput + ")";
 	}
 	public static String getOutput(String aMessage) {
-		return getArgs(aMessage, INPUT).get(0);
+		return getArgs(aMessage, OUTPUT).get(0);
 	}
 	public static ConsoleOutput toTraceable(String aMessage) {
 		return new ConsoleOutput (aMessage, getOutput(aMessage));

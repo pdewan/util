@@ -34,13 +34,18 @@ public class Tracer {
 		return aText.contains(INFO_PREFIX);
 		
 	}
+	public static boolean isShowInfo(String aText) {
+		return aText.contains(SHOW_INFO);
+	}
 	public static void showWarnings(boolean newValue) {
 		showWarnings = newValue;
 	}
+	
+	public static final String SHOW_INFO = "Tracer: showInfo = ";
 
 	public static void showInfo(boolean newValue) {
 		if (showInfo == newValue) return;
-		System.out.println("Tracer: showInfo = " + newValue);
+		System.out.println(INFO_PREFIX + SHOW_INFO + newValue);
 		showInfo = newValue;
 	}
 
