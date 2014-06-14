@@ -169,19 +169,32 @@ public  class Traceable extends RuntimeException {
 
 		return aTraceLine.substring(startArgIndex, aTraceLine.length());
 	}
+	public static final String FLAT_LEFT_MARKER = "(";
+	public static final String FLAT_RIGHT_MARKER = ")";
+	public static final String NESTED_LEFT_MARKER = "{";
+	public static final String NESTED_RIGHT_MARKER = "}";
+
 	public static List<String> getArgs(String aTraceLine, String aDescriptor) {
+		return getArgs(aTraceLine, aDescriptor, FLAT_LEFT_MARKER, FLAT_RIGHT_MARKER);
+	}
+	
+	public static List<String> getNestedArgs(String aTraceLine, String aDescriptor) {
+		return getArgs(aTraceLine, aDescriptor, NESTED_LEFT_MARKER, NESTED_RIGHT_MARKER);
+	}
+
+	public static List<String> getArgs(String aTraceLine, String aDescriptor, String aLeftMarker, String aRightMarker) {
 //		aTraceLine = aTraceLine.trim();
 		List<String> retVal = new ArrayList();
 		
 		try {
-			int startDesciptorIndex = aTraceLine.indexOf(aDescriptor + "(") ;
+			int startDesciptorIndex = aTraceLine.indexOf(aDescriptor + aLeftMarker) ;
 			if (startDesciptorIndex < 0) {
 				return retVal;
 			}
 //			int startArgsIndex = aTraceLine.indexOf(aDescriptor + "(") + aDescriptor.length() + 1; // need to go past descriptor and the parenthesis
 			int startArgsIndex = startDesciptorIndex + aDescriptor.length() + 1; // need to go past descriptor and the parenthesis
 
-			int endArgsIndex = aTraceLine.indexOf(')', startArgsIndex);
+			int endArgsIndex = aTraceLine.indexOf(aRightMarker, startArgsIndex);
 			String anArgsString = aTraceLine.substring(startArgsIndex, endArgsIndex).trim();
 			int startArgIndex = 0;			
 			while (true) {
