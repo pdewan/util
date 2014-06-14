@@ -26,7 +26,7 @@ public class ObjectSearch extends TraceableInfo {
 	public Object getLaterObject() {
 		return laterObject;
 	}
-	public String toString (Object aPreviousObject, Object anExpectedObject, Object aLaterObject) {
+	public static String toString (Object aPreviousObject, Object anExpectedObject, Object aLaterObject) {
 		return 
 			aPreviousObject == null? "": PREVIOUS + Traceable.NESTED_LEFT_MARKER + (aPreviousObject) + Traceable.NESTED_RIGHT_MARKER
 			+ " "	
