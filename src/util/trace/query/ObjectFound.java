@@ -8,7 +8,7 @@ public class ObjectFound extends ObjectSearch {
 	
 
 	public ObjectFound(String aMessage, Object aPreviousObject, Object anExpectedObject, Object aLaterObject, Object aFinder) {
-		super(aMessage, aPreviousObject, anExpectedObject, aLaterObject);
+		super(aMessage, aPreviousObject, anExpectedObject, aLaterObject, aFinder);
 	}
 	public ObjectFound(String aMessage, Object aPreviousObject, Object anExpectedObject, Object aLaterObject) {
 		super(aMessage, aPreviousObject, anExpectedObject, aLaterObject);
