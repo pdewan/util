@@ -5,7 +5,13 @@ import java.util.List;
 
 public class ATraceableLog implements TraceableLog{	
 	
-	List<Exception> log = new ArrayList(1000);
+	List<Exception> log;
+	public ATraceableLog(int aSize) {
+		log = new ArrayList(aSize);
+	}
+	public ATraceableLog() {
+		log = new ArrayList();
+	}
 	public List<Exception> getLog() {
 		return log;
 	}

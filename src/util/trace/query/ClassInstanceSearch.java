@@ -19,11 +19,12 @@ public class ClassInstanceSearch extends ObjectSearch {
 	}
 	public static String toString (Class aPreviousObject, Class anExpectedObject, Class aLaterObject) {
 		return 
-			aPreviousObject == null? "": PREVIOUS + Traceable.NESTED_LEFT_MARKER + (aPreviousObject.getName()) + Traceable.NESTED_RIGHT_MARKER
+			((aPreviousObject == null)? "": PREVIOUS + Traceable.NESTED_LEFT_MARKER + (aPreviousObject.getName()) + Traceable.NESTED_RIGHT_MARKER)
 			+ " "	
-			+ anExpectedObject == null? "": EXPECTED + Traceable.NESTED_LEFT_MARKER + (anExpectedObject.getName()) + Traceable.NESTED_RIGHT_MARKER
+			+ ((anExpectedObject == null)? "": EXPECTED + Traceable.NESTED_LEFT_MARKER + (anExpectedObject.getName()) + Traceable.NESTED_RIGHT_MARKER)
 			
-			+ aLaterObject == null? "": LATER + Traceable.NESTED_LEFT_MARKER + (aLaterObject.getName()) + Traceable.NESTED_RIGHT_MARKER;
+			+ ((aLaterObject == null)? "": 
+				LATER + Traceable.NESTED_LEFT_MARKER + (aLaterObject.getName()) + Traceable.NESTED_RIGHT_MARKER);
 	}
 	
 	

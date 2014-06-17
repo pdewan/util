@@ -1,5 +1,6 @@
 package util.trace.query;
 
+import util.annotations.Visible;
 import util.trace.Traceable;
 import util.trace.TraceableInfo;
 import util.trace.console.ConsoleInput;
@@ -20,9 +21,15 @@ public class ObjectSearch extends TraceableInfo {
 	public ObjectSearch(String aMessage, Object aPreviousObject, Object anExpectedObject, Object aLaterObject) {
 		this(aMessage, aPreviousObject, anExpectedObject, aLaterObject, null);
 	}
+	@Visible(false)
+	public Object getExpectedObject() {
+		return expectedObject;
+	}
+	@Visible(false)
 	public Object getPreviousObject() {
 		return previousObject;
 	}
+	@Visible(false)
 	public Object getLaterObject() {
 		return laterObject;
 	}
