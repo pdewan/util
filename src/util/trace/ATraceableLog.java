@@ -19,6 +19,9 @@ public class ATraceableLog implements TraceableLog{
 	public void newEvent(Exception aTraceable) {
 		log.add(aTraceable);		
 	}
+	public String toString() {
+		return log.toString();
+	}
 	
 
 }
