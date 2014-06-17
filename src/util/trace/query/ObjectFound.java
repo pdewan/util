@@ -14,7 +14,7 @@ public class ObjectFound extends ObjectSearch {
 		super(aMessage, aPreviousObject, anExpectedObject, aLaterObject);
 	}
 		
-	public static Traceable toTraceable(String aMessage) {
+	public static ObjectFound toTraceable(String aMessage) {
 		return new ObjectFound (aMessage, 
 				getPrevious(aMessage),
 				getExpected(aMessage),

@@ -2,23 +2,29 @@ package util.trace.query;
 
 import util.trace.Traceable;
 
-public class ClassInstanceFound extends ObjectFound {
-	public ClassInstanceFound(String aMessage, Object aPreviousObject, Class anExpectedObject, Object aLaterObject, Object aFinder) {
+public class ClassInstanceFound extends ClassInstanceSearch {
+	public ClassInstanceFound(String aMessage, Class aPreviousObject, Class anExpectedObject, Class aLaterObject, Object aFinder) {
 		super(aMessage, aPreviousObject, anExpectedObject, aLaterObject, aFinder);
 	}
-	public ClassInstanceFound(String aMessage, Object aPreviousObject,
-			Object anExpectedObject, Object aLaterObject) {
+	public ClassInstanceFound(String aMessage, Class aPreviousObject,
+			Class anExpectedObject, Class aLaterObject) {
 		super(aMessage, aPreviousObject, anExpectedObject, aLaterObject);
 	}
-	public static Traceable toTraceable(String aMessage) {
+	
+	public static ClassInstanceFound toTraceable(String aMessage) {
+		try {
 		return new ClassInstanceFound (aMessage, 
-				getPrevious(aMessage),
-				getExpected(aMessage),
-				getLater(aMessage));
+				forName(getPrevious(aMessage)),
+				forName(getExpected(aMessage)),
+				forName(getLater(aMessage)));
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
-	public static ClassInstanceFound newCase (Object aPreviousObject, Class anExpectedObject, Object aLaterObject) {
+	public static ClassInstanceFound newCase (Class aPreviousObject, Class anExpectedObject, Class aLaterObject, Object aFinder) {
 		String aMessage = toString(aPreviousObject, anExpectedObject, aLaterObject);
-		ClassInstanceFound retVal = new ClassInstanceFound(aMessage, aPreviousObject, anExpectedObject, aLaterObject);
+		ClassInstanceFound retVal = new ClassInstanceFound(aMessage, aPreviousObject, anExpectedObject, aLaterObject, aFinder);
 		retVal.announce();
 		return retVal;
 	}
