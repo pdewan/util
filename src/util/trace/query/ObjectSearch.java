@@ -38,7 +38,7 @@ public class ObjectSearch extends TraceableInfo {
 			aPreviousObject == null? "": PREVIOUS + Traceable.NESTED_LEFT_MARKER + (aPreviousObject) + Traceable.NESTED_RIGHT_MARKER
 			+ " "	
 			+ anExpectedObject == null? "": EXPECTED + Traceable.NESTED_LEFT_MARKER + (anExpectedObject) + Traceable.NESTED_RIGHT_MARKER
-			
+			+ " "
 			+ aLaterObject == null? "": LATER + Traceable.NESTED_LEFT_MARKER + (aLaterObject) + Traceable.NESTED_RIGHT_MARKER;
 	}
 	
