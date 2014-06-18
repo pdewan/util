@@ -177,7 +177,9 @@ public  class Traceable extends RuntimeException {
 	public static List<String> getArgs(String aTraceLine, String aDescriptor) {
 		return getArgs(aTraceLine, aDescriptor, FLAT_LEFT_MARKER, FLAT_RIGHT_MARKER);
 	}
-	
+	public static String getArg(String aTraceLine, String aDescriptor) {
+		return getArgs(aTraceLine, aDescriptor, FLAT_LEFT_MARKER, FLAT_RIGHT_MARKER).get(0);
+	}
 	public static List<String> getNestedArgs(String aTraceLine, String aDescriptor) {
 		return getArgs(aTraceLine, aDescriptor, NESTED_LEFT_MARKER, NESTED_RIGHT_MARKER);
 	}
