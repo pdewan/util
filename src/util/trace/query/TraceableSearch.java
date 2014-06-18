@@ -5,7 +5,7 @@ import util.trace.Traceable;
 import util.trace.TraceableInfo;
 import util.trace.console.ConsoleInput;
 
-public class ObjectSearch extends TraceableInfo {
+public class TraceableSearch extends TraceableInfo {
 	Object previousObject;
 	Object laterObject;
 	Object expectedObject;
@@ -13,12 +13,12 @@ public class ObjectSearch extends TraceableInfo {
 	public static final String LATER = "later";
 	public static final String EXPECTED = "expected";
 
-	public ObjectSearch(String aMessage, Object aPreviousObject, Object anExpectedObject, Object aLaterObject, Object aFinder) {
+	public TraceableSearch(String aMessage, Object aPreviousObject, Object anExpectedObject, Object aLaterObject, Object aFinder) {
 		super(aMessage, aFinder);
 		previousObject = aPreviousObject;
 		laterObject = aLaterObject;
 	}
-	public ObjectSearch(String aMessage, Object aPreviousObject, Object anExpectedObject, Object aLaterObject) {
+	public TraceableSearch(String aMessage, Object aPreviousObject, Object anExpectedObject, Object aLaterObject) {
 		this(aMessage, aPreviousObject, anExpectedObject, aLaterObject, null);
 	}
 	@Visible(false)
@@ -53,7 +53,7 @@ public class ObjectSearch extends TraceableInfo {
 	}
 	
 	public static Traceable toTraceable(String aMessage) {
-		return new ObjectSearch (aMessage, 
+		return new TraceableSearch (aMessage, 
 				getPrevious(aMessage),
 				getExpected(aMessage),
 				getLater(aMessage));

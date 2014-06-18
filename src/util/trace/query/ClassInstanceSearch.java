@@ -2,7 +2,7 @@ package util.trace.query;
 
 import util.trace.Traceable;
 
-public class ClassInstanceSearch extends ObjectSearch {
+public class ClassInstanceSearch extends TraceableSearch {
 	public ClassInstanceSearch(String aMessage, Class aPreviousObject, Class anExpectedObject, Class aLaterObject, Object aFinder) {
 		super(aMessage, aPreviousObject, anExpectedObject, aLaterObject, aFinder);
 	}
