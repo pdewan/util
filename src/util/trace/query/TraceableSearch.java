@@ -5,7 +5,7 @@ import util.trace.Traceable;
 import util.trace.TraceableInfo;
 import util.trace.console.ConsoleInput;
 
-public class TraceableSearch extends TraceableInfo {
+public class TraceableSearch extends IndexedTraceables {
 	Object previousObject;
 	Object laterObject;
 	Object expectedObject;
@@ -13,13 +13,13 @@ public class TraceableSearch extends TraceableInfo {
 	public static final String LATER = "later";
 	public static final String EXPECTED = "expected";
 
-	public TraceableSearch(String aMessage, Object aPreviousObject, Object anExpectedObject, Object aLaterObject, Object aFinder) {
-		super(aMessage, aFinder);
+	public TraceableSearch(String aMessage, Integer anIndex1, Integer anIndex2, Object aPreviousObject, Object anExpectedObject, Object aLaterObject, Object aFinder) {
+		super(aMessage, anIndex1, anIndex2,  aFinder);
 		previousObject = aPreviousObject;
 		laterObject = aLaterObject;
 	}
-	public TraceableSearch(String aMessage, Object aPreviousObject, Object anExpectedObject, Object aLaterObject) {
-		this(aMessage, aPreviousObject, anExpectedObject, aLaterObject, null);
+	public TraceableSearch(String aMessage, Integer anIndex1, Integer anIndex2, Object aPreviousObject, Object anExpectedObject, Object aLaterObject) {
+		this(aMessage, anIndex1, anIndex2, aPreviousObject, anExpectedObject, aLaterObject, null);
 	}
 	@Visible(false)
 	public Object getExpectedObject() {
@@ -52,8 +52,10 @@ public class TraceableSearch extends TraceableInfo {
 		return getNestedArgs(aMessage, LATER).get(0);
 	}
 	
-	public static Traceable toTraceable(String aMessage) {
+	public static TraceableSearch toTraceable(String aMessage) {
 		return new TraceableSearch (aMessage, 
+				getIndex1(aMessage),
+				getIndex2(aMessage),
 				getPrevious(aMessage),
 				getExpected(aMessage),
 				getLater(aMessage));

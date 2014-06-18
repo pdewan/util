@@ -3,10 +3,10 @@ package util.trace.query;
 import util.trace.Traceable;
 import util.trace.TraceableInfo;
 
-public class IndexedTraceable extends TraceableInfo {
+public class IndexedTraceables extends TraceableInfo {
 	Integer firstIndex;
 	Integer secondIndex;
-	public IndexedTraceable(String aMessage,  
+	public IndexedTraceables(String aMessage,  
 			Integer aFirstIndex, 
 			Integer aSecondIndex, 
 			Object aFinder) {
@@ -14,7 +14,7 @@ public class IndexedTraceable extends TraceableInfo {
 		firstIndex = aFirstIndex;
 		secondIndex = aSecondIndex;
 	}
-	public IndexedTraceable(String aMessage, 
+	public IndexedTraceables(String aMessage, 
 			Integer aFirstIndex, 
 			Integer aSecondIndex) {
 		super(aMessage);
@@ -44,21 +44,21 @@ public class IndexedTraceable extends TraceableInfo {
 		return Integer.parseInt(Traceable.getArg(aMessage, INDEX2));
 	}
 	
-	public static IndexedTraceable toTraceable(String aMessage) {
+	public static IndexedTraceables toTraceable(String aMessage) {
 		try {
-		return new IndexedTraceable (aMessage, 
+		return new IndexedTraceables (aMessage, 
 				getIndex1(aMessage), getIndex2(aMessage));
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
-	public static IndexedTraceable newCase (
+	public static IndexedTraceables newCase (
 			Integer anIndex1,  
 			Integer anIndex2,
 			Object aFinder) {
 		String aMessage = toString(anIndex1, anIndex2);
-		IndexedTraceable retVal = new IndexedTraceable(aMessage, anIndex1, anIndex2, aFinder);
+		IndexedTraceables retVal = new IndexedTraceables(aMessage, anIndex1, anIndex2, aFinder);
 		retVal.announce();
 		return retVal;
 	}
