@@ -2,7 +2,7 @@ package util.trace.query;
 
 import util.trace.Traceable;
 
-public class OrderedClassInstanceMissing extends ClassInstanceFound {
+public class OrderedClassInstanceMissing extends ClassInstanceMissing {
 	public OrderedClassInstanceMissing(String aMessage, Class aPreviousObject, Class anExpectedObject, Class aLaterObject, Object aFinder) {
 		super(aMessage, aPreviousObject, anExpectedObject, aLaterObject, aFinder);
 	}
