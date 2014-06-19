@@ -45,7 +45,7 @@ public class OrderedEqualObjectDisplaced extends OrderedEqualObjectMissing {
 			DISPLACEMENT + Traceable.FLAT_LEFT_MARKER + aDisplacement + Traceable.FLAT_RIGHT_MARKER;
 	}
 	public static OrderedEqualObjectDisplaced newCase (Integer aTestIndex, Integer aReferenceIndex, Object aPreviousObject, Object anExpectedObject, Object aLaterObject, Integer aDisplacement, Object aFinder) {
-		String aMessage = toString(aTestIndex, aReferenceIndex, aPreviousObject, anExpectedObject, aLaterObject);
+		String aMessage = toString(aTestIndex, aReferenceIndex, aPreviousObject, anExpectedObject, aLaterObject, aDisplacement);
 		OrderedEqualObjectDisplaced retVal = new OrderedEqualObjectDisplaced(aMessage, aTestIndex, aReferenceIndex, aPreviousObject, anExpectedObject, aLaterObject, aDisplacement, aFinder);
 		retVal.announce();
 		return retVal;
