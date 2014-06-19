@@ -24,9 +24,9 @@ public class ClassInstanceFound extends ClassInstanceSearch {
 			return null;
 		}
 	}
-	public static ClassInstanceFound newCase (Integer anIndex1, Integer anIndex2, Class aPreviousObject, Class anExpectedObject, Class aLaterObject, Object aFinder) {
-		String aMessage = toString(aPreviousObject, anExpectedObject, aLaterObject);
-		ClassInstanceFound retVal = new ClassInstanceFound(aMessage, anIndex1, anIndex2, aPreviousObject, anExpectedObject, aLaterObject, aFinder);
+	public static ClassInstanceFound newCase (Integer aTestIndex, Integer aReferenceIndex, Class aPreviousObject, Class anExpectedObject, Class aLaterObject, Object aFinder) {
+		String aMessage = toString(aTestIndex, aReferenceIndex, aPreviousObject, anExpectedObject, aLaterObject);
+		ClassInstanceFound retVal = new ClassInstanceFound(aMessage, aTestIndex, aReferenceIndex, aPreviousObject, anExpectedObject, aLaterObject, aFinder);
 		retVal.announce();
 		return retVal;
 	}

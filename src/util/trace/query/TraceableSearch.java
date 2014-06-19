@@ -5,13 +5,13 @@ import util.trace.Traceable;
 import util.trace.TraceableInfo;
 import util.trace.console.ConsoleInput;
 
-public class TraceableSearch extends IndexedTraceables {
+public class TraceableSearch extends TraceableIndices {
 	Object previousObject;
 	Object laterObject;
 	Object expectedObject;
-	public static final String PREVIOUS = "previous";
-	public static final String LATER = "later";
-	public static final String EXPECTED = "expected";
+	public static final String PREVIOUS = "Previous";
+	public static final String LATER = "Later";
+	public static final String EXPECTED = "Expected";
 
 	public TraceableSearch(String aMessage, Integer anIndex1, Integer anIndex2, Object aPreviousObject, Object anExpectedObject, Object aLaterObject, Object aFinder) {
 		super(aMessage, anIndex1, anIndex2,  aFinder);
@@ -33,8 +33,9 @@ public class TraceableSearch extends IndexedTraceables {
 	public Object getLaterObject() {
 		return laterObject;
 	}
-	public static String toString (Object aPreviousObject, Object anExpectedObject, Object aLaterObject) {
+	public static String toString (Integer anIndex1, Integer anIndex2, Object aPreviousObject, Object anExpectedObject, Object aLaterObject) {
 		return 
+			TraceableIndices.toString(anIndex1, anIndex2) +
 			aPreviousObject == null? "": PREVIOUS + Traceable.NESTED_LEFT_MARKER + (aPreviousObject) + Traceable.NESTED_RIGHT_MARKER
 			+ " "	
 			+ anExpectedObject == null? "": EXPECTED + Traceable.NESTED_LEFT_MARKER + (anExpectedObject) + Traceable.NESTED_RIGHT_MARKER

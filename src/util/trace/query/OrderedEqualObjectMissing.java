@@ -3,17 +3,23 @@ package util.trace.query;
 import util.trace.Traceable;
 
 public class OrderedEqualObjectMissing extends EqualObjectFound {
-	public OrderedEqualObjectMissing(String aMessage, Object aPreviousObject, Object anExpectedObject, Object aLaterObject, Object aFinder) {
-		super(aMessage, aPreviousObject, anExpectedObject, aLaterObject, aFinder);
+	public OrderedEqualObjectMissing(String aMessage,
+			Integer aTestIndex, Integer aReferenceIndex,
+			Object aPreviousObject, Object anExpectedObject, Object aLaterObject, Object aFinder) {
+		super(aMessage, aTestIndex, aReferenceIndex, aPreviousObject, anExpectedObject, aLaterObject, aFinder);
 	}
-	public OrderedEqualObjectMissing(String aMessage, Object aPreviousObject,
+	public OrderedEqualObjectMissing(String aMessage, 
+			Integer aTestIndex, Integer aReferenceIndex,
+			Object aPreviousObject,
 			Object anExpectedObject, Object aLaterObject) {
-		super(aMessage, aPreviousObject, anExpectedObject, aLaterObject);
+		super(aMessage, aTestIndex, aReferenceIndex, aPreviousObject, anExpectedObject, aLaterObject);
 	}
 	
 	public static OrderedEqualObjectMissing toTraceable(String aMessage) {
 		try {
 		return new OrderedEqualObjectMissing (aMessage, 
+				TraceableIndices.getIndex1(aMessage),
+				TraceableIndices.getIndex2(aMessage),
 				getPrevious(aMessage),
 				getExpected(aMessage),
 				getLater(aMessage));
@@ -22,9 +28,15 @@ public class OrderedEqualObjectMissing extends EqualObjectFound {
 			return null;
 		}
 	}
-	public static OrderedEqualObjectMissing newCase (Object aPreviousObject, Object anExpectedObject, Object aLaterObject, Object aFinder) {
-		String aMessage = toString(aPreviousObject, anExpectedObject, aLaterObject);
-		OrderedEqualObjectMissing retVal = new OrderedEqualObjectMissing(aMessage, aPreviousObject, anExpectedObject, aLaterObject, aFinder);
+	public static OrderedEqualObjectMissing newCase (
+			Integer aTestIndex,
+			Integer aReferenceIndex,
+			Object aPreviousObject, Object anExpectedObject, Object aLaterObject, Object aFinder) {
+		String aMessage = toString(aTestIndex, aReferenceIndex,
+				
+				aPreviousObject, anExpectedObject, aLaterObject);
+		OrderedEqualObjectMissing retVal = 
+				new OrderedEqualObjectMissing(aMessage, aTestIndex, aReferenceIndex, aPreviousObject, anExpectedObject, aLaterObject, aFinder);
 		retVal.announce();
 		return retVal;
 	}
