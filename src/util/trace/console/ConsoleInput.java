@@ -2,7 +2,7 @@ package util.trace.console;
 
 import util.trace.TraceableInfo;
 import util.trace.session.AddressedMessageInfo;
-import util.trace.session.ClientJoined;
+import util.trace.session.ServerClientJoined;
 import util.trace.session.MessageInfo;
 
 public class ConsoleInput extends TraceableInfo{

@@ -7,30 +7,35 @@ import java.util.HashMap;
 import java.util.Map;
 
 import util.misc.Common;
-import util.models.BoundedBuffer;
+import util.models.ABoundedBuffer;
 import util.trace.Tracer;
+import util.trace.session.QueueCreated;
+import util.trace.session.ThreadCreated;
 
 public class ASessionManager implements SessionManager, SessionManagerLocal {
 	Map<String, Session> sessions = new HashMap();
 	Runnable messageSenderRunnable;
-	BoundedBuffer<SentMessage> outputMessageQueue;
+	ABoundedBuffer<SentMessage> outputMessageQueue; // this is an input queue, output from client pt of view
 	ServerMessageFilter messageQueuer;
 	MessageProcessor<SentMessage> sentMessageProcessor;
 
 	public ASessionManager() {
 	}
-
 	void createMessageSenderRunnable() {
-		outputMessageQueue = new BoundedBuffer();
+		outputMessageQueue = new ABoundedBuffer(AMessageReceiver.INPUT_MESSAGE_QUEUE);
+		QueueCreated.newCase(ACommunicatorSelector.getProcessName(), outputMessageQueue.getName(), this);
+
 		messageSenderRunnable = new AServerMessageSenderRunnable(
 				outputMessageQueue, this, null);
 		Thread messageSenderThread = new Thread(messageSenderRunnable);
+//		messageSenderThread.setName("Message Sender");
 		sentMessageProcessor = new ASentMessageProcessor(outputMessageQueue);
 
 		messageQueuer = AServerSentMessageQueuerSelector
 				.getMessageQueuerFactory().getMessageQueuer();
 		messageQueuer.setMessageProcessor(sentMessageProcessor);
-		messageSenderThread.setName("Session Manager");
+		messageSenderThread.setName("Session Manager Message Receiver");
+		ThreadCreated.newCase(ACommunicatorSelector.getProcessName(), messageSenderThread.getName(), this);
 		messageSenderThread.start();
 	}
 

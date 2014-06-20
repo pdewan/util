@@ -59,7 +59,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
-import util.models.BoundedBuffer;
+import util.models.ABoundedBuffer;
 import util.trace.Tracer;
 
 //import bus.uigen.Message;
@@ -656,8 +656,8 @@ public class Common {
 	}
 
 	static long timeOut = 100;
-	static BoundedBuffer<String> classNamesBuffer = new BoundedBuffer();
-	static BoundedBuffer<Class> classesBuffer = new BoundedBuffer();
+	static ABoundedBuffer<String> classNamesBuffer = new ABoundedBuffer();
+	static ABoundedBuffer<Class> classesBuffer = new ABoundedBuffer();
 
 	/*
 	 * public static Class asynchronousClassForName (String name) { Thread
@@ -754,8 +754,8 @@ public class Common {
 	}
 
 	// static long timeOut = 100;
-	static BoundedBuffer<Class> instanceClassesBuffer = new BoundedBuffer();
-	static BoundedBuffer<Object> instanceBuffer = new BoundedBuffer();
+	static ABoundedBuffer<Class> instanceClassesBuffer = new ABoundedBuffer();
+	static ABoundedBuffer<Object> instanceBuffer = new ABoundedBuffer();
 
 	public static Object asynchronousNewInstance(Class c) {
 		classesVisited.clear();

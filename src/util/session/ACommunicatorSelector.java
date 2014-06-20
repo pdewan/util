@@ -37,14 +37,15 @@ public class ACommunicatorSelector {
 	public static Communicator getCommunicator() {
 		return communicator;
 	}
-	
+	// process and user names are synonymous
 	public static String getProcessName() {
 		if (communicator != null)
 			return communicator.getUserName();
 		else
 			return ASessionManager.SESSION_MANAGER_NAME;
 	}
-	
+	// added for OT so that a static method can be called to determine globally to see if a process i local or global
+	// a server of session manager module is not itself a commnicator
 	public static boolean isServer() {
 		
 			return communicator == null;

@@ -1,5 +1,7 @@
 package util.session;
-
+/*
+ * One kept per client
+ */
 public interface UserDelayRecord extends Comparable<UserDelayRecord> {
 	public abstract MessageReceiver getClient();
 

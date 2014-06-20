@@ -8,6 +8,10 @@ import java.util.Map;
 import java.util.Set;
 
 @util.annotations.StructurePattern(util.annotations.StructurePatternNames.BEAN_PATTERN)
+/*
+ * should probably be created by factory
+ * does not actually delay, ssimply keeps teh delays
+ */
 public class ADelayManager implements DelayManager {
 
 	int delayToServer, delayVariation;
@@ -119,7 +123,10 @@ public class ADelayManager implements DelayManager {
 		}
 		return null;
 	}
-
+	/*
+	 * clients are sorted for delta level processing
+	 * @see util.session.DelayManager#getSortedClients()
+	 */
 	public List<UserDelayRecord> getSortedClients() {
 		return sortedClients;
 	}

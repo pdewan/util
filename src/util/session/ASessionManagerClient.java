@@ -10,8 +10,11 @@ import java.util.List;
 import java.util.Map;
 
 import util.misc.Common;
-import util.models.BoundedBuffer;
+import util.models.ABoundedBuffer;
 import util.trace.Tracer;
+import util.trace.session.MessagePutInQueue;
+import util.trace.session.QueueCreated;
+import util.trace.session.ThreadCreated;
 
 @util.annotations.StructurePattern(util.annotations.StructurePatternNames.BEAN_PATTERN)
 public abstract class ASessionManagerClient extends ASessionListenable
@@ -29,12 +32,12 @@ public abstract class ASessionManagerClient extends ASessionListenable
 	SessionManager sessionManager;
 	List<SessionMessageListener> sessionMessageListeners = new ArrayList();
 	List<PeerMessageListener> peerMessageListeners = new ArrayList();
-	BoundedBuffer<SentMessage> outputMessageQueue;
+	ABoundedBuffer<SentMessage> outputMessageQueue;
 	MessageSenderRunnable messageSenderRunnable;
 	Thread messageSenderThread;
 	Map<MessageReceiver, String> clients = new HashMap();
 	SerializedProcessGroups serializedMulticastGroups;
-	BoundedBuffer<ReceivedMessage> inputMessageQueue;
+	ABoundedBuffer<ReceivedMessage> inputMessageQueue;
 	MessageReceiverRunnable messageReceiverRunnable;
 	Thread messageReceiverThread;
 	int delayToServer, delayVariation;
@@ -85,12 +88,16 @@ public abstract class ASessionManagerClient extends ASessionListenable
 	}
 
 	void createOutputBufferAndThread() {
-		outputMessageQueue = new BoundedBuffer();
+		outputMessageQueue = new ABoundedBuffer(AProcessGroup.OUTPUT_MESSAGE_QUEUE);
+		QueueCreated.newCase(ACommunicatorSelector.getProcessName(), outputMessageQueue.getName(), this);
+
 		sentMessageProcessor = new ASentMessageProcessor(outputMessageQueue);
 		messageSenderRunnable = new AMessageSenderRunnable(outputMessageQueue,
 				this, sessionManager);
 		messageSenderThread = new Thread(messageSenderRunnable);
 		messageSenderThread.setName("Message Sender");
+		ThreadCreated.newCase(messageSenderThread.getName(), ACommunicatorSelector.getProcessName(), this);
+
 		messageSenderThread.start();
 	}
 
@@ -103,12 +110,16 @@ public abstract class ASessionManagerClient extends ASessionListenable
 	}
 
 	void createInputBufferAndThread() {
-		inputMessageQueue = new BoundedBuffer();
+		inputMessageQueue = new ABoundedBuffer(AMessageReceiver.INPUT_MESSAGE_QUEUE);
+		QueueCreated.newCase(ACommunicatorSelector.getProcessName(), inputMessageQueue.getName(), this);
+
 		receivedMessageProcessor = new AReceivedMessageProcessor(this);
 
 		messageReceiverRunnable = new AMessageReceiverRunnable(
 				inputMessageQueue, this, getReceivedMessageQueuer());
 		messageReceiverThread = new Thread(messageReceiverRunnable);
+		ThreadCreated.newCase(messageReceiverThread.getName(), ACommunicatorSelector.getProcessName(), this);
+
 		messageReceiverThread.start();
 	}
 
@@ -139,9 +150,13 @@ public abstract class ASessionManagerClient extends ASessionListenable
 	public void asyncJoin() {
 		Object[] args = { sessionName, applicationName, clientName,
 				exportedMessageReceiver };
-		outputMessageQueue
-				.put(new ASentMessage(sessionName, applicationName, clientName,
-						exportedMessageReceiver, SentMessageType.Join, args));
+		SentMessage sentMessage = new ASentMessage(sessionName, applicationName, clientName,
+				exportedMessageReceiver, SentMessageType.Join, args);
+		MessagePutInQueue.newCase(ACommunicatorSelector.getProcessName(), sentMessage, null, outputMessageQueue.getName(), this);
+		outputMessageQueue.put(sentMessage);
+//		outputMessageQueue
+//				.put(new ASentMessage(sessionName, applicationName, clientName,
+//						exportedMessageReceiver, SentMessageType.Join, args));
 		inSession = true;
 	}
 
@@ -158,6 +173,8 @@ public abstract class ASessionManagerClient extends ASessionListenable
 		AReceivedMessage receivedMesage = new AReceivedMessage(
 				ReceivedMessageType.NewObject, clientName, client, null, value,
 				false, false, null, null, null);
+		MessagePutInQueue.newCase(ACommunicatorSelector.getProcessName(), receivedMesage, receivedMesage.getClientName(),  inputMessageQueue.getName(), this);
+
 		inputMessageQueue.put(receivedMesage);
 	}
 
@@ -203,6 +220,8 @@ public abstract class ASessionManagerClient extends ASessionListenable
 				ReceivedMessageType.ClientJoined, clientName, client,
 				theApplicationName, null, newSession, newApplication,
 				theClients, serializedProcessGroups, processGroup);
+		MessagePutInQueue.newCase(ACommunicatorSelector.getProcessName(), receivedMesage, receivedMesage.getClientName(), inputMessageQueue.getName(), this);
+
 		inputMessageQueue.put(receivedMesage);
 
 	}
@@ -212,6 +231,8 @@ public abstract class ASessionManagerClient extends ASessionListenable
 		AReceivedMessage receivedMesage = new AReceivedMessage(
 				ReceivedMessageType.ClientLeft, theClientName, theClient,
 				theApplicationName, null, false, false, null, null, null);
+		MessagePutInQueue.newCase(ACommunicatorSelector.getProcessName(), receivedMesage, receivedMesage.getClientName(), inputMessageQueue.getName(), this);
+
 		inputMessageQueue.put(receivedMesage);
 	}
 

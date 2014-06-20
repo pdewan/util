@@ -18,7 +18,7 @@ public class AJoinLock implements JoinLock {
 	}
 
 	/*
-	 * (non-Javadoc)
+	 * called when a received message indicates join successful
 	 * 
 	 * @see util.session.JoinLock#notifyJoined()
 	 */

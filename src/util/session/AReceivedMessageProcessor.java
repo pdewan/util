@@ -15,10 +15,11 @@ public class AReceivedMessageProcessor implements
 	}
 
 	@Override
+	//essentialy unmarshalls the message so calls can be made to the clients
 	public void processMessage(ReceivedMessage message) {
 
 		switch (message.getReceivedMessageType()) {
-		case ClientLeft:
+		case ClientLeft: // interesting the client is unblocked before the notification is sent
 			ReceivedLeaveNotificationDistributedToListeners.newCase(ACommunicatorSelector.getProcessName(), message.getUserMessage(), message.getClientName(), this);
 
 			multicastClient.delayedUserLeft(message.getClientName(),

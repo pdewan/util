@@ -1,12 +1,13 @@
 package util.session;
 
-import util.models.BoundedBuffer;
+import util.models.ABoundedBuffer;
 import util.trace.Tracer;
+import util.trace.session.MessageRetrievedFromQueue;
 import util.trace.session.MessageSent;
 import util.trace.session.SentMessageDelayed;
 
 public class AMessageSenderRunnable implements MessageSenderRunnable {
-	BoundedBuffer<SentMessage> outputMessageQueue;
+	ABoundedBuffer<SentMessage> outputMessageQueue;
 	DelayManager delayManager;
 	ProcessGroupLocal localMulticastGroup;
 	ProcessGroup multicastGroup;
@@ -14,7 +15,7 @@ public class AMessageSenderRunnable implements MessageSenderRunnable {
 	Session session;
 	long delayToServer;
 
-	public AMessageSenderRunnable(BoundedBuffer<SentMessage> theMessageQueue,
+	public AMessageSenderRunnable(ABoundedBuffer<SentMessage> theMessageQueue,
 			DelayManager theDelayManager, SessionManager theSessionManager) {
 		outputMessageQueue = theMessageQueue;
 		delayManager = theDelayManager;
@@ -50,6 +51,12 @@ public class AMessageSenderRunnable implements MessageSenderRunnable {
 		while (true) {
 			try {
 				SentMessage message = outputMessageQueue.get();
+				MessageRetrievedFromQueue.newCase(
+						ACommunicatorSelector.getProcessName(), 
+						message, 
+						null,
+						outputMessageQueue.getName(),
+						this);
 				Object[] args = message.getArgs();
 				long delay = delayManager
 						.calculateDelay(message.getTimeStamp());

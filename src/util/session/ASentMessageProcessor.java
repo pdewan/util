@@ -1,19 +1,19 @@
 package util.session;
 
-import util.models.BoundedBuffer;
-import util.trace.session.MessageInSendingQueue;
+import util.models.ABoundedBuffer;
+import util.trace.session.MessagePutInQueue;
 
 public class ASentMessageProcessor implements MessageProcessor<SentMessage> {
-	BoundedBuffer<SentMessage> outBuffer;
+	ABoundedBuffer<SentMessage> outBuffer;
 
-	public ASentMessageProcessor(BoundedBuffer<SentMessage> theBoundedBuffer) {
+	public ASentMessageProcessor(ABoundedBuffer<SentMessage> theBoundedBuffer) {
 		outBuffer = theBoundedBuffer;
 
 	}
 
 	@Override
 	public void processMessage(SentMessage theMessage) {
-		MessageInSendingQueue.newCase(ACommunicatorSelector.getProcessName(), theMessage, this);
+		MessagePutInQueue.newCase(ACommunicatorSelector.getProcessName(), theMessage, theMessage.getSendingUser(), outBuffer.getName(), this);
 		outBuffer.put(theMessage);
 
 	}

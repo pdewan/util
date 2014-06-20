@@ -7,10 +7,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import util.misc.Common;
-import util.models.BoundedBuffer;
+import util.models.ABoundedBuffer;
 import util.trace.Tracer;
 import util.trace.session.JoinRequest;
 import util.trace.session.LeaveRequest;
+import util.trace.session.QueueCreated;
+import util.trace.session.ThreadCreated;
 
 @util.annotations.StructurePattern(util.annotations.StructurePatternNames.BEAN_PATTERN)
 public abstract class ASessionManagerCommunicator extends ASessionListenable
@@ -30,7 +32,7 @@ public abstract class ASessionManagerCommunicator extends ASessionListenable
 	String applicationName;
 	ProcessGroup processGroup;
 	SessionManager sessionManager;
-	BoundedBuffer<SentMessage> outputMessageQueue;
+	ABoundedBuffer<SentMessage> outputMessageQueue;
 	MessageSenderRunnable messageSenderRunnable;
 	Thread messageSenderThread;
 	Map<MessageReceiver, String>  messageReceiverToClientName = new HashMap();
@@ -88,12 +90,16 @@ public abstract class ASessionManagerCommunicator extends ASessionListenable
 	}
 
 	void createOutputBufferAndThread() {
-		outputMessageQueue = new BoundedBuffer();
+		outputMessageQueue = new ABoundedBuffer(AProcessGroup.OUTPUT_MESSAGE_QUEUE);
+		QueueCreated.newCase(ACommunicatorSelector.getProcessName(), outputMessageQueue.getName(), this);
+
 		sentMessageProcessor = new ASentMessageProcessor(outputMessageQueue);
 		messageSenderRunnable = new AMessageSenderRunnable(outputMessageQueue,
 				delayManager, sessionManager);
 		messageSenderThread = new Thread(messageSenderRunnable);
 		messageSenderThread.setName("Message Sender");
+		ThreadCreated.newCase(messageSenderThread.getName(), ACommunicatorSelector.getProcessName(), this);
+
 		messageSenderThread.start();
 	}
 
@@ -124,11 +130,20 @@ public abstract class ASessionManagerCommunicator extends ASessionListenable
 	}
 
 	@Override
+	/*
+	 *  do not want to block process, as RMI does it sends the message(non-Javadoc)
+	 *  and then ublocks the waiter when responde is heard
+	 * @see util.session.Communicator#join()
+	 */
+	
 	public synchronized void join() {
 		asyncJoin();
 		joinLock.waitFotJoin();
 	}
-
+	/*
+	 * instead of forking a process it sends data  to a queue served by one process
+	 * @see util.session.Communicator#asyncJoin()
+	 */
 	public synchronized void asyncJoin() {
 //		Object[] args = { sessionName, applicationName, clientName,
 //				exportedMessageReceiver };

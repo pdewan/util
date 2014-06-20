@@ -5,9 +5,12 @@ import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.Map;
 
-import util.models.BoundedBuffer;
+import util.models.ABoundedBuffer;
 import util.trace.Tracer;
+import util.trace.session.MessagePutInQueue;
 import util.trace.session.MessageReceived;
+import util.trace.session.QueueCreated;
+import util.trace.session.ThreadCreated;
 
 @util.annotations.StructurePattern(util.annotations.StructurePatternNames.BEAN_PATTERN)
 public class AMessageReceiver implements MessageReceiver/*
@@ -23,7 +26,7 @@ public class AMessageReceiver implements MessageReceiver/*
 	MessageSenderRunnable messageSenderRunnable;
 	Map<MessageReceiver, String> clients = new HashMap();
 	SerializedProcessGroups serializedMulticastGroups;
-	BoundedBuffer<ReceivedMessage> inputMessageQueue;
+	ABoundedBuffer<ReceivedMessage> inputMessageQueue;
 	MessageReceiverRunnable messageReceiverRunnable;
 	Thread messageReceiverThread;
 	ReceivedMessageCreator receivedMessageCreator = new AReceivedMessageCreator();
@@ -67,9 +70,13 @@ public class AMessageReceiver implements MessageReceiver/*
 					+ serverHost);
 		}
 	}
+	
+	public static final String INPUT_MESSAGE_QUEUE = "Input Message Queue";
 
 	void createInputBufferAndThread() {
-		inputMessageQueue = new BoundedBuffer();
+		inputMessageQueue = new ABoundedBuffer(INPUT_MESSAGE_QUEUE);
+		QueueCreated.newCase(ACommunicatorSelector.getProcessName(), inputMessageQueue.getName(), this);
+
 
 		messageReceiverRunnable = new AMessageReceiverRunnable(
 				inputMessageQueue, delayManager,
@@ -78,6 +85,7 @@ public class AMessageReceiver implements MessageReceiver/*
 				.isRelayedCommunication());
 		messageReceiverThread = new Thread(messageReceiverRunnable);
 		messageReceiverThread.setName("Message Receiver");
+		ThreadCreated.newCase(messageReceiverThread.getName(), ACommunicatorSelector.getProcessName(), this);
 		messageReceiverThread.start();
 	}
 
@@ -87,23 +95,27 @@ public class AMessageReceiver implements MessageReceiver/*
 		Tracer.info(this, "Client received newObject from:" + clientName);
 		ReceivedMessage receivedMesage = receivedMessageCreator.newObject(
 				clientName, client, value); // just making it into a queueble entity - nice thing about gipc is that we get the queuable entity, this now goes to another thread
+		MessagePutInQueue.newCase(ACommunicatorSelector.getProcessName(), receivedMesage, receivedMesage.getClientName(), inputMessageQueue.getName(), this);
+
 		inputMessageQueue.put(receivedMesage);
 	}
 
 	@Override
-	public void newMessage(ReceivedMessage theReceivedMessage)
+	public void newMessage(ReceivedMessage aReceivedMessage)
 			throws RemoteException {
 		MessageReceived.newCase(
 				ACommunicatorSelector.getProcessName(), 
-				theReceivedMessage, theReceivedMessage.getClientName(), this);
-		Tracer.info(this, "Client received message:" + theReceivedMessage);
+				aReceivedMessage, aReceivedMessage.getClientName(), this);
+		Tracer.info(this, "Client received message:" + aReceivedMessage);
 
-		if (theReceivedMessage.getReceivedMessageType() == ReceivedMessageType.ClientJoined) {
-			processUndelayedUserJoined(theReceivedMessage.getProcessGroup(),
-					theReceivedMessage.getSerializedProcessGroups(),
-					theReceivedMessage.getClients());
+		if (aReceivedMessage.getReceivedMessageType() == ReceivedMessageType.ClientJoined) { // unblocks the joiner
+			processUndelayedUserJoined(aReceivedMessage.getProcessGroup(),
+					aReceivedMessage.getSerializedProcessGroups(),
+					aReceivedMessage.getClients());
 		}
-		inputMessageQueue.put(theReceivedMessage);
+		MessagePutInQueue.newCase(ACommunicatorSelector.getProcessName(), aReceivedMessage, aReceivedMessage.getClientName(), inputMessageQueue.getName(), this);
+
+		inputMessageQueue.put(aReceivedMessage);
 	}
 
 	void processUndelayedUserJoined(ProcessGroup processGroup,
@@ -124,11 +136,12 @@ public class AMessageReceiver implements MessageReceiver/*
 			boolean newSession, boolean newApplication) throws RemoteException {
 		processUndelayedUserJoined(processGroup, serializedProcessGroups,
 				theClients);
-		ReceivedMessage receivedMesage = receivedMessageCreator.userJoined(
+		ReceivedMessage aReceivedMessage = receivedMessageCreator.userJoined(
 				processGroup, serializedProcessGroups, theClients, clientName,
 				client, theApplicationName, newSession, newApplication);
+		MessagePutInQueue.newCase(ACommunicatorSelector.getProcessName(), aReceivedMessage, aReceivedMessage.getClientName(), inputMessageQueue.getName(), this);
 
-		inputMessageQueue.put(receivedMesage);
+		inputMessageQueue.put(aReceivedMessage);
 
 	}
 
@@ -137,6 +150,8 @@ public class AMessageReceiver implements MessageReceiver/*
 			throws RemoteException {
 		ReceivedMessage receivedMessage = receivedMessageCreator.userLeft(
 				theClientName, theClient, theApplicationName);
+		MessagePutInQueue.newCase(ACommunicatorSelector.getProcessName(), receivedMessage, receivedMessage.getClientName(), inputMessageQueue.getName(), this);
+
 		inputMessageQueue.put(receivedMessage);
 	}
 

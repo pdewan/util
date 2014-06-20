@@ -1,7 +1,12 @@
 package util.session;
 
 import java.util.Map;
-
+/*
+ * Seems more reasonable to have this interface extend a Message Receiver
+ * but the latter is a Remote so that may be a reason
+ * allows processes to add themselves as observables of this
+ * implemneted by two classes, ADelayedMessageReceiver, ASessionManagerClient
+ */
 public interface DelayedMessageReceiver {
 	public void addReceivedMessageListener(ReceivedMessageListener listener);
 

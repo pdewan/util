@@ -1,26 +1,26 @@
 package util.session;
 
-import util.models.BoundedBuffer;
+import util.models.ABoundedBuffer;
 import util.trace.Tracer;
-import util.trace.session.MessageRetrievedFromReceivingQueue;
+import util.trace.session.MessageRetrievedFromQueue;
 import util.trace.session.ReceivedMessageDelayed;
 
 public class AMessageReceiverRunnable implements MessageReceiverRunnable {
-	BoundedBuffer<ReceivedMessage> inputMessageQueue;
+	ABoundedBuffer<ReceivedMessage> inputMessageQueue;
 	DelayManager delayManager;
-	MessageFilter<ReceivedMessage> messsageQueuer;
+	MessageFilter<ReceivedMessage> messsageFilter;
 	boolean isRelayedCommunication;
 	// receives enqueued RMI calls and also delays them. So the delay is at the receiver rather than sending end
 	// it is certainly at the sending site, maybe even at the receiving site
 	// looks like that server messages are delayed not the client messages
 	// I guess that makes server not have to wait
 	public AMessageReceiverRunnable(
-			BoundedBuffer<ReceivedMessage> theMessageQueue,
+			ABoundedBuffer<ReceivedMessage> theMessageQueue,
 			DelayManager theDelayManager,
 			MessageFilter<ReceivedMessage> theMessageProcessor) {
 		inputMessageQueue = theMessageQueue;
 		delayManager = theDelayManager;
-		messsageQueuer = theMessageProcessor;
+		messsageFilter = theMessageProcessor;
 	}
 
 	boolean isServerMessage(ReceivedMessage receivedMessage) {
@@ -32,11 +32,12 @@ public class AMessageReceiverRunnable implements MessageReceiverRunnable {
 		while (true) {
 			try {
 				Tracer.info(this, "Receiver runnable waiting for input message queue");
-				ReceivedMessage message = inputMessageQueue.get();
-				MessageRetrievedFromReceivingQueue.newCase(
+				ReceivedMessage message = inputMessageQueue.get(); // this may be a join message
+				MessageRetrievedFromQueue.newCase(
 						ACommunicatorSelector.getProcessName(), 
 						message, 
 						message.getClientName(),
+						inputMessageQueue.getName(),
 						this);
 
 				Tracer.info(this, "Receiver runnable received message from input message queue:"
@@ -52,7 +53,7 @@ public class AMessageReceiverRunnable implements MessageReceiverRunnable {
 							+ delay);
 
 				}
-				messsageQueuer.put(message);
+				messsageFilter.put(message);
 
 			} catch (Exception e) {
 				e.printStackTrace();

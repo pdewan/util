@@ -5,10 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import util.models.BoundedBuffer;
+import util.models.ABoundedBuffer;
 import util.trace.Tracer;
 import util.trace.session.MessageSent;
+import util.trace.session.QueueCreated;
 import util.trace.session.SentMessageDelayed;
+import util.trace.session.ThreadCreated;
 
 public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
 	Map<MessageReceiver, String> clients = new HashMap();
@@ -19,7 +21,7 @@ public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
 	MessageProcessor<SentMessage> sentMessageProcessor;
 
 	boolean isServer;
-	BoundedBuffer<SentMessage> outputMessageQueue;
+	ABoundedBuffer<SentMessage> outputMessageQueue;
 	Runnable messageSenderRunnable;
 	ServerMessageFilter sentMessageQueuer;
 	ReceivedMessageCreator receivedMessageCreator;
@@ -35,10 +37,13 @@ public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
 		createMessageSenderRunnable();
 
 	}
+	public static final String OUTPUT_MESSAGE_QUEUE = "Output Message Queue";
 
 	void createMessageSenderRunnable() {
 		if (isServer) {
-			outputMessageQueue = new BoundedBuffer();
+			outputMessageQueue = new ABoundedBuffer(OUTPUT_MESSAGE_QUEUE);
+			QueueCreated.newCase(ACommunicatorSelector.getProcessName(), outputMessageQueue.getName(), this);
+
 			sentMessageProcessor = new ASentMessageProcessor(outputMessageQueue);
 			messageSenderRunnable = new AServerMessageSenderRunnable(
 					outputMessageQueue, null, this);
@@ -46,7 +51,7 @@ public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
 			messageSenderThread.setName("Process Group:" + applicationName);
 			ServerMessageFilter messageQueuer = AServerSentMessageQueuerSelector
 					.getMessageQueuerFactory().getMessageQueuer();
-
+			ThreadCreated.newCase(messageSenderThread.getName(), ACommunicatorSelector.getProcessName(), this);
 			messageSenderThread.start();
 			setSentMessageQueuer(messageQueuer);
 		}
@@ -101,7 +106,7 @@ public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
 					Tracer.info(this, "Server sending to: " + clients.get(client)
 							+ " object:" + object);
 					client.newMessage(receivedMessage);
-					MessageSent.newCase(ACommunicatorSelector.getProcessName(),  object, clients.get(client), this);
+					MessageSent.newCase(ACommunicatorSelector.getProcessName(),  receivedMessage, clients.get(client), this);
 
 //					MessageSent.newCase(theClientName, receivedMessage, this);
 
@@ -123,6 +128,7 @@ public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
 		}
 	}
 	// why is this sending newObject rather than newMessage
+	// sould really have it create a received message and send it
 	@Override
 	public void toAll(Object object, String theClientName,
 			MessageReceiver theClient, long timeStamp) throws RemoteException {

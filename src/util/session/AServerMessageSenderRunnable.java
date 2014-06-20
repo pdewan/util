@@ -1,14 +1,15 @@
 package util.session;
 
-import util.models.BoundedBuffer;
+import util.models.ABoundedBuffer;
+import util.trace.session.MessageRetrievedFromQueue;
 
 public class AServerMessageSenderRunnable implements Runnable {
-	BoundedBuffer<SentMessage> outputMessageQueue;
-	ProcessGroupLocal multicastGroup;
-	SessionManagerLocal sessionManager;
+	ABoundedBuffer<SentMessage> outputMessageQueue; // incoming messages, so why is this called an output messge queue?
+	ProcessGroupLocal multicastGroup; // are either sent to a relayer
+	SessionManagerLocal sessionManager; // or do joins
 
 	public AServerMessageSenderRunnable(
-			BoundedBuffer<SentMessage> theMessageQueue,
+			ABoundedBuffer<SentMessage> theMessageQueue,
 			SessionManagerLocal theSessionManager,
 			ProcessGroupLocal theProcessGroup) {
 		outputMessageQueue = theMessageQueue;
@@ -22,6 +23,12 @@ public class AServerMessageSenderRunnable implements Runnable {
 		while (true) {
 			try {
 				SentMessage message = outputMessageQueue.get();
+				MessageRetrievedFromQueue.newCase(
+						ACommunicatorSelector.getProcessName(), 
+						message, 
+						null,
+						outputMessageQueue.getName(),
+						this);
 				Object[] args = message.getArgs();
 
 				switch (message.getSentMessageType()) {

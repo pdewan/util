@@ -62,7 +62,11 @@ public class ADelayedMessageReceiver implements /*
 			listener.objectReceived(value, clientName);
 		}
 	}
-
+    /*
+     * notification as already been distributed, this is another notification
+     * keeps awareness information in system data structures so users who wish to \
+     * poll for information need not define listeners
+     */
 	public synchronized void delayedUserJoined(
 			Map<MessageReceiver, String> theClients, String theClientName,
 			MessageReceiver theClient, String theApplicationName,

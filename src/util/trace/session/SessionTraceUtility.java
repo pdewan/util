@@ -4,9 +4,9 @@ import util.trace.Traceable;
 
 public class SessionTraceUtility {
 	public static boolean clientJoined(Traceable aTraceable, String aUserName) {
-		if (!(aTraceable instanceof ClientJoined))
+		if (!(aTraceable instanceof ServerClientJoined))
 			return false;
-		ClientJoined aClientJoined = (ClientJoined) aTraceable;
+		ServerClientJoined aClientJoined = (ServerClientJoined) aTraceable;
 		return aClientJoined.getUserName().equals(aUserName);
 
 	}

@@ -2,7 +2,10 @@ package util.session;
 
 import java.io.Serializable;
 import java.util.Map;
-
+/*
+ * Created by AReceivedMessageCreator
+ * at the local end it seems
+ */
 public interface ReceivedMessage extends Serializable {
 
 	public abstract ReceivedMessageType getReceivedMessageType();
