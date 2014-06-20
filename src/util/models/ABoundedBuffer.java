@@ -19,7 +19,7 @@ public class ABoundedBuffer<ElementType> implements BoundedBuffer<ElementType>{
 	}
 	
 	public ABoundedBuffer() {
-		this(DEFAULT_NAME);
+//		this(DEFAULT_NAME);
 	}
 	
 	public String getName() {

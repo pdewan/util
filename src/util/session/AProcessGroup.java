@@ -122,7 +122,7 @@ public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
 					Tracer.info(this, "Client sending to: " + clients.get(client)
 							+ " object:" + object);
 					client.newMessage(receivedMessage);
-					MessageSent.newCase(ACommunicatorSelector.getProcessName(), object , clients.get(client),  this);
+					MessageSent.newCase(ACommunicatorSelector.getProcessName(), receivedMessage , clients.get(client),  this);
 				}
 			}
 		}
