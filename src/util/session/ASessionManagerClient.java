@@ -12,6 +12,8 @@ import java.util.Map;
 import util.misc.Common;
 import util.models.ABoundedBuffer;
 import util.trace.Tracer;
+import util.trace.session.ClientJoinFinished;
+import util.trace.session.ClientJoinInitiated;
 import util.trace.session.MessagePutInQueue;
 import util.trace.session.QueueCreated;
 import util.trace.session.ThreadCreated;
@@ -143,11 +145,16 @@ public abstract class ASessionManagerClient extends ASessionListenable
 
 	@Override
 	public void join() {
+		ClientJoinInitiated.newCase(ACommunicatorSelector.getProcessName(), clientName, applicationName, sessionName, this);
+
 		asyncJoin();
 		joinLock.waitFotJoin();
+		ClientJoinFinished.newCase(ACommunicatorSelector.getProcessName(), clientName, applicationName, sessionName, this);
+
 	}
 
 	public void asyncJoin() {
+
 		Object[] args = { sessionName, applicationName, clientName,
 				exportedMessageReceiver };
 		SentMessage sentMessage = new ASentMessage(sessionName, applicationName, clientName,

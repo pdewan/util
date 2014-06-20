@@ -15,6 +15,8 @@ public class SessionTracerSetter {
 
 		Tracer.setKeywordPrintStatus(ServerClientJoined.class, true);
 		Tracer.setKeywordPrintStatus(ServerClientLeft.class, true);
+		Tracer.setKeywordPrintStatus(ClientJoinInitiated.class, true);
+		Tracer.setKeywordPrintStatus(ClientJoinFinished.class, true);
 		Tracer.setKeywordPrintStatus(MessagePutInQueue.class, true);
 		Tracer.setKeywordPrintStatus(MessageRetrievedFromQueue.class, true);
 
