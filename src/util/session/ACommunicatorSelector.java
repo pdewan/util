@@ -45,7 +45,7 @@ public class ACommunicatorSelector {
 			return ASessionManager.SESSION_MANAGER_NAME;
 	}
 	
-	public static boolean isServed() {
+	public static boolean isServer() {
 		
 			return communicator == null;
 	}
