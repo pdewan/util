@@ -1,7 +1,11 @@
 package util.session;
 
 import util.trace.session.AddressedSentMessageInfo;
+import util.trace.session.MessageGivenToFilter;
 import util.trace.session.SendDataRequest;
+import util.trace.session.ToAllDateSendMarshalled;
+import util.trace.session.ToOthersDataSendMarshalled;
+import util.trace.session.ToUserDataSendMarshalled;
 
 @util.annotations.StructurePattern(util.annotations.StructurePatternNames.BEAN_PATTERN)
 public abstract class AnAbstractCommunicator extends
@@ -27,6 +31,9 @@ public abstract class AnAbstractCommunicator extends
 			Object[] args = { userName, object, clientName,
 					exportedMessageReceiver };
 			SentMessage message = sentMessageCreator.toUser(userName, object);
+			ToUserDataSendMarshalled.newCase(					
+					ACommunicatorSelector.getProcessName(), message, 
+					userName, this);
 			getSentMessageQueuer().put(message);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -46,6 +53,11 @@ public abstract class AnAbstractCommunicator extends
 
 			Object[] args = { object, clientName, exportedMessageReceiver };
 			SentMessage message = sentMessageCreator.toOthers(object);
+			ToOthersDataSendMarshalled.newCase(
+					
+					ACommunicatorSelector.getProcessName(), message, 
+					AddressedSentMessageInfo.OTHERS, this);
+			
 			getSentMessageQueuer().put(message);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -59,6 +71,8 @@ public abstract class AnAbstractCommunicator extends
 
 			Object[] args = { object, clientName, exportedMessageReceiver };
 			SentMessage message = sentMessageCreator.toAll(object);
+			ToAllDateSendMarshalled.newCase(ACommunicatorSelector.getProcessName(), object, AddressedSentMessageInfo.ALL, this);
+
 			getSentMessageQueuer().put(message);
 		} catch (Exception e) {
 			e.printStackTrace();

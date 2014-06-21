@@ -6,8 +6,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import util.trace.Tracer;
+import util.trace.session.MulticastGroupCreated;
 import util.trace.session.ServerClientJoined;
 import util.trace.session.ServerClientLeft;
+import util.trace.session.SessionJoinInformationUpdated;
+import util.trace.session.SessionLeaveInformationUpdated;
 
 public class ASession extends ASessionListenable implements Session {
 	Map<String, ProcessGroup> multicastGroups = new HashMap();
@@ -54,6 +57,9 @@ public class ASession extends ASessionListenable implements Session {
 			MessageReceiver theClient, String theApplicationName) {
 		try {
 			Tracer.info(this, "Entering Session Join");
+			SessionJoinInformationUpdated.newCase(
+					ACommunicatorSelector.getProcessName(), 
+					theClientName, theApplicationName, myName, this);
 			JoinInfo retVal = new JoinInfo();
 			retVal.newSession = clients.size() == 0;
 			ProcessGroup processGroupRemote = multicastGroups
@@ -63,6 +69,9 @@ public class ASession extends ASessionListenable implements Session {
 			retVal.newApplication = processGroupRemote == null;
 
 			if (processGroupRemote == null) {
+				MulticastGroupCreated.newCase(
+						ACommunicatorSelector.getProcessName(), 
+						 myName, this);
 				AProcessGroup processGroup = new AProcessGroup(myName,
 						theApplicationName, null);
 				procesGroupLocal = processGroup;
@@ -83,7 +92,7 @@ public class ASession extends ASessionListenable implements Session {
 					theClientName, theClient, theApplicationName,
 					retVal.newSession, retVal.newApplication);
 			Tracer.info(this, "Leaving Session Join");
-			ServerClientJoined.newCase(ACommunicatorSelector.getProcessName(), theClientName, theApplicationName, myName, this);
+//			ServerClientJoined.newCase(ACommunicatorSelector.getProcessName(), theClientName, theApplicationName, myName, this);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -93,10 +102,13 @@ public class ASession extends ASessionListenable implements Session {
 	@Override
 	public void leave(String theClientName, MessageReceiver theClient,
 			String theApplicationName) {
+		SessionLeaveInformationUpdated.newCase(
+				ACommunicatorSelector.getProcessName(), 
+				theClientName, theApplicationName, myName, this);
 		clients.remove(theClient);
 		removeSessionListener(theClient);
 		notifyClentLeftRemote(theClientName, theClient, theApplicationName);
-		ServerClientLeft.newCase(ACommunicatorSelector.getProcessName(), theClientName, theApplicationName, myName, this);
+//		ServerClientLeft.newCase(ACommunicatorSelector.getProcessName(), theClientName, theApplicationName, myName, this);
 	}
 
 	@Override

@@ -2,7 +2,7 @@ package util.session;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-
+// actually multicast message receiver, will change later
 public interface SessionMessageReceiver extends Remote {
 	;
 //	public void setClients(Map<MessageReceiver, String> theClients) throws RemoteException;

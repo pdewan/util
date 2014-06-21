@@ -3,6 +3,7 @@ package util.session;
 import java.rmi.RemoteException;
 
 public interface SessionManagerLocal {
+	// why no leave, because it is invoked on process group?
 	public void join(String theSessionName, String theApplicationName,
 			String clientName, MessageReceiver client) throws RemoteException;
 

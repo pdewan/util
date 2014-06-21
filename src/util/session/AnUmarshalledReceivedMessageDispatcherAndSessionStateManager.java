@@ -7,9 +7,19 @@ import java.util.List;
 import java.util.Map;
 
 import util.trace.Tracer;
-
+import util.trace.session.ClientJoinInformationUpdated;
+import util.trace.session.ClientLeaveInformationUpdated;
+import util.trace.session.ClientJoinNotificationDistributedToListeners;
+import util.trace.session.ClientJoinNotificationUnmarshalled;
+import util.trace.session.ClientLeaveNotificationDistributedToListeners;
+import util.trace.session.ReceivedMessageDistributedToListeners;
+/*
+ * Keeps session state and also distributes information to listeners
+ * One for each application in the session
+ * Bad design to ave both functions in the module
+ */
 @util.annotations.StructurePattern(util.annotations.StructurePatternNames.BEAN_PATTERN)
-public class ADelayedMessageReceiver implements /*
+public class AnUmarshalledReceivedMessageDispatcherAndSessionStateManager implements /*
 												 * Communicator,
 												 * MessageReceiver,
 												 */DelayedMessageReceiver,
@@ -26,7 +36,7 @@ public class ADelayedMessageReceiver implements /*
 	SerializedProcessGroups serializedMulticastGroups;
 	CommunicatorInternal communicator;
 
-	public ADelayedMessageReceiver(String theServerHost, String theSessionName,
+	public AnUmarshalledReceivedMessageDispatcherAndSessionStateManager(String theServerHost, String theSessionName,
 			String theApplicationName, String theClientName,
 			CommunicatorInternal theCommunicator) {
 		create(theServerHost, theSessionName, theApplicationName,
@@ -48,7 +58,7 @@ public class ADelayedMessageReceiver implements /*
 			clientName = theClientName;
 			sessionName = theSessionName;
 			applicationName = theApplicationName;
-			receivedMessageProcessor = new AReceivedMessageProcessor(this);
+			receivedMessageProcessor = new AReceivedMessageUmarshaller(this);
 			communicator = theCommunicator;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -58,6 +68,8 @@ public class ADelayedMessageReceiver implements /*
 	}
 
 	public synchronized void delayedNewObject(String clientName, Object value) {
+		ReceivedMessageDistributedToListeners.newCase(ACommunicatorSelector.getProcessName(), value, clientName, this);
+
 		for (PeerMessageListener listener : peerMessageListeners) {
 			listener.objectReceived(value, clientName);
 		}
@@ -71,23 +83,38 @@ public class ADelayedMessageReceiver implements /*
 			Map<MessageReceiver, String> theClients, String theClientName,
 			MessageReceiver theClient, String theApplicationName,
 			boolean newSession, boolean newApplication) {
+		
+		ClientJoinNotificationDistributedToListeners.newCase(
+				ACommunicatorSelector.getProcessName(),
+				theClientName, theApplicationName, getSessionName(), this);
 		for (SessionMessageListener listener : sessionMessageListeners) {
 			listener.userJoined(theClientName, theApplicationName,
 					getSessionName(), newSession, newApplication,
 					clients.values());
 		}
-		if (applicationName.equals(theApplicationName))
+		if (applicationName.equals(theApplicationName)) {
+			ClientJoinInformationUpdated.newCase(
+					ACommunicatorSelector.getProcessName(),
+					theClientName, theApplicationName, getSessionName(), this);
 			clients.put(theClient, theClientName);
+		}
 
 	}
 
 	public synchronized void delayedUserLeft(String theClientName,
 			MessageReceiver theClient, String theApplicationName) {
+		ClientLeaveNotificationDistributedToListeners.newCase(
+				ACommunicatorSelector.getProcessName(),
+				theClientName, theApplicationName, getSessionName(), this);
 		for (SessionMessageListener listener : sessionMessageListeners) {
 			listener.userLeft(theClientName, theApplicationName);
 		}
-		if (applicationName.equals(theApplicationName))
+		if (applicationName.equals(theApplicationName)) {
+			ClientLeaveInformationUpdated.newCase(
+					ACommunicatorSelector.getProcessName(),
+					theClientName, theApplicationName, getSessionName(), this);
 			clients.remove(theClientName);
+		}
 	}
 
 	public String getSessionName() {

@@ -7,11 +7,15 @@ import java.util.Map;
 
 import util.models.ABoundedBuffer;
 import util.trace.Tracer;
+import util.trace.session.ClientJoinInformationUpdated;
 import util.trace.session.MessageSent;
+import util.trace.session.MulticastGroupJoinInformationUpdated;
+import util.trace.session.MulticastGroupLeaveInformationUpdated;
 import util.trace.session.QueueCreated;
 import util.trace.session.SentMessageDelayed;
 import util.trace.session.ThreadCreated;
-
+// looks like it does not really implement the inherited SessionMessageReceiver
+// interface, has a stub method for it
 public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
 	Map<MessageReceiver, String> clients = new HashMap();
 	String applicationName;
@@ -33,7 +37,7 @@ public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
 		applicationName = anApplicationName;
 		localCommunicator = aLocalCommunicator;
 		isServer = localCommunicator == null;
-		receivedMessageCreator = new AReceivedMessageCreator();
+		receivedMessageCreator = new AReceivedMessageMarshaller();
 		createMessageSenderRunnable();
 
 	}
@@ -182,6 +186,9 @@ public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
 			boolean newSession, boolean newApplication)
 	/* throws RemoteException */{
 		if (theApplicationName.equals(applicationName)) {
+			MulticastGroupJoinInformationUpdated.newCase(
+					ACommunicatorSelector.getProcessName(),
+					clientName, theApplicationName, sessionName, this);
 			clients.put(client, clientName);
 			sentMessageQueuer.userJoined(sessionName, applicationName, clientName);
 		}
@@ -192,8 +199,12 @@ public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
 	public void userLeft(String theClientName, MessageReceiver theClient,
 			String theApplicationName)
 	/* throws RemoteException */{
-		if (theApplicationName.equals(applicationName))
+		if (theApplicationName.equals(applicationName)) {
+			MulticastGroupLeaveInformationUpdated.newCase(
+					ACommunicatorSelector.getProcessName(),
+					theClientName, theApplicationName, sessionName, this);
 			clients.remove(theClient);
+		}
 
 	}
 
@@ -215,7 +226,7 @@ public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
 		sentMessageQueuer = theSentMessageQueuer;
 		sentMessageQueuer.setMessageProcessor(sentMessageProcessor);
 	}
-
+	// does nothing with this newMessage
 	@Override
 	public void newMessage(ReceivedMessage theReceivedMessage)
 			throws RemoteException {

@@ -1,6 +1,6 @@
 package util.trace.session;
 
-
+// being deprecated, at least for a while
 public class ServerClientJoined extends SessionInfo {	
 	public ServerClientJoined(String aMessage, String aProcessName, String aUserName, String anApplicationName, String aSessionName, Object aFinder) {
 		super(aMessage, aProcessName, aUserName, anApplicationName, aSessionName, aFinder);		

@@ -9,7 +9,10 @@ import java.util.Map;
 import util.misc.Common;
 import util.models.ABoundedBuffer;
 import util.trace.Tracer;
+import util.trace.session.JoinRequestMarshalled;
+import util.trace.session.MessageGivenToFilter;
 import util.trace.session.QueueCreated;
+import util.trace.session.SessionCreated;
 import util.trace.session.ThreadCreated;
 
 public class ASessionManager implements SessionManager, SessionManagerLocal {
@@ -41,9 +44,11 @@ public class ASessionManager implements SessionManager, SessionManagerLocal {
 
 	public void join(String theSessionName, String theApplicationName,
 			String clientName, MessageReceiver client) throws RemoteException {
-		SentMessageCreator messageCreator = new ASentMessageCreator(clientName,
+		SentMessageCreator messageCreator = new ASentMessageMarshaller(clientName,
 				theSessionName, theApplicationName, client);
 		SentMessage sentMessage = messageCreator.asyncJoin();
+		JoinRequestMarshalled.newCase(ACommunicatorSelector.getProcessName(),
+				sentMessage, clientName, this);
 		messageQueuer.put(sentMessage);
 		return;
 	}
@@ -98,8 +103,10 @@ public class ASessionManager implements SessionManager, SessionManagerLocal {
 	public Session getOrCreateSession(String sessionName)
 			throws RemoteException {
 		Session remoteSession = sessions.get(sessionName);
-		if (remoteSession == null)
+		if (remoteSession == null) {
+			SessionCreated.newCase(ACommunicatorSelector.getProcessName(), sessionName, this);
 			remoteSession = createSession(sessionName);
+		}
 		return remoteSession;
 	}
 
@@ -109,6 +116,11 @@ public class ASessionManager implements SessionManager, SessionManagerLocal {
 	}
 
 	public void newMessage(SentMessage theMessage) {
+		MessageGivenToFilter.newCase(
+				ACommunicatorSelector.getProcessName(), 
+				theMessage, 
+				theMessage.getSendingUser(),
+				this);
 		messageQueuer.put(theMessage);
 	}
 

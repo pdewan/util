@@ -10,7 +10,9 @@ import util.misc.Common;
 import util.models.ABoundedBuffer;
 import util.trace.Tracer;
 import util.trace.session.JoinRequest;
+import util.trace.session.JoinRequestMarshalled;
 import util.trace.session.LeaveRequest;
+import util.trace.session.LeaveRequestMarshalled;
 import util.trace.session.QueueCreated;
 import util.trace.session.ThreadCreated;
 
@@ -112,7 +114,7 @@ public abstract class ASessionManagerCommunicator extends ASessionListenable
 			sessionName = theSessionName;
 			applicationName = theApplicationName;
 			delayManager = new ADelayManager(this);
-			delayedMessageReceiver = new ADelayedMessageReceiver(serverHost,
+			delayedMessageReceiver = new AnUmarshalledReceivedMessageDispatcherAndSessionStateManager(serverHost,
 					theSessionName, theApplicationName, theClientName, this);
 			createOutputBufferAndThread();
 			messageReceiver = new AMessageReceiver(serverHost, theSessionName,
@@ -120,7 +122,7 @@ public abstract class ASessionManagerCommunicator extends ASessionListenable
 					delayedMessageReceiver, messageSenderRunnable,
 					delayManager, this);
 			exportedMessageReceiver = generateRemoteProxy(messageReceiver);
-			sentMessageCreator = new ASentMessageCreator(clientName,
+			sentMessageCreator = new ASentMessageMarshaller(clientName,
 					sessionName, applicationName, exportedMessageReceiver);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -149,6 +151,8 @@ public abstract class ASessionManagerCommunicator extends ASessionListenable
 //				exportedMessageReceiver };
 		JoinRequest.newCase(ACommunicatorSelector.getProcessName(), null, SessionManager.SESSION_MANAGER_NAME, this);
 		SentMessage message = sentMessageCreator.asyncJoin();
+		JoinRequestMarshalled.newCase(ACommunicatorSelector.getProcessName(),
+				message, clientName, this);
 		getSentMessageQueuer().put(message);
 	}
 
@@ -157,6 +161,8 @@ public abstract class ASessionManagerCommunicator extends ASessionListenable
 		LeaveRequest.newCase(ACommunicatorSelector.getProcessName(), null, SessionManager.SESSION_MANAGER_NAME, this);
 
 		SentMessage message = sentMessageCreator.leave();
+		LeaveRequestMarshalled.newCase(ACommunicatorSelector.getProcessName(),
+				message, clientName, this);
 		getSentMessageQueuer().put(message);
 
 

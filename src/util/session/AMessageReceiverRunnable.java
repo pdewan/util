@@ -2,6 +2,7 @@ package util.session;
 
 import util.models.ABoundedBuffer;
 import util.trace.Tracer;
+import util.trace.session.MessageGivenToFilter;
 import util.trace.session.MessageRetrievedFromQueue;
 import util.trace.session.ReceivedMessageDelayed;
 
@@ -53,6 +54,11 @@ public class AMessageReceiverRunnable implements MessageReceiverRunnable {
 							+ delay);
 
 				}
+				MessageGivenToFilter.newCase(
+						ACommunicatorSelector.getProcessName(), 
+						message, 
+						message.getClientName(),
+						this);
 				messsageFilter.put(message);
 
 			} catch (Exception e) {

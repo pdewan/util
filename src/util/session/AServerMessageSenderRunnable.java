@@ -2,6 +2,8 @@ package util.session;
 
 import util.models.ABoundedBuffer;
 import util.trace.session.MessageRetrievedFromQueue;
+import util.trace.session.ServerJoinRequestUnmarshalled;
+import util.trace.session.ServerLeaveRequestUnmarshalled;
 
 public class AServerMessageSenderRunnable implements Runnable {
 	ABoundedBuffer<SentMessage> outputMessageQueue; // incoming messages, so why is this called an output messge queue?
@@ -33,12 +35,15 @@ public class AServerMessageSenderRunnable implements Runnable {
 
 				switch (message.getSentMessageType()) {
 				case Join:
+					ServerJoinRequestUnmarshalled.newCase(ACommunicatorSelector.getProcessName(), message, message.getSendingUser(), this);
 					sessionManager.doJoin(message.getSessionName(),
 							message.getApplicationName(),
 							message.getSendingUser(),
 							message.getMessageReceiver());
 					break;
 				case Leave:
+					ServerLeaveRequestUnmarshalled.newCase(ACommunicatorSelector.getProcessName(), message, message.getSendingUser(), this);
+
 					sessionManager.doLeave(message.getSessionName(),
 							message.getApplicationName(),
 							message.getSendingUser(),

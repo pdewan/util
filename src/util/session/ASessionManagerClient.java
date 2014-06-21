@@ -115,7 +115,7 @@ public abstract class ASessionManagerClient extends ASessionListenable
 		inputMessageQueue = new ABoundedBuffer(AMessageReceiver.INPUT_MESSAGE_QUEUE);
 		QueueCreated.newCase(ACommunicatorSelector.getProcessName(), inputMessageQueue.getName(), this);
 
-		receivedMessageProcessor = new AReceivedMessageProcessor(this);
+		receivedMessageProcessor = new AReceivedMessageUmarshaller(this);
 
 		messageReceiverRunnable = new AMessageReceiverRunnable(
 				inputMessageQueue, this, getReceivedMessageQueuer());

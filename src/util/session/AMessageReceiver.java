@@ -7,6 +7,7 @@ import java.util.Map;
 
 import util.models.ABoundedBuffer;
 import util.trace.Tracer;
+import util.trace.session.DataReceiveMarshalled;
 import util.trace.session.MessagePutInQueue;
 import util.trace.session.MessageReceived;
 import util.trace.session.QueueCreated;
@@ -29,7 +30,7 @@ public class AMessageReceiver implements MessageReceiver/*
 	ABoundedBuffer<ReceivedMessage> inputMessageQueue;
 	MessageReceiverRunnable messageReceiverRunnable;
 	Thread messageReceiverThread;
-	ReceivedMessageCreator receivedMessageCreator = new AReceivedMessageCreator();
+	ReceivedMessageCreator receivedMessageCreator = new AReceivedMessageMarshaller();
 	JoinLock joinLock;
 	DelayManager delayManager;
 	CommunicatorInternal communicator;
@@ -95,8 +96,11 @@ public class AMessageReceiver implements MessageReceiver/*
 		Tracer.info(this, "Client received newObject from:" + clientName);
 		ReceivedMessage receivedMesage = receivedMessageCreator.newObject(
 				clientName, client, value); // just making it into a queueble entity - nice thing about gipc is that we get the queuable entity, this now goes to another thread
+		DataReceiveMarshalled.newCase(
+				ACommunicatorSelector.getProcessName(), receivedMesage, clientName, this);
+		
 		MessagePutInQueue.newCase(ACommunicatorSelector.getProcessName(), receivedMesage, receivedMesage.getClientName(), inputMessageQueue.getName(), this);
-
+		
 		inputMessageQueue.put(receivedMesage);
 	}
 

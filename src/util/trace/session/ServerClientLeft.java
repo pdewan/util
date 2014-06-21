@@ -1,5 +1,6 @@
 package util.trace.session;
 
+//being deprecated, at least for a while
 
 public class ServerClientLeft extends SessionInfo {	
 	public ServerClientLeft(String aMessage, String aProcessName, String aUserName, String anApplicationName, String aSessionName, Object aFinder) {

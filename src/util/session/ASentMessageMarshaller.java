@@ -1,10 +1,10 @@
 package util.session;
 
-public class ASentMessageCreator implements SentMessageCreator {
+public class ASentMessageMarshaller implements SentMessageCreator {
 	String clientName, sessionName, applicationName;
 	MessageReceiver exportedMessageReceiver;
 
-	public ASentMessageCreator(String theClientName, String theSessionName,
+	public ASentMessageMarshaller(String theClientName, String theSessionName,
 			String theApplicationName,
 			MessageReceiver theExportedMessageReceiver) {
 		clientName = theClientName;
