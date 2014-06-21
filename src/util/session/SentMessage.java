@@ -11,6 +11,10 @@ import java.io.Serializable;
  * a local call and then have a local unmarshall and then a remote call
  * so extensibility vs abstraction is an issue
  * still need RMI references so it is not as if RMI is no good
+ * this is a multicast message, where the destination is not bound
+ * It has to be multiplexed into different ReceiveMessages
+ * At the server end, this is receivged even tho it is called a sent message, 
+ * and it is converted into a received message later
  */ 
 public interface SentMessage extends Serializable, util.models.CorrectCloneable {
 

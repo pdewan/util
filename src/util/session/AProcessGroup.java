@@ -8,6 +8,7 @@ import java.util.Map;
 import util.models.ABoundedBuffer;
 import util.trace.Tracer;
 import util.trace.session.ClientJoinInformationUpdated;
+import util.trace.session.MessageGivenToFilter;
 import util.trace.session.MessageSent;
 import util.trace.session.MulticastGroupJoinInformationUpdated;
 import util.trace.session.MulticastGroupLeaveInformationUpdated;
@@ -218,6 +219,7 @@ public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
 	//rmi call
 	@Override
 	public void newMessage(SentMessage theMessage) throws RemoteException {
+		MessageGivenToFilter.newCase(ACommunicatorSelector.getProcessName(), theMessage, theMessage.getSendingUser(), this);
 		sentMessageQueuer.put(theMessage);
 		return;
 	}

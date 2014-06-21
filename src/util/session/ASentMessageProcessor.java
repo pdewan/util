@@ -2,7 +2,9 @@ package util.session;
 
 import util.models.ABoundedBuffer;
 import util.trace.session.MessagePutInQueue;
-
+/*
+ * Hides user-defined filter from internal queue
+ */
 public class ASentMessageProcessor implements MessageProcessor<SentMessage> {
 	ABoundedBuffer<SentMessage> outBuffer;
 

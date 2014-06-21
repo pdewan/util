@@ -1,4 +1,7 @@
 package util.session;
+/*
+ * selects whether a direct or relayed communicator is created
+ */
 
 public class ACommunicatorSelector {
 	static CommunicatorCreator directFactory = new ADirectCommunicatorCreator();

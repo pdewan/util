@@ -2,6 +2,7 @@ package util.session;
 
 import util.trace.session.AddressedSentMessageInfo;
 import util.trace.session.MessageGivenToFilter;
+import util.trace.session.MinimumDelaySet;
 import util.trace.session.SendDataRequest;
 import util.trace.session.ToAllDateSendMarshalled;
 import util.trace.session.ToOthersDataSendMarshalled;
@@ -78,8 +79,10 @@ public abstract class AnAbstractCommunicator extends
 			e.printStackTrace();
 		}
 	}
-
+	public static final String SERVER = "Server";
 	public void setMinimumDelayToPeer(String thePeer, int theDelay) {
+		MinimumDelaySet.newCase(ACommunicatorSelector.getProcessName(),
+				null, thePeer, theDelay, this);
 		delayManager.setMinimumDelayToPeer(thePeer, theDelay);
 
 	}
