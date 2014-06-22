@@ -24,6 +24,7 @@ import util.trace.console.ConsoleInput;
 import util.trace.console.ConsoleOutput;
 
 public class AConsoleModel implements ConsoleModel {
+	public static final String DEFAULT_INPUT_PROMPT = "$ ";
 	String input = "";
 	StringBuilder output = new StringBuilder("");
 	Thread outputThread, errorThread;
@@ -31,8 +32,10 @@ public class AConsoleModel implements ConsoleModel {
 	Process process;
 	String title;
 	String globalTranscriptFile, localTranscriptFile;
+	String inputPrompt = DEFAULT_INPUT_PROMPT;
 	
-	
+
+
 	public static final int CONSOLE_WIDTH = 320;
 	public static final int CONSOLE_HEIGHT =350;
 	PropertyChangeSupport propertyChangeSupport;
@@ -89,7 +92,7 @@ public class AConsoleModel implements ConsoleModel {
 		return input;
 	}	
 	public void setInput(String newVal) {
-		addOutput(newVal);
+		addOutput(inputPrompt + newVal);
 		printStream.println(newVal);
 		printStream.flush();		
 		// fire the actual value first for other interactors
@@ -204,6 +207,16 @@ public class AConsoleModel implements ConsoleModel {
 	@Visible(false)
 	public void setLocalTranscriptFile(String localTranscriptFile) {
 		this.localTranscriptFile = localTranscriptFile;
+	}
+	@Override
+	@Visible(false)
+	public String getInputPrompt() {
+		return inputPrompt;
+	}
+	@Override
+	@Visible(false)
+	public void setInputPrompt(String inputPrompt) {
+		this.inputPrompt = inputPrompt;
 	}
 //	@Visible(false)
 //	@Override
