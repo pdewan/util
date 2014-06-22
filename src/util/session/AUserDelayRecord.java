@@ -3,20 +3,20 @@ package util.session;
 public class AUserDelayRecord implements UserDelayRecord {
 	String name;
 	int delay;
-	MessageReceiver client;
+	ObjectReceiver client;
 
-	public AUserDelayRecord(MessageReceiver theClient, String theName,
+	public AUserDelayRecord(ObjectReceiver theClient, String theName,
 			int theDelay) {
 		client = theClient;
 		name = theName;
 		delay = theDelay;
 	}
 
-	public MessageReceiver getClient() {
+	public ObjectReceiver getClient() {
 		return client;
 	}
 
-	public void setClient(MessageReceiver client) {
+	public void setClient(ObjectReceiver client) {
 		this.client = client;
 	}
 

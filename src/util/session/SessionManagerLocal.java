@@ -5,7 +5,7 @@ import java.rmi.RemoteException;
 public interface SessionManagerLocal {
 	// why no leave, because it is invoked on process group?
 	public void join(String theSessionName, String theApplicationName,
-			String clientName, MessageReceiver client) throws RemoteException;
+			String clientName, ObjectReceiver client) throws RemoteException;
 
 	Session createSession(String sessionName);
 
@@ -14,10 +14,10 @@ public interface SessionManagerLocal {
 	Session getOrCreateSession(String sessionName) throws RemoteException;
 
 	public void doJoin(String theSessionName, String theApplicationName,
-			String clientName, MessageReceiver client);
+			String clientName, ObjectReceiver client);
 	
 	public void doLeave(String theSessionName, String theApplicationName,
-			String clientName, MessageReceiver client);
+			String clientName, ObjectReceiver client);
 //	public void register();
 
 

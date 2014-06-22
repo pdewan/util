@@ -12,19 +12,19 @@ import util.trace.session.ServerRemoteLeaveNotificationMarshalled;
 import util.trace.session.ServerRemoteLeaveNotificationSent;
 
 public class ASessionListenable {
-	Map<MessageReceiver, String> clients = new HashMap();
-	List<SessionMessageReceiver> listeners = new ArrayList();
+	Map<ObjectReceiver, String> clients = new HashMap();
+	List<MessageReceiver> listeners = new ArrayList();
 	List<SessionMessageReceiverLocal> listenersLocal = new ArrayList();
 
-	ReceivedMessageCreator receivedMessageCreator = new AReceivedMessageMarshaller();
+	ClientCallsMarshaller receivedMessageCreator = new AClientCallsMarshaller();
 
-	public void addSessionListener(SessionMessageReceiver theListener) {
+	public void addSessionListener(MessageReceiver theListener) {
 		if (listeners.contains(theListener))
 			return;
 		listeners.add(theListener);
 	}
 
-	public void removeSessionListener(SessionMessageReceiver theListener) {
+	public void removeSessionListener(MessageReceiver theListener) {
 		listeners.remove(theListener);
 	}
 
@@ -41,21 +41,21 @@ public class ASessionListenable {
 
 	void notifyClientJoinedRemote(ProcessGroup processGroup,
 			SerializedProcessGroups serializedProcessGroups,
-			Map<MessageReceiver, String> theClients, String theSessionName,
-			String theClientName, MessageReceiver theClient,
+			Map<ObjectReceiver, String> theClients, String theSessionName,
+			String theClientName, ObjectReceiver theClient,
 			String theApplicationName, boolean newSession,
 			boolean newApplication) {
 		try {
-			for (SessionMessageReceiver listener : listeners) {
+			for (MessageReceiver listener : listeners) {
 				ReceivedMessage receivedMessage = receivedMessageCreator
 						.userJoined(processGroup, serializedProcessGroups,
 								theClients, theClientName, theClient,
 								theApplicationName, newSession, newApplication);
 				ServerRemoteJoinNotificationMarshalled.newCase(
-						ACommunicatorSelector.getProcessName(), 
+						CommunicatorSelector.getProcessName(), 
 						receivedMessage, theClientName, this);
 				ServerRemoteJoinNotificationSent.newCase(
-						ACommunicatorSelector.getProcessName(), 
+						CommunicatorSelector.getProcessName(), 
 						receivedMessage, theClientName, this);
 				listener.newMessage(receivedMessage);
 			}
@@ -66,12 +66,12 @@ public class ASessionListenable {
 
 	void notifyClientJoinedLocal(ProcessGroupLocal processGroupLocal,
 			SerializedProcessGroups serializedProcessGroups,
-			Map<MessageReceiver, String> theClients, String theSessionName,
-			String theClientName, MessageReceiver theClient,
+			Map<ObjectReceiver, String> theClients, String theSessionName,
+			String theClientName, ObjectReceiver theClient,
 			String theApplicationName, boolean newSession,
 			boolean newApplication) {
 		ServerJoinNotificationDeliveredToListeners.newCase(
-				ACommunicatorSelector.getProcessName(), null, theClientName, this);
+				CommunicatorSelector.getProcessName(), null, theClientName, this);
 		for (SessionMessageReceiverLocal listener : listenersLocal) {
 			listener.userJoined(processGroupLocal, serializedProcessGroups,
 					theClients, theClientName, theClient, theApplicationName,
@@ -79,10 +79,10 @@ public class ASessionListenable {
 		}
 	}
 
-	void notifyClentLeftLocal(String theClientName, MessageReceiver theClient,
+	void notifyClentLeftLocal(String theClientName, ObjectReceiver theClient,
 			String theApplicationName) {
 		ServerJoinNotificationDeliveredToListeners.newCase(
-				ACommunicatorSelector.getProcessName(), null, theClientName, this);
+				CommunicatorSelector.getProcessName(), null, theClientName, this);
 		for (SessionMessageReceiverLocal listener : listenersLocal) {
 			ReceivedMessage receivedMessage = receivedMessageCreator.userLeft(
 					theClientName, theClient, theApplicationName);
@@ -90,17 +90,17 @@ public class ASessionListenable {
 		}
 	}
 
-	void notifyClentLeftRemote(String theClientName, MessageReceiver theClient,
+	void notifyClentLeftRemote(String theClientName, ObjectReceiver theClient,
 			String theApplicationName) {
-		for (SessionMessageReceiver listener : listeners) {
+		for (MessageReceiver listener : listeners) {
 			try {
 				ReceivedMessage receivedMessage = receivedMessageCreator
 						.userLeft(theClientName, theClient, theApplicationName);
 				ServerRemoteLeaveNotificationMarshalled.newCase(
-						ACommunicatorSelector.getProcessName(), 
+						CommunicatorSelector.getProcessName(), 
 						receivedMessage, theClientName, this);
 				ServerRemoteLeaveNotificationSent.newCase(
-						ACommunicatorSelector.getProcessName(), 
+						CommunicatorSelector.getProcessName(), 
 						receivedMessage, theClientName, this);
 				listener.newMessage(receivedMessage);
 			} catch (Exception e) {

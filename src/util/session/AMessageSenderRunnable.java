@@ -52,7 +52,7 @@ public class AMessageSenderRunnable implements MessageSenderRunnable {
 			try {
 				SentMessage message = outputMessageQueue.get();
 				MessageRetrievedFromQueue.newCase(
-						ACommunicatorSelector.getProcessName(), 
+						CommunicatorSelector.getProcessName(), 
 						message, 
 						null,
 						outputMessageQueue.getName(),
@@ -62,19 +62,19 @@ public class AMessageSenderRunnable implements MessageSenderRunnable {
 						.calculateDelay(message.getTimeStamp());
 				if (delay > 0) {
 					// this seems to be the session manager delay. not client specific
-					SentMessageDelayed.newCase(ACommunicatorSelector.getProcessName(), message, SessionManager.SESSION_MANAGER_NAME, delay, this);
+					SentMessageDelayed.newCase(CommunicatorSelector.getProcessName(), message, SessionManager.SESSION_MANAGER_NAME, delay, this);
 				}
 				switch (message.getSentMessageType()) {
 				case Join:
 					sleep(delay);
 					sessionManager.newMessage(message); // server call
-					MessageSent.newCase(ACommunicatorSelector.getProcessName(), message, SessionManager.SESSION_MANAGER_NAME, this);
+					MessageSent.newCase(CommunicatorSelector.getProcessName(), message, SessionManager.SESSION_MANAGER_NAME, this);
 
 					break;
 				case Leave:
 					sleep(delay);
 					sessionManager.newMessage(message);
-					MessageSent.newCase(ACommunicatorSelector.getProcessName(), message, SessionManager.SESSION_MANAGER_NAME, this);
+					MessageSent.newCase(CommunicatorSelector.getProcessName(), message, SessionManager.SESSION_MANAGER_NAME, this);
 
 //					session.leave((String) args[0], (MessageReceiver) args[1],
 //							null); // server call
@@ -87,11 +87,11 @@ public class AMessageSenderRunnable implements MessageSenderRunnable {
 					sleepIfRemoteMulticastGroup(delay);
 					if (localMulticastGroup != null)
 						localMulticastGroup.toOthers(args[0], (String) args[1],
-								(MessageReceiver) args[2],
+								(ObjectReceiver) args[2],
 								message.getTimeStamp());
 					else {
 						multicastGroup.newMessage(message); // sever rmi call
-						MessageSent.newCase(ACommunicatorSelector.getProcessName(),  message, SessionManager.SESSION_MANAGER_NAME, this);
+						MessageSent.newCase(CommunicatorSelector.getProcessName(),  message, SessionManager.SESSION_MANAGER_NAME, this);
 
 					}
 //					System.out.println("Client sending:"
@@ -107,11 +107,11 @@ public class AMessageSenderRunnable implements MessageSenderRunnable {
 					sleepIfRemoteMulticastGroup(delay);
 					if (localMulticastGroup != null)
 						localMulticastGroup.toAll(args[0], (String) args[1],
-								(MessageReceiver) args[2],
+								(ObjectReceiver) args[2],
 								message.getTimeStamp());
 					else {
 						multicastGroup.newMessage(message);
-						MessageSent.newCase(ACommunicatorSelector.getProcessName(),  message, SessionManager.SESSION_MANAGER_NAME, this);
+						MessageSent.newCase(CommunicatorSelector.getProcessName(),  message, SessionManager.SESSION_MANAGER_NAME, this);
 
 					}
 					break;
@@ -123,11 +123,11 @@ public class AMessageSenderRunnable implements MessageSenderRunnable {
 					sleepIfRemoteMulticastGroup(delay);
 					if (localMulticastGroup != null)
 						localMulticastGroup.toUser(args[0], args[1],
-								(String) args[2], (MessageReceiver) args[3],
+								(String) args[2], (ObjectReceiver) args[3],
 								message.getTimeStamp());
 					else {
 						multicastGroup.newMessage(message);
-						MessageSent.newCase(ACommunicatorSelector.getProcessName(), message, SessionManager.SESSION_MANAGER_NAME, this);
+						MessageSent.newCase(CommunicatorSelector.getProcessName(), message, SessionManager.SESSION_MANAGER_NAME, this);
 
 					}
 					break;
@@ -140,12 +140,12 @@ public class AMessageSenderRunnable implements MessageSenderRunnable {
 					if (localMulticastGroup != null)
 						localMulticastGroup.toUsers((String[]) args[0],
 								args[1], (String) args[2],
-								(MessageReceiver) args[3],
+								(ObjectReceiver) args[3],
 								message.getTimeStamp());
 					else {
 						multicastGroup.newMessage(message);
 //						MessageSentNew.newCase(SessionManager.SESSION_MANAGER_NAME, message, this);
-						MessageSent.newCase(ACommunicatorSelector.getProcessName(),  message, SessionManager.SESSION_MANAGER_NAME, this);
+						MessageSent.newCase(CommunicatorSelector.getProcessName(),  message, SessionManager.SESSION_MANAGER_NAME, this);
 
 
 					}

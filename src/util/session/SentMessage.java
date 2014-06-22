@@ -48,8 +48,8 @@ public interface SentMessage extends Serializable, util.models.CorrectCloneable 
 
 	public void setSessionName(String sessionName);
 
-	public MessageReceiver getMessageReceiver();
+	public ObjectReceiver getMessageReceiver();
 
-	public void setMessageReceiver(MessageReceiver messageReceiver);
+	public void setMessageReceiver(ObjectReceiver messageReceiver);
 
 }

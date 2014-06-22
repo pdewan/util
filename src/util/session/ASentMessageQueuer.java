@@ -5,17 +5,17 @@ import util.trace.session.MessagePutInQueue;
 /*
  * Hides user-defined filter from internal queue
  */
-public class ASentMessageProcessor implements MessageProcessor<SentMessage> {
+public class ASentMessageQueuer implements MessageProcessor<SentMessage> {
 	ABoundedBuffer<SentMessage> outBuffer;
 
-	public ASentMessageProcessor(ABoundedBuffer<SentMessage> theBoundedBuffer) {
+	public ASentMessageQueuer(ABoundedBuffer<SentMessage> theBoundedBuffer) {
 		outBuffer = theBoundedBuffer;
 
 	}
 
 	@Override
 	public void processMessage(SentMessage theMessage) {
-		MessagePutInQueue.newCase(ACommunicatorSelector.getProcessName(), theMessage, theMessage.getSendingUser(), outBuffer.getName(), this);
+		MessagePutInQueue.newCase(CommunicatorSelector.getProcessName(), theMessage, theMessage.getSendingUser(), outBuffer.getName(), this);
 		outBuffer.put(theMessage);
 
 	}

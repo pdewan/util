@@ -24,11 +24,11 @@ public abstract class ASessionManagerCommunicator extends ASessionListenable
 														 * *,
 														 */Serializable {
 	MessageProcessor<SentMessage> sentMessageProcessor;
-	SentMessageCreator sentMessageCreator;
+	AServerCallsMarshaller sentMessageCreator;
 	MessageFilter<SentMessage> sentMessageQueuer;
-	MessageReceiver messageReceiver;
-	DelayedMessageReceiver delayedMessageReceiver;
-	MessageReceiver exportedMessageReceiver;
+	ObjectReceiver messageReceiver;
+	MessageDispatcher delayedMessageReceiver;
+	ObjectReceiver exportedMessageReceiver;
 	String clientName;
 	String sessionName;
 	String applicationName;
@@ -37,7 +37,7 @@ public abstract class ASessionManagerCommunicator extends ASessionListenable
 	ABoundedBuffer<SentMessage> outputMessageQueue;
 	MessageSenderRunnable messageSenderRunnable;
 	Thread messageSenderThread;
-	Map<MessageReceiver, String>  messageReceiverToClientName = new HashMap();
+	Map<ObjectReceiver, String>  messageReceiverToClientName = new HashMap();
 	SerializedProcessGroups serializedMulticastGroups;
 	JoinLock joinLock = new AJoinLock();
 	DelayManager delayManager;
@@ -73,10 +73,10 @@ public abstract class ASessionManagerCommunicator extends ASessionListenable
 		}
 	}
 
-	MessageReceiver generateRemoteProxy(MessageReceiver theLocalMessageReceiver) {
+	ObjectReceiver generateRemoteProxy(ObjectReceiver theLocalMessageReceiver) {
 		try {
-			return (MessageReceiver) UnicastRemoteObject.exportObject(
-					(MessageReceiver) theLocalMessageReceiver, 0);
+			return (ObjectReceiver) UnicastRemoteObject.exportObject(
+					(ObjectReceiver) theLocalMessageReceiver, 0);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -93,14 +93,14 @@ public abstract class ASessionManagerCommunicator extends ASessionListenable
 
 	void createOutputBufferAndThread() {
 		outputMessageQueue = new ABoundedBuffer(AProcessGroup.OUTPUT_MESSAGE_QUEUE);
-		QueueCreated.newCase(ACommunicatorSelector.getProcessName(), outputMessageQueue.getName(), this);
+		QueueCreated.newCase(CommunicatorSelector.getProcessName(), outputMessageQueue.getName(), this);
 
-		sentMessageProcessor = new ASentMessageProcessor(outputMessageQueue);
+		sentMessageProcessor = new ASentMessageQueuer(outputMessageQueue);
 		messageSenderRunnable = new AMessageSenderRunnable(outputMessageQueue,
 				delayManager, sessionManager);
 		messageSenderThread = new Thread(messageSenderRunnable);
 		messageSenderThread.setName("Message Sender");
-		ThreadCreated.newCase(messageSenderThread.getName(), ACommunicatorSelector.getProcessName(), this);
+		ThreadCreated.newCase(messageSenderThread.getName(), CommunicatorSelector.getProcessName(), this);
 
 		messageSenderThread.start();
 	}
@@ -149,19 +149,19 @@ public abstract class ASessionManagerCommunicator extends ASessionListenable
 	public synchronized void asyncJoin() {
 //		Object[] args = { sessionName, applicationName, clientName,
 //				exportedMessageReceiver };
-		JoinRequest.newCase(ACommunicatorSelector.getProcessName(), null, SessionManager.SESSION_MANAGER_NAME, this);
+		JoinRequest.newCase(CommunicatorSelector.getProcessName(), null, SessionManager.SESSION_MANAGER_NAME, this);
 		SentMessage message = sentMessageCreator.asyncJoin();
-		JoinRequestMarshalled.newCase(ACommunicatorSelector.getProcessName(),
+		JoinRequestMarshalled.newCase(CommunicatorSelector.getProcessName(),
 				message, clientName, this);
 		getSentMessageQueuer().put(message);
 	}
 
 	@Override
 	public synchronized void leave() {
-		LeaveRequest.newCase(ACommunicatorSelector.getProcessName(), null, SessionManager.SESSION_MANAGER_NAME, this);
+		LeaveRequest.newCase(CommunicatorSelector.getProcessName(), null, SessionManager.SESSION_MANAGER_NAME, this);
 
 		SentMessage message = sentMessageCreator.leave();
-		LeaveRequestMarshalled.newCase(ACommunicatorSelector.getProcessName(),
+		LeaveRequestMarshalled.newCase(CommunicatorSelector.getProcessName(),
 				message, clientName, this);
 		getSentMessageQueuer().put(message);
 
@@ -234,12 +234,12 @@ public abstract class ASessionManagerCommunicator extends ASessionListenable
 		return values;
 	}
 
-	public void setClients(Map<MessageReceiver, String> theClients) {
+	public void setClients(Map<ObjectReceiver, String> theClients) {
 		messageReceiverToClientName = theClients;
 	}
 
 	@Override
-	public Map<MessageReceiver, String> getClients() {
+	public Map<ObjectReceiver, String> getClients() {
 		return messageReceiverToClientName;
 	}
 
@@ -257,7 +257,7 @@ public abstract class ASessionManagerCommunicator extends ASessionListenable
 		delayManager = theDelayManager;
 	}
 
-	public MessageReceiver getMessageReceiver() {
+	public ObjectReceiver getMessageReceiver() {
 		return messageReceiver;
 	}
 

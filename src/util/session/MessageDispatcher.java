@@ -7,7 +7,7 @@ import java.util.Map;
  * allows processes to add themselves as observables of this
  * implemneted by two classes, ADelayedMessageReceiver, ASessionManagerClient
  */
-public interface DelayedMessageReceiver {
+public interface MessageDispatcher {
 	public void addReceivedMessageListener(ReceivedMessageListener listener);
 
 	public void removeReceivedMessageListener(ReceivedMessageListener listener);
@@ -26,16 +26,16 @@ public interface DelayedMessageReceiver {
 
 	public void delayedNewObject(String clientName, Object value);
 
-	public void delayedUserJoined(Map<MessageReceiver, String> theClients,
-			String theClientName, MessageReceiver theClient,
+	public void delayedUserJoined(Map<ObjectReceiver, String> theClients,
+			String theClientName, ObjectReceiver theClient,
 			String theApplicationName, boolean newSession,
 			boolean newApplication);
 
 	public void delayedUserLeft(String theClientName,
-			MessageReceiver theClient, String theApplicationName);
+			ObjectReceiver theClient, String theApplicationName);
 
 	MessageFilter<ReceivedMessage> getReceivedMessageQueuer();
 
-	public void setClients(Map<MessageReceiver, String> theClients);
+	public void setClients(Map<ObjectReceiver, String> theClients);
 
 }

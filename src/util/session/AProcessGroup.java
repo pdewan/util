@@ -18,7 +18,7 @@ import util.trace.session.ThreadCreated;
 // looks like it does not really implement the inherited SessionMessageReceiver
 // interface, has a stub method for it
 public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
-	Map<MessageReceiver, String> clients = new HashMap();
+	Map<ObjectReceiver, String> clients = new HashMap();
 	String applicationName;
 	String sessionName;
 	AnAbstractCommunicator localCommunicator;
@@ -29,7 +29,7 @@ public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
 	ABoundedBuffer<SentMessage> outputMessageQueue;
 	Runnable messageSenderRunnable;
 	ServerMessageFilter sentMessageQueuer;
-	ReceivedMessageCreator receivedMessageCreator;
+	ClientCallsMarshaller receivedMessageCreator;
 	
 
 	public AProcessGroup(String aSessionName, String anApplicationName,
@@ -38,7 +38,7 @@ public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
 		applicationName = anApplicationName;
 		localCommunicator = aLocalCommunicator;
 		isServer = localCommunicator == null;
-		receivedMessageCreator = new AReceivedMessageMarshaller();
+		receivedMessageCreator = new AClientCallsMarshaller();
 		createMessageSenderRunnable();
 
 	}
@@ -47,16 +47,16 @@ public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
 	void createMessageSenderRunnable() {
 		if (isServer) {
 			outputMessageQueue = new ABoundedBuffer(OUTPUT_MESSAGE_QUEUE);
-			QueueCreated.newCase(ACommunicatorSelector.getProcessName(), outputMessageQueue.getName(), this);
+			QueueCreated.newCase(CommunicatorSelector.getProcessName(), outputMessageQueue.getName(), this);
 
-			sentMessageProcessor = new ASentMessageProcessor(outputMessageQueue);
+			sentMessageProcessor = new ASentMessageQueuer(outputMessageQueue);
 			messageSenderRunnable = new AServerMessageSenderRunnable(
 					outputMessageQueue, null, this);
 			Thread messageSenderThread = new Thread(messageSenderRunnable);
 			messageSenderThread.setName("Process Group:" + applicationName);
 			ServerMessageFilter messageQueuer = AServerSentMessageQueuerSelector
 					.getMessageQueuerFactory().getMessageQueuer();
-			ThreadCreated.newCase(messageSenderThread.getName(), ACommunicatorSelector.getProcessName(), this);
+			ThreadCreated.newCase(messageSenderThread.getName(), CommunicatorSelector.getProcessName(), this);
 			messageSenderThread.start();
 			setSentMessageQueuer(messageQueuer);
 		}
@@ -75,7 +75,7 @@ public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
 		return sortedClients;
 	}
 
-	void delay(MessageReceiver client, Object message, long messageTime, String aClientName) {
+	void delay(ObjectReceiver client, Object message, long messageTime, String aClientName) {
 		if (localCommunicator == null)
 			return;
 		int minimumDelay = localCommunicator.getMinimumDelayToPeer(clients
@@ -85,7 +85,7 @@ public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
 		if (actualDelay <= 0)
 			return;
 //		SentMessageDelayedNew.newCase(clients.get(client), message, actualDelay, this);
-		SentMessageDelayed.newCase(ACommunicatorSelector.getProcessName(), message, aClientName,actualDelay, this);
+		SentMessageDelayed.newCase(CommunicatorSelector.getProcessName(), message, aClientName,actualDelay, this);
 
 		Tracer.info(this, "Client delaying sending message to absolute time: " + messageTime + " and delay:" +
 				  actualDelay);
@@ -99,19 +99,19 @@ public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
 
 	@Override
 	public void toOthers(Object object, String theClientName,
-			MessageReceiver theClient, long timeStamp) throws RemoteException {
+			ObjectReceiver theClient, long timeStamp) throws RemoteException {
 		Tracer.info(this, "Process group sending message from:" + theClientName
 				+ " object:" + object);
 		ReceivedMessage receivedMessage = receivedMessageCreator.newObject(
 				clients.get(theClient), theClient, object);
 
 		if (isServer) {
-			for (MessageReceiver client : clients.keySet()) {
+			for (ObjectReceiver client : clients.keySet()) {
 				if (!client.equals(theClient)) {
 					Tracer.info(this, "Server sending to: " + clients.get(client)
 							+ " object:" + object);
 					client.newMessage(receivedMessage);
-					MessageSent.newCase(ACommunicatorSelector.getProcessName(),  receivedMessage, clients.get(client), this);
+					MessageSent.newCase(CommunicatorSelector.getProcessName(),  receivedMessage, clients.get(client), this);
 
 //					MessageSent.newCase(theClientName, receivedMessage, this);
 
@@ -120,14 +120,14 @@ public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
 		} else {
 			List<UserDelayRecord> sortedClients = getSortedClients();
 			for (UserDelayRecord userDelayRecord : sortedClients) {
-				MessageReceiver client = userDelayRecord.getClient();
+				ObjectReceiver client = userDelayRecord.getClient();
 				if (!client.equals(theClient)) {
 					
 					delay(client, object, timeStamp, clients.get(client));
 					Tracer.info(this, "Client sending to: " + clients.get(client)
 							+ " object:" + object);
 					client.newMessage(receivedMessage);
-					MessageSent.newCase(ACommunicatorSelector.getProcessName(), receivedMessage , clients.get(client),  this);
+					MessageSent.newCase(CommunicatorSelector.getProcessName(), receivedMessage , clients.get(client),  this);
 				}
 			}
 		}
@@ -136,23 +136,23 @@ public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
 	// sould really have it create a received message and send it
 	@Override
 	public void toAll(Object object, String theClientName,
-			MessageReceiver theClient, long timeStamp) throws RemoteException {
+			ObjectReceiver theClient, long timeStamp) throws RemoteException {
 		if (isServer) {
-			for (MessageReceiver client : clients.keySet()) {
+			for (ObjectReceiver client : clients.keySet()) {
 				client.newObject(clients.get(theClient), theClient, object);
 //				MessageSent.newCase(clients.get(client), object, this);
-				MessageSent.newCase(ACommunicatorSelector.getProcessName(), object , clients.get(client),  this);
+				MessageSent.newCase(CommunicatorSelector.getProcessName(), object , clients.get(client),  this);
 
 
 			}
 		} else {
 			List<UserDelayRecord> sortedClients = getSortedClients();
 			for (UserDelayRecord userDelayRecord : sortedClients) {
-				MessageReceiver client = userDelayRecord.getClient();
+				ObjectReceiver client = userDelayRecord.getClient();
 				delay(client, object, timeStamp, userDelayRecord.getName());
 				client.newObject(clients.get(theClient), theClient, object);
 //				MessageSent.newCase(clients.get(client), object , this);
-				MessageSent.newCase(ACommunicatorSelector.getProcessName(), object , clients.get(client),  this);
+				MessageSent.newCase(CommunicatorSelector.getProcessName(), object , clients.get(client),  this);
 
 
 			}
@@ -161,11 +161,11 @@ public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
 
 	@Override
 	public void toUser(Object userName, Object object, String clientName,
-			MessageReceiver theClient, long timeStamp) throws RemoteException {
-		for (MessageReceiver client : clients.keySet()) {
+			ObjectReceiver theClient, long timeStamp) throws RemoteException {
+		for (ObjectReceiver client : clients.keySet()) {
 			if (clients.get(client).equals(userName)) {
 				client.newObject(clients.get(theClient), theClient, object); // rmi call in the client object
-				MessageSent.newCase(ACommunicatorSelector.getProcessName(), object , clients.get(client),  this);
+				MessageSent.newCase(CommunicatorSelector.getProcessName(), object , clients.get(client),  this);
 
 				return;
 			}
@@ -174,7 +174,7 @@ public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
 
 	@Override
 	public void toUsers(String[] userNames, Object object, String clientName,
-			MessageReceiver client, long timeStamp) throws RemoteException {
+			ObjectReceiver client, long timeStamp) throws RemoteException {
 		System.out.println("to users not implemented as yet");
 
 	}
@@ -182,13 +182,13 @@ public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
 	@Override
 	public void userJoined(ProcessGroupLocal processGroup,
 			SerializedProcessGroups serializedProcessGroups,
-			Map<MessageReceiver, String> theClients, String clientName,
-			MessageReceiver client, String theApplicationName,
+			Map<ObjectReceiver, String> theClients, String clientName,
+			ObjectReceiver client, String theApplicationName,
 			boolean newSession, boolean newApplication)
 	/* throws RemoteException */{
 		if (theApplicationName.equals(applicationName)) {
 			MulticastGroupJoinInformationUpdated.newCase(
-					ACommunicatorSelector.getProcessName(),
+					CommunicatorSelector.getProcessName(),
 					clientName, theApplicationName, sessionName, this);
 			clients.put(client, clientName);
 			sentMessageQueuer.userJoined(sessionName, applicationName, clientName);
@@ -197,29 +197,29 @@ public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
 	}
 
 	@Override
-	public void userLeft(String theClientName, MessageReceiver theClient,
+	public void userLeft(String theClientName, ObjectReceiver theClient,
 			String theApplicationName)
 	/* throws RemoteException */{
 		if (theApplicationName.equals(applicationName)) {
 			MulticastGroupLeaveInformationUpdated.newCase(
-					ACommunicatorSelector.getProcessName(),
+					CommunicatorSelector.getProcessName(),
 					theClientName, theApplicationName, sessionName, this);
 			clients.remove(theClient);
 		}
 
 	}
 
-	public Map<MessageReceiver, String> getClients() throws RemoteException {
+	public Map<ObjectReceiver, String> getClients() throws RemoteException {
 		return clients;
 	}
 
-	public void setClients(Map<MessageReceiver, String> theClients) {
+	public void setClients(Map<ObjectReceiver, String> theClients) {
 		clients = theClients;
 	}
 	//rmi call
 	@Override
 	public void newMessage(SentMessage theMessage) throws RemoteException {
-		MessageGivenToFilter.newCase(ACommunicatorSelector.getProcessName(), theMessage, theMessage.getSendingUser(), this);
+		MessageGivenToFilter.newCase(CommunicatorSelector.getProcessName(), theMessage, theMessage.getSendingUser(), this);
 		sentMessageQueuer.put(theMessage);
 		return;
 	}

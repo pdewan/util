@@ -50,7 +50,7 @@ public interface Communicator {
 
 	public String[] getUserNames();
 
-	public Map<MessageReceiver, String> getClients();
+	public Map<ObjectReceiver, String> getClients();
 
 	public void setSentMessageQueuer(MessageFilter<SentMessage> messagQueuer);
 

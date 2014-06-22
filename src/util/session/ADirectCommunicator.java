@@ -28,7 +28,7 @@ public class ADirectCommunicator extends AnAbstractCommunicator /*
 		messageSenderRunnable.setLocalProcessGroup(localProcessGroup);
 	}
 
-	public void setClients(Map<MessageReceiver, String> theClients) {
+	public void setClients(Map<ObjectReceiver, String> theClients) {
 		super.setClients(theClients);
 		try {
 			localProcessGroup.setClients(theClients);

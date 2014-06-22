@@ -7,9 +7,9 @@ import java.util.Map;
  */
 public interface SessionMessageReceiverLocal  {
 	;
-	public void setClients(Map<MessageReceiver, String> theClients) ;
-	public void userJoined(ProcessGroupLocal processGroup, SerializedProcessGroups serializedProcessGroups, Map<MessageReceiver, String> theClients,  String clientName, MessageReceiver client, String theApplicationName, boolean newSession, boolean newApplication) ;
-	public void userLeft(String theClientName, MessageReceiver theClient, String theApplicationName) ;
+	public void setClients(Map<ObjectReceiver, String> theClients) ;
+	public void userJoined(ProcessGroupLocal processGroup, SerializedProcessGroups serializedProcessGroups, Map<ObjectReceiver, String> theClients,  String clientName, ObjectReceiver client, String theApplicationName, boolean newSession, boolean newApplication) ;
+	public void userLeft(String theClientName, ObjectReceiver theClient, String theApplicationName) ;
 
 
 }

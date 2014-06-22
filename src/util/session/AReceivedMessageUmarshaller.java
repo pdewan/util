@@ -12,9 +12,9 @@ import util.trace.session.ReceivedMessageDistributedToListeners;
  */
 public class AReceivedMessageUmarshaller implements
 		MessageProcessor<ReceivedMessage> {
-	DelayedMessageReceiver multicastClient;
+	MessageDispatcher multicastClient;
 
-	public AReceivedMessageUmarshaller(DelayedMessageReceiver theMulticastClient) {
+	public AReceivedMessageUmarshaller(MessageDispatcher theMulticastClient) {
 		multicastClient = theMulticastClient;
 	}
 
@@ -24,14 +24,14 @@ public class AReceivedMessageUmarshaller implements
 
 		switch (message.getReceivedMessageType()) {
 		case ClientLeft: // interesting the client is unblocked before the notification is sent
-			ClientLeaveNotificationUnmarshalled.newCase(ACommunicatorSelector.getProcessName(), message.getUserMessage(), message.getClientName(), this);
+			ClientLeaveNotificationUnmarshalled.newCase(CommunicatorSelector.getProcessName(), message.getUserMessage(), message.getClientName(), this);
 
 			multicastClient.delayedUserLeft(message.getClientName(),
 					message.getClient(), message.getApplicationName());
 			;
 			break;
 		case ClientJoined:
-			ClientJoinNotificationUnmarshalled.newCase(ACommunicatorSelector.getProcessName(), message.getUserMessage(), message.getClientName(), this);
+			ClientJoinNotificationUnmarshalled.newCase(CommunicatorSelector.getProcessName(), message.getUserMessage(), message.getClientName(), this);
 
 //			ReceivedJoinNotificationDistributedToListeners.newCase(ACommunicatorSelector.getProcessName(), message.getUserMessage(), this);
 
@@ -42,7 +42,7 @@ public class AReceivedMessageUmarshaller implements
 			;
 			break;
 		case NewObject:
-			ClientReceivedObjectUnmarshalled.newCase(ACommunicatorSelector.getProcessName(), message.getUserMessage(), message.getClientName(), this);
+			ClientReceivedObjectUnmarshalled.newCase(CommunicatorSelector.getProcessName(), message.getUserMessage(), message.getClientName(), this);
 
 			multicastClient.delayedNewObject(message.getClientName(),
 					message.getUserMessage());

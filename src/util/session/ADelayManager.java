@@ -82,9 +82,9 @@ public class ADelayManager implements DelayManager {
 	public void refreshClients() {
 		if (communicator.getClients().size() == sortedClients.size())
 			return;
-		Set<MessageReceiver> keys = communicator.getClients().keySet();
+		Set<ObjectReceiver> keys = communicator.getClients().keySet();
 		sortedClients.clear();
-		for (MessageReceiver client : keys) {
+		for (ObjectReceiver client : keys) {
 			sortedClients
 					.add(new AUserDelayRecord(client, communicator.getClients()
 							.get(client), getMinimumDelayToPeer(communicator

@@ -29,13 +29,13 @@ public interface ReceivedMessage extends Serializable {
 
 	public abstract void setTimeStamp(long timeStamp);
 
-	public abstract MessageReceiver getClient();
+	public abstract ObjectReceiver getClient();
 
-	public abstract void setClient(MessageReceiver client);
+	public abstract void setClient(ObjectReceiver client);
 
-	public abstract Map<MessageReceiver, String> getClients();
+	public abstract Map<ObjectReceiver, String> getClients();
 
-	public abstract void setClients(Map<MessageReceiver, String> clients);
+	public abstract void setClients(Map<ObjectReceiver, String> clients);
 
 	public abstract boolean isNewSession();
 

@@ -15,7 +15,7 @@ public class ASentMessage implements SentMessage {
 	String sessionName;
 
 	public ASentMessage(String theSessionName, String theApplicationName,
-			String theSendingUser, MessageReceiver theClient,
+			String theSendingUser, ObjectReceiver theClient,
 			SentMessageType theMessageType, Object[] theArgs) {
 		applicationName = theApplicationName;
 		sessionName = theSessionName;
@@ -29,15 +29,15 @@ public class ASentMessage implements SentMessage {
 	}
 
 
-	public MessageReceiver getMessageReceiver() {
+	public ObjectReceiver getMessageReceiver() {
 		return messageReceiver;
 	}
 
-	public void setMessageReceiver(MessageReceiver messageReceiver) {
+	public void setMessageReceiver(ObjectReceiver messageReceiver) {
 		this.messageReceiver = messageReceiver;
 	}
 
-	MessageReceiver messageReceiver;
+	ObjectReceiver messageReceiver;
 
 	public String getApplicationName() {
 		return applicationName;

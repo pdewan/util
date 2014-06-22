@@ -26,7 +26,7 @@ public class AServerMessageSenderRunnable implements Runnable {
 			try {
 				SentMessage message = outputMessageQueue.get();
 				MessageRetrievedFromQueue.newCase(
-						ACommunicatorSelector.getProcessName(), 
+						CommunicatorSelector.getProcessName(), 
 						message, 
 						null,
 						outputMessageQueue.getName(),
@@ -35,14 +35,14 @@ public class AServerMessageSenderRunnable implements Runnable {
 
 				switch (message.getSentMessageType()) {
 				case Join:
-					ServerJoinRequestUnmarshalled.newCase(ACommunicatorSelector.getProcessName(), message, message.getSendingUser(), this);
+					ServerJoinRequestUnmarshalled.newCase(CommunicatorSelector.getProcessName(), message, message.getSendingUser(), this);
 					sessionManager.doJoin(message.getSessionName(),
 							message.getApplicationName(),
 							message.getSendingUser(),
 							message.getMessageReceiver());
 					break;
 				case Leave:
-					ServerLeaveRequestUnmarshalled.newCase(ACommunicatorSelector.getProcessName(), message, message.getSendingUser(), this);
+					ServerLeaveRequestUnmarshalled.newCase(CommunicatorSelector.getProcessName(), message, message.getSendingUser(), this);
 
 					sessionManager.doLeave(message.getSessionName(),
 							message.getApplicationName(),
@@ -51,19 +51,19 @@ public class AServerMessageSenderRunnable implements Runnable {
 					break;
 				case Others:
 					multicastGroup.toOthers(args[0], (String) args[1],
-							(MessageReceiver) args[2], message.getTimeStamp());
+							(ObjectReceiver) args[2], message.getTimeStamp());
 					break;
 				case All:
 					multicastGroup.toAll(args[0], (String) args[1],
-							(MessageReceiver) args[2], message.getTimeStamp());
+							(ObjectReceiver) args[2], message.getTimeStamp());
 					break;
 				case User:
 					multicastGroup.toUser(args[0], args[1], (String) args[2],
-							(MessageReceiver) args[3], message.getTimeStamp());
+							(ObjectReceiver) args[3], message.getTimeStamp());
 					break;
 				case Hosts:
 					multicastGroup.toUsers((String[]) args[0], args[1],
-							(String) args[2], (MessageReceiver) args[3],
+							(String) args[2], (ObjectReceiver) args[3],
 							message.getTimeStamp());
 					break;
 

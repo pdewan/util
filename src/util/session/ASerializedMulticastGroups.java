@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ASerializedMulticastGroups extends
-		HashMap<String, Map<MessageReceiver, String>> implements
+		HashMap<String, Map<ObjectReceiver, String>> implements
 		SerializedProcessGroups {
 
 }

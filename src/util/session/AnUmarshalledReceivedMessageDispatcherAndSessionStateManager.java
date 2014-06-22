@@ -22,7 +22,7 @@ import util.trace.session.ReceivedMessageDistributedToListeners;
 public class AnUmarshalledReceivedMessageDispatcherAndSessionStateManager implements /*
 												 * Communicator,
 												 * MessageReceiver,
-												 */DelayedMessageReceiver,
+												 */MessageDispatcher,
 		Serializable {
 	MessageProcessor<ReceivedMessage> receivedMessageProcessor;
 	MessageFilter<ReceivedMessage> receivedMessageQueuer;
@@ -32,7 +32,7 @@ public class AnUmarshalledReceivedMessageDispatcherAndSessionStateManager implem
 	ProcessGroup processGroup;
 	List<SessionMessageListener> sessionMessageListeners = new ArrayList();
 	List<PeerMessageListener> peerMessageListeners = new ArrayList();
-	Map<MessageReceiver, String> clients = new HashMap();
+	Map<ObjectReceiver, String> clients = new HashMap();
 	SerializedProcessGroups serializedMulticastGroups;
 	CommunicatorInternal communicator;
 
@@ -68,7 +68,7 @@ public class AnUmarshalledReceivedMessageDispatcherAndSessionStateManager implem
 	}
 
 	public synchronized void delayedNewObject(String clientName, Object value) {
-		ReceivedMessageDistributedToListeners.newCase(ACommunicatorSelector.getProcessName(), value, clientName, this);
+		ReceivedMessageDistributedToListeners.newCase(CommunicatorSelector.getProcessName(), value, clientName, this);
 
 		for (PeerMessageListener listener : peerMessageListeners) {
 			listener.objectReceived(value, clientName);
@@ -80,12 +80,12 @@ public class AnUmarshalledReceivedMessageDispatcherAndSessionStateManager implem
      * poll for information need not define listeners
      */
 	public synchronized void delayedUserJoined(
-			Map<MessageReceiver, String> theClients, String theClientName,
-			MessageReceiver theClient, String theApplicationName,
+			Map<ObjectReceiver, String> theClients, String theClientName,
+			ObjectReceiver theClient, String theApplicationName,
 			boolean newSession, boolean newApplication) {
 		
 		ClientJoinNotificationDistributedToListeners.newCase(
-				ACommunicatorSelector.getProcessName(),
+				CommunicatorSelector.getProcessName(),
 				theClientName, theApplicationName, getSessionName(), this);
 		for (SessionMessageListener listener : sessionMessageListeners) {
 			listener.userJoined(theClientName, theApplicationName,
@@ -94,7 +94,7 @@ public class AnUmarshalledReceivedMessageDispatcherAndSessionStateManager implem
 		}
 		if (applicationName.equals(theApplicationName)) {
 			ClientJoinInformationUpdated.newCase(
-					ACommunicatorSelector.getProcessName(),
+					CommunicatorSelector.getProcessName(),
 					theClientName, theApplicationName, getSessionName(), this);
 			clients.put(theClient, theClientName);
 		}
@@ -102,16 +102,16 @@ public class AnUmarshalledReceivedMessageDispatcherAndSessionStateManager implem
 	}
 
 	public synchronized void delayedUserLeft(String theClientName,
-			MessageReceiver theClient, String theApplicationName) {
+			ObjectReceiver theClient, String theApplicationName) {
 		ClientLeaveNotificationDistributedToListeners.newCase(
-				ACommunicatorSelector.getProcessName(),
+				CommunicatorSelector.getProcessName(),
 				theClientName, theApplicationName, getSessionName(), this);
 		for (SessionMessageListener listener : sessionMessageListeners) {
 			listener.userLeft(theClientName, theApplicationName);
 		}
 		if (applicationName.equals(theApplicationName)) {
 			ClientLeaveInformationUpdated.newCase(
-					ACommunicatorSelector.getProcessName(),
+					CommunicatorSelector.getProcessName(),
 					theClientName, theApplicationName, getSessionName(), this);
 			clients.remove(theClientName);
 		}
@@ -165,7 +165,7 @@ public class AnUmarshalledReceivedMessageDispatcherAndSessionStateManager implem
 		peerMessageListeners.remove(listener);
 	}
 
-	public void setClients(Map<MessageReceiver, String> theClients) {
+	public void setClients(Map<ObjectReceiver, String> theClients) {
 		clients = theClients;
 		communicator.setClients(theClients);
 	}

@@ -3,9 +3,9 @@ package util.session;
 import java.util.Map;
 
 public interface CommunicatorInternal {
-	public void setClients(Map<MessageReceiver, String> theClients);
+	public void setClients(Map<ObjectReceiver, String> theClients);
 
-	public Map<MessageReceiver, String> getClients();
+	public Map<ObjectReceiver, String> getClients();
 
 	DelayManager getDelayManager();
 
@@ -13,6 +13,6 @@ public interface CommunicatorInternal {
 
 	public boolean isRelayedCommunication();
 
-	MessageReceiver getMessageReceiver();
+	ObjectReceiver getMessageReceiver();
 
 }

@@ -26,35 +26,35 @@ public class ASessionManager implements SessionManager, SessionManagerLocal {
 	}
 	void createMessageSenderRunnable() {
 		outputMessageQueue = new ABoundedBuffer(AMessageReceiver.INPUT_MESSAGE_QUEUE);
-		QueueCreated.newCase(ACommunicatorSelector.getProcessName(), outputMessageQueue.getName(), this);
+		QueueCreated.newCase(CommunicatorSelector.getProcessName(), outputMessageQueue.getName(), this);
 
 		messageSenderRunnable = new AServerMessageSenderRunnable(
 				outputMessageQueue, this, null);
 		Thread messageSenderThread = new Thread(messageSenderRunnable);
 //		messageSenderThread.setName("Message Sender");
-		sentMessageProcessor = new ASentMessageProcessor(outputMessageQueue);
+		sentMessageProcessor = new ASentMessageQueuer(outputMessageQueue);
 
 		messageQueuer = AServerSentMessageQueuerSelector
 				.getMessageQueuerFactory().getMessageQueuer();
 		messageQueuer.setMessageProcessor(sentMessageProcessor);
 		messageSenderThread.setName("Session Manager Message Receiver");
-		ThreadCreated.newCase(ACommunicatorSelector.getProcessName(), messageSenderThread.getName(), this);
+		ThreadCreated.newCase(CommunicatorSelector.getProcessName(), messageSenderThread.getName(), this);
 		messageSenderThread.start();
 	}
 
 	public void join(String theSessionName, String theApplicationName,
-			String clientName, MessageReceiver client) throws RemoteException {
-		SentMessageCreator messageCreator = new ASentMessageMarshaller(clientName,
+			String clientName, ObjectReceiver client) throws RemoteException {
+		AServerCallsMarshaller messageCreator = new ASentMessageMarshaller(clientName,
 				theSessionName, theApplicationName, client);
 		SentMessage sentMessage = messageCreator.asyncJoin();
-		JoinRequestMarshalled.newCase(ACommunicatorSelector.getProcessName(),
+		JoinRequestMarshalled.newCase(CommunicatorSelector.getProcessName(),
 				sentMessage, clientName, this);
 		messageQueuer.put(sentMessage);
 		return;
 	}
 
 	public void doJoin(String theSessionName, String theApplicationName,
-			String clientName, MessageReceiver client) {
+			String clientName, ObjectReceiver client) {
 		try {
 			Session session = getOrCreateSession(theSessionName);
 			session.join(clientName, client, theApplicationName);
@@ -65,7 +65,7 @@ public class ASessionManager implements SessionManager, SessionManagerLocal {
 	}
 
 	public void doLeave(String theSessionName, String theApplicationName,
-			String clientName, MessageReceiver client) {
+			String clientName, ObjectReceiver client) {
 		try {
 			Session session = getOrCreateSession(theSessionName);
 			session.leave(clientName, client, theApplicationName);
@@ -104,7 +104,7 @@ public class ASessionManager implements SessionManager, SessionManagerLocal {
 			throws RemoteException {
 		Session remoteSession = sessions.get(sessionName);
 		if (remoteSession == null) {
-			SessionCreated.newCase(ACommunicatorSelector.getProcessName(), sessionName, this);
+			SessionCreated.newCase(CommunicatorSelector.getProcessName(), sessionName, this);
 			remoteSession = createSession(sessionName);
 		}
 		return remoteSession;
@@ -117,7 +117,7 @@ public class ASessionManager implements SessionManager, SessionManagerLocal {
 
 	public void newMessage(SentMessage theMessage) {
 		MessageGivenToFilter.newCase(
-				ACommunicatorSelector.getProcessName(), 
+				CommunicatorSelector.getProcessName(), 
 				theMessage, 
 				theMessage.getSendingUser(),
 				this);

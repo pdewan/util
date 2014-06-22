@@ -1,12 +1,12 @@
 package util.session;
 
-public class ASentMessageMarshaller implements SentMessageCreator {
+public class ASentMessageMarshaller implements AServerCallsMarshaller {
 	String clientName, sessionName, applicationName;
-	MessageReceiver exportedMessageReceiver;
+	ObjectReceiver exportedMessageReceiver;
 
 	public ASentMessageMarshaller(String theClientName, String theSessionName,
 			String theApplicationName,
-			MessageReceiver theExportedMessageReceiver) {
+			ObjectReceiver theExportedMessageReceiver) {
 		clientName = theClientName;
 		sessionName = theSessionName;
 		applicationName = theApplicationName;

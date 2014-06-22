@@ -3,11 +3,12 @@ package util.session;
  * selects whether a direct or relayed communicator is created
  */
 
-public class ACommunicatorSelector {
+public class CommunicatorSelector {
 	static CommunicatorCreator directFactory = new ADirectCommunicatorCreator();
 	static CommunicatorCreator relayerFactory = new ARelayerCommunicatorCreator();
 	static CommunicatorCreator communicatorFactory = relayerFactory;
 	static Communicator communicator;
+	static Communicator directCommunicator, relayerCommunicator;
 
 	public static CommunicatorCreator getCommunicatorFactory() {
 		return communicatorFactory;
@@ -15,7 +16,7 @@ public class ACommunicatorSelector {
 
 	public static void setCommunicatorFactory(
 			CommunicatorCreator messageSenderFactory) {
-		ACommunicatorSelector.communicatorFactory = messageSenderFactory;
+		CommunicatorSelector.communicatorFactory = messageSenderFactory;
 	}
 
 	public static void selectRelayerCommunicator() {
@@ -28,7 +29,25 @@ public class ACommunicatorSelector {
 	public static Communicator getCommunicator(String serverHost,
 			String theSessionName, String userName, String theApplicationName) {
 		communicator = communicatorFactory.getCommunicator(serverHost, theSessionName, userName, theApplicationName);
+		if (communicator instanceof ADirectCommunicator)
+			directCommunicator = communicator;
+		else if (communicator instanceof ARelayerCommunicator) 
+			relayerCommunicator = communicator;
 		return communicator;
+	}
+	
+	public static Communicator getDirectCommunicator(String serverHost,
+			String theSessionName, String userName, String theApplicationName) {
+		if (directCommunicator == null)
+			directCommunicator = directFactory.getCommunicator(serverHost, theSessionName, userName, theApplicationName);
+		return directCommunicator;
+	}
+	
+	public static Communicator getRelayerCommunicator(String serverHost,
+			String theSessionName, String userName, String theApplicationName) {
+		if (relayerCommunicator == null)
+			relayerCommunicator = relayerFactory.getCommunicator(serverHost, theSessionName, userName, theApplicationName);
+		return relayerCommunicator;
 	}
 
 	public static Communicator getCommunicator(String[] args) {

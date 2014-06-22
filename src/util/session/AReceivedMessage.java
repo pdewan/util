@@ -8,20 +8,20 @@ public class AReceivedMessage implements ReceivedMessage {
 	String applicationName;
 	Object newObject;
 	long timeStamp;
-	MessageReceiver client;
+	ObjectReceiver client;
 	boolean newSession;
 	boolean newApplication;
 	String sessionName;
 	boolean isUserMessage;
-	Map<MessageReceiver, String> clients;
+	Map<ObjectReceiver, String> clients;
 	SerializedProcessGroups serializedProcessGroups;
 	ProcessGroup processGroup;
 
 	public AReceivedMessage(ReceivedMessageType theReceivedMessageType,
-			String theClientName, MessageReceiver theClient,
+			String theClientName, ObjectReceiver theClient,
 			String theApplicationName, Object theNewObject,
 			boolean theNewSession, boolean theNewApplication,
-			Map<MessageReceiver, String> theClients,
+			Map<ObjectReceiver, String> theClients,
 			SerializedProcessGroups theSerializedProcessGroups,
 			ProcessGroup theProcessGroup) {
 		receivedMessageType = theReceivedMessageType;
@@ -155,7 +155,7 @@ public class AReceivedMessage implements ReceivedMessage {
 	 * 
 	 * @see util.session.ReceivedMessage#getClient()
 	 */
-	public MessageReceiver getClient() {
+	public ObjectReceiver getClient() {
 		return client;
 	}
 
@@ -164,7 +164,7 @@ public class AReceivedMessage implements ReceivedMessage {
 	 * 
 	 * @see util.session.ReceivedMessage#setClient(util.session.MessageReceiver)
 	 */
-	public void setClient(MessageReceiver client) {
+	public void setClient(ObjectReceiver client) {
 		this.client = client;
 	}
 
@@ -228,12 +228,12 @@ public class AReceivedMessage implements ReceivedMessage {
 	}
 
 	@Override
-	public Map<MessageReceiver, String> getClients() {
+	public Map<ObjectReceiver, String> getClients() {
 		return clients;
 	}
 
 	@Override
-	public void setClients(Map<MessageReceiver, String> clients) {
+	public void setClients(Map<ObjectReceiver, String> clients) {
 		this.clients = clients;
 
 	}

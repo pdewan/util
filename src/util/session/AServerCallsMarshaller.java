@@ -1,6 +1,8 @@
 package util.session;
-
-public interface SentMessageCreator {
+/*
+ * calls to server --> SentMessage
+ */
+public interface AServerCallsMarshaller {
 
 	public abstract SentMessage asyncJoin();
 

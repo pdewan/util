@@ -27,13 +27,13 @@ public abstract class AnAbstractCommunicator extends
 	@Override
 	public void toUser(String userName, Object object) {
 		try {
-			SendDataRequest.newCase(ACommunicatorSelector.getProcessName(), object, userName, isRelayedCommunication, this);
+			SendDataRequest.newCase(CommunicatorSelector.getProcessName(), object, userName, isRelayedCommunication, this);
 
 			Object[] args = { userName, object, clientName,
 					exportedMessageReceiver };
 			SentMessage message = sentMessageCreator.toUser(userName, object);
 			ToUserDataSendMarshalled.newCase(					
-					ACommunicatorSelector.getProcessName(), message, 
+					CommunicatorSelector.getProcessName(), message, 
 					userName, this);
 			getSentMessageQueuer().put(message);
 		} catch (Exception e) {
@@ -50,13 +50,13 @@ public abstract class AnAbstractCommunicator extends
 	@Override
 	public void toOthers(Object object) {
 		try {
-			SendDataRequest.newCase(ACommunicatorSelector.getProcessName(),object, AddressedSentMessageInfo.OTHERS, isRelayedCommunication, this);
+			SendDataRequest.newCase(CommunicatorSelector.getProcessName(),object, AddressedSentMessageInfo.OTHERS, isRelayedCommunication, this);
 
 			Object[] args = { object, clientName, exportedMessageReceiver };
 			SentMessage message = sentMessageCreator.toOthers(object);
 			ToOthersDataSendMarshalled.newCase(
 					
-					ACommunicatorSelector.getProcessName(), message, 
+					CommunicatorSelector.getProcessName(), message, 
 					AddressedSentMessageInfo.OTHERS, this);
 			
 			getSentMessageQueuer().put(message);
@@ -68,11 +68,11 @@ public abstract class AnAbstractCommunicator extends
 	@Override
 	public void toAll(Object object) {
 		try {
-			SendDataRequest.newCase(ACommunicatorSelector.getProcessName(), object, AddressedSentMessageInfo.ALL, isRelayedCommunication, this);
+			SendDataRequest.newCase(CommunicatorSelector.getProcessName(), object, AddressedSentMessageInfo.ALL, isRelayedCommunication, this);
 
 			Object[] args = { object, clientName, exportedMessageReceiver };
 			SentMessage message = sentMessageCreator.toAll(object);
-			ToAllDateSendMarshalled.newCase(ACommunicatorSelector.getProcessName(), object, AddressedSentMessageInfo.ALL, this);
+			ToAllDateSendMarshalled.newCase(CommunicatorSelector.getProcessName(), object, AddressedSentMessageInfo.ALL, this);
 
 			getSentMessageQueuer().put(message);
 		} catch (Exception e) {
@@ -81,7 +81,7 @@ public abstract class AnAbstractCommunicator extends
 	}
 	public static final String SERVER = "Server";
 	public void setMinimumDelayToPeer(String thePeer, int theDelay) {
-		MinimumDelaySet.newCase(ACommunicatorSelector.getProcessName(),
+		MinimumDelaySet.newCase(CommunicatorSelector.getProcessName(),
 				null, thePeer, theDelay, this);
 		delayManager.setMinimumDelayToPeer(thePeer, theDelay);
 

@@ -10,7 +10,7 @@ public class AMessageForwarder<MessageType> implements
 	MessageProcessor<MessageType> messageProcessor;
 
 	public void put(MessageType aMessage) {
-		MessageForwarded.newCase(ACommunicatorSelector.getProcessName(), aMessage, this);
+		MessageForwarded.newCase(CommunicatorSelector.getProcessName(), aMessage, this);
 		messageProcessor.processMessage(aMessage);
 	}
 

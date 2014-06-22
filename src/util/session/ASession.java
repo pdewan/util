@@ -37,14 +37,14 @@ public class ASession extends ASessionListenable implements Session {
 
 	}
 
-	public String[] getUserNames(MessageReceiver theClient) {
+	public String[] getUserNames(ObjectReceiver theClient) {
 		String[] values = {};
 		values = clients.values().toArray(values);
 		return values;
 	}
 
 	@Override
-	public Map<MessageReceiver, String> getClients() {
+	public Map<ObjectReceiver, String> getClients() {
 		return clients;
 	}
 	@Override
@@ -54,11 +54,11 @@ public class ASession extends ASessionListenable implements Session {
 
 	@Override
 	public synchronized void join(String theClientName,
-			MessageReceiver theClient, String theApplicationName) {
+			ObjectReceiver theClient, String theApplicationName) {
 		try {
 			Tracer.info(this, "Entering Session Join");
 			SessionJoinInformationUpdated.newCase(
-					ACommunicatorSelector.getProcessName(), 
+					CommunicatorSelector.getProcessName(), 
 					theClientName, theApplicationName, myName, this);
 			JoinInfo retVal = new JoinInfo();
 			retVal.newSession = clients.size() == 0;
@@ -70,7 +70,7 @@ public class ASession extends ASessionListenable implements Session {
 
 			if (processGroupRemote == null) {
 				MulticastGroupCreated.newCase(
-						ACommunicatorSelector.getProcessName(), 
+						CommunicatorSelector.getProcessName(), 
 						 myName, this);
 				AProcessGroup processGroup = new AProcessGroup(myName,
 						theApplicationName, null);
@@ -100,10 +100,10 @@ public class ASession extends ASessionListenable implements Session {
 	}
 
 	@Override
-	public void leave(String theClientName, MessageReceiver theClient,
+	public void leave(String theClientName, ObjectReceiver theClient,
 			String theApplicationName) {
 		SessionLeaveInformationUpdated.newCase(
-				ACommunicatorSelector.getProcessName(), 
+				CommunicatorSelector.getProcessName(), 
 				theClientName, theApplicationName, myName, this);
 		clients.remove(theClient);
 		removeSessionListener(theClient);
