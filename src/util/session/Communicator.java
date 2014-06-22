@@ -3,6 +3,8 @@ package util.session;
 import java.util.Map;
 // local calls that are marshalled into messages
 public interface Communicator {
+	public static final String DIRECT = "P2P";
+	public static final String RELAYED = "Relayed";
 	public void create(String serverHost, String theSessionName,
 			String theApplicationName, String theClientName);
 
