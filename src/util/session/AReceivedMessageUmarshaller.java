@@ -1,5 +1,9 @@
 package util.session;
 
+import java.util.Collection;
+import java.util.Map;
+import java.util.Set;
+
 import util.trace.session.ClientJoinNotificationUnmarshalled;
 import util.trace.session.ClientJoinNotificationUnmarshalled;
 import util.trace.session.ClientLeaveNotificationUnmarshalled;
@@ -13,9 +17,12 @@ import util.trace.session.ReceivedMessageDistributedToListeners;
 public class AReceivedMessageUmarshaller implements
 		MessageProcessor<ReceivedMessage> {
 	MessageDispatcher multicastClient;
+	String clientName;
+	boolean joinNotificationReceived = false;
 
-	public AReceivedMessageUmarshaller(MessageDispatcher theMulticastClient) {
+	public AReceivedMessageUmarshaller(MessageDispatcher theMulticastClient, String aClientName) {
 		multicastClient = theMulticastClient;
+		clientName = aClientName;
 	}
 
 	@Override
@@ -32,13 +39,48 @@ public class AReceivedMessageUmarshaller implements
 			break;
 		case ClientJoined:
 			ClientJoinNotificationUnmarshalled.newCase(CommunicatorSelector.getProcessName(), message.getUserMessage(), message.getClientName(), this);
-
-//			ReceivedJoinNotificationDistributedToListeners.newCase(ACommunicatorSelector.getProcessName(), message.getUserMessage(), this);
-
+			// this noitification a side effect, it seems to change the message receivers accoaited with a process group in serializedprocessgroups
 			multicastClient.delayedUserJoined(message.getClients(),
 					message.getClientName(), message.getClient(),
 					message.getApplicationName(), message.isNewSession(),
 					message.isNewApplication());
+			if (!joinNotificationReceived) { // first mesage. inform listeners about all process groups
+				joinNotificationReceived = true;
+				SerializedProcessGroups aSerializedProcessGroups = message.getSerializedProcessGroups();
+				Set<String> aProcessGroupNames = aSerializedProcessGroups.keySet();
+				boolean isNewSession = false;
+				
+				for (String aProcessGroupName:aProcessGroupNames) {
+					Map<ObjectReceiver, String> aClients = aSerializedProcessGroups.get(aProcessGroupName);
+					Set<ObjectReceiver> aClientReferences = aClients.keySet();
+					boolean isNewApplication = true;
+					for (ObjectReceiver aClientReference:aClientReferences) {
+						
+					String aClientName = aClients.get(aClientReference);
+					// should not get the following notification, but if so, check
+					if (aClientName.equals(clientName)) {
+						
+//						isNewSession = false;
+						isNewApplication = false;
+						continue;
+					}
+					multicastClient.delayedUserJoined(aClients,
+							aClients.get(aClientReference), aClientReference,
+							aProcessGroupName, isNewSession,
+							isNewApplication);
+					isNewSession = false;
+					isNewApplication = false;
+					}
+					
+				}
+			} 
+//			else { // incremental
+//			multicastClient.delayedUserJoined(message.getClients(),
+//					message.getClientName(), message.getClient(),
+//					message.getApplicationName(), message.isNewSession(),
+//					message.isNewApplication());
+//			}
+			
 			;
 			break;
 		case NewObject:

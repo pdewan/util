@@ -58,7 +58,7 @@ public class AnUmarshalledReceivedMessageDispatcherAndSessionStateManager implem
 			clientName = theClientName;
 			sessionName = theSessionName;
 			applicationName = theApplicationName;
-			receivedMessageProcessor = new AReceivedMessageUmarshaller(this);
+			receivedMessageProcessor = new AReceivedMessageUmarshaller(this, theClientName);
 			communicator = theCommunicator;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -87,6 +87,7 @@ public class AnUmarshalledReceivedMessageDispatcherAndSessionStateManager implem
 		ClientJoinNotificationDistributedToListeners.newCase(
 				CommunicatorSelector.getProcessName(),
 				theClientName, theApplicationName, getSessionName(), this);
+//		if (clientName.equals(theClientName)) {
 		for (SessionMessageListener listener : sessionMessageListeners) {
 			listener.userJoined(theClientName, theApplicationName,
 					getSessionName(), newSession, newApplication,

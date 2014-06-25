@@ -36,6 +36,16 @@ public class CommunicatorSelector {
 		return communicator;
 	}
 	
+	public static Communicator getCommunicator(String serverHost,
+			String theSessionName, String userName, String theApplicationName, String aCommunicatorKind) {
+		CommunicatorCreator aFactory;
+		if (aCommunicatorKind.equals(Communicator.DIRECT))
+			aFactory = directFactory;
+		else
+			aFactory = relayerFactory;
+		return aFactory.getCommunicator(serverHost, theSessionName, userName, theApplicationName);
+	}
+	
 	public static Communicator getDirectCommunicator(String serverHost,
 			String theSessionName, String userName, String theApplicationName) {
 		if (directCommunicator == null)
