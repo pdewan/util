@@ -121,12 +121,14 @@ public class AMessageReceiver implements ObjectReceiver/*
 
 		inputMessageQueue.put(aReceivedMessage);
 	}
-
+	
 	void processUndelayedUserJoined(ProcessGroup processGroup, // this is the relayer group
 			SerializedProcessGroups serializedProcessGroups,
 			Map<ObjectReceiver, String> theClients) {
+		Map<ObjectReceiver, String> myClients = serializedProcessGroups.get(applicationName);
 
-		delayedMessageReceiver.setClients(theClients);
+//		delayedMessageReceiver.setClients(theClients);
+		delayedMessageReceiver.setClients(myClients);
 		setSerializedMulticastGroups(serializedProcessGroups);
 		messageSenderRunnable.setProcessGroup(processGroup); // so message sender runnable is bound to relayer group or perhaps it checks for local group first
 		joinLock.notifyJoined();
