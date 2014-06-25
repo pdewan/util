@@ -83,7 +83,7 @@ public abstract class ASessionManagerCommunicator extends ASessionListenable
 		}
 	}
 
-	MessageFilter<SentMessage> getSentMessageQueuer() {
+	MessageFilter<SentMessage> getSentMessageFilter() {
 		if (sentMessageQueuer == null) {
 			setSentMessageQueuer(ASentMessageFilterSelector
 					.getMessageFilterCreator().getMessageFilter());
@@ -153,7 +153,7 @@ public abstract class ASessionManagerCommunicator extends ASessionListenable
 		SentMessage message = sentMessageCreator.asyncJoin();
 		JoinRequestMarshalled.newCase(CommunicatorSelector.getProcessName(),
 				message, clientName, this);
-		getSentMessageQueuer().put(message);
+		getSentMessageFilter().filterMessage(message);
 	}
 
 	@Override
@@ -163,7 +163,7 @@ public abstract class ASessionManagerCommunicator extends ASessionListenable
 		SentMessage message = sentMessageCreator.leave();
 		LeaveRequestMarshalled.newCase(CommunicatorSelector.getProcessName(),
 				message, clientName, this);
-		getSentMessageQueuer().put(message);
+		getSentMessageFilter().filterMessage(message);
 
 
 

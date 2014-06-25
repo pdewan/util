@@ -9,8 +9,8 @@ import util.trace.session.SentMessageDelayed;
 public class AMessageSenderRunnable implements MessageSenderRunnable {
 	ABoundedBuffer<SentMessage> outputMessageQueue;
 	DelayManager delayManager;
-	ProcessGroupLocal localMulticastGroup;
-	ProcessGroup multicastGroup;
+	ProcessGroupLocal localMulticastGroup; // the local one
+	ProcessGroup multicastGroup; // the relayer group
 	SessionManager sessionManager;
 	Session session;
 	long delayToServer;

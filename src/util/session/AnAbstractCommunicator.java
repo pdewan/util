@@ -35,7 +35,7 @@ public abstract class AnAbstractCommunicator extends
 			ToUserDataSendMarshalled.newCase(					
 					CommunicatorSelector.getProcessName(), message, 
 					userName, this);
-			getSentMessageQueuer().put(message);
+			getSentMessageFilter().filterMessage(message);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -59,7 +59,7 @@ public abstract class AnAbstractCommunicator extends
 					CommunicatorSelector.getProcessName(), message, 
 					AddressedSentMessageInfo.OTHERS, this);
 			
-			getSentMessageQueuer().put(message);
+			getSentMessageFilter().filterMessage(message);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -74,7 +74,7 @@ public abstract class AnAbstractCommunicator extends
 			SentMessage message = sentMessageCreator.toAll(object);
 			ToAllDateSendMarshalled.newCase(CommunicatorSelector.getProcessName(), object, AddressedSentMessageInfo.ALL, this);
 
-			getSentMessageQueuer().put(message);
+			getSentMessageFilter().filterMessage(message);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

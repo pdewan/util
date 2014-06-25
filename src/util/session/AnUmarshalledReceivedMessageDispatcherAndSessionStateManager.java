@@ -167,7 +167,7 @@ public class AnUmarshalledReceivedMessageDispatcherAndSessionStateManager implem
 
 	public void setClients(Map<ObjectReceiver, String> theClients) {
 		clients = theClients;
-		communicator.setClients(theClients);
+		communicator.setClients(theClients); // the clients are set either in the relayer or in the direct communicator
 	}
 
 	@Override

@@ -8,5 +8,5 @@ package util.session;
 public interface MessageFilter<MessageType> {
 	void setMessageProcessor(MessageProcessor<MessageType> theMesssageProcessor);
 	// need to call it filter
-	void put(MessageType message);
+	void filterMessage(MessageType message);
 }

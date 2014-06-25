@@ -49,7 +49,7 @@ public class ASessionManager implements SessionManager, SessionManagerLocal {
 		SentMessage sentMessage = messageCreator.asyncJoin();
 		JoinRequestMarshalled.newCase(CommunicatorSelector.getProcessName(),
 				sentMessage, clientName, this);
-		messageQueuer.put(sentMessage);
+		messageQueuer.filterMessage(sentMessage);
 		return;
 	}
 
@@ -121,7 +121,7 @@ public class ASessionManager implements SessionManager, SessionManagerLocal {
 				theMessage, 
 				theMessage.getSendingUser(),
 				this);
-		messageQueuer.put(theMessage);
+		messageQueuer.filterMessage(theMessage);
 	}
 
 	public void setSentMessageQueuer(String theSessionName,

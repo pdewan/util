@@ -59,7 +59,7 @@ public class AMessageReceiverRunnable implements MessageReceiverRunnable {
 						message, 
 						message.getClientName(),
 						this);
-				messsageFilter.put(message);
+				messsageFilter.filterMessage(message);
 
 			} catch (Exception e) {
 				e.printStackTrace();

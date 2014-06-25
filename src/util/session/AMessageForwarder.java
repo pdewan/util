@@ -9,7 +9,7 @@ public class AMessageForwarder<MessageType> implements
 		MessageFilter<MessageType> {
 	MessageProcessor<MessageType> messageProcessor;
 
-	public void put(MessageType aMessage) {
+	public void filterMessage(MessageType aMessage) {
 		MessageForwarded.newCase(CommunicatorSelector.getProcessName(), aMessage, this);
 		messageProcessor.processMessage(aMessage);
 	}

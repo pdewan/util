@@ -220,7 +220,7 @@ public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
 	@Override
 	public void newMessage(SentMessage theMessage) throws RemoteException {
 		MessageGivenToFilter.newCase(CommunicatorSelector.getProcessName(), theMessage, theMessage.getSendingUser(), this);
-		sentMessageQueuer.put(theMessage);
+		sentMessageQueuer.filterMessage(theMessage);
 		return;
 	}
 
