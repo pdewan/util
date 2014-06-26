@@ -84,6 +84,7 @@ public class AMessageReceiver implements ObjectReceiver/*
 				delayedMessageReceiver.getReceivedMessageQueuer());
 		messageReceiverRunnable.setIsRelayedCommunication(communicator
 				.isRelayedCommunication());
+		communicator.setMessageReceiverRunnable(messageReceiverRunnable);
 		messageReceiverThread = new Thread(messageReceiverRunnable);
 		messageReceiverThread.setName("Message Receiver");
 		ThreadCreated.newCase(messageReceiverThread.getName(), CommunicatorSelector.getProcessName(), this);
@@ -173,9 +174,5 @@ public class AMessageReceiver implements ObjectReceiver/*
 	public SerializedProcessGroups getSerializedMulticastGroups() {
 		return serializedMulticastGroups;
 	}
-
-	public MessageReceiverRunnable getMessageReceiverRunnable() {
-		return messageReceiverRunnable;
-	}
-
+	
 }

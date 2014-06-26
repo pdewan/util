@@ -5,4 +5,6 @@ public interface MessageReceiverRunnable extends Runnable {
 
 	public boolean isRelayedCommunication();
 
+	String getCurrentSender();
+
 }

@@ -99,6 +99,26 @@ public class AMessageSenderRunnable implements MessageSenderRunnable {
 					Tracer.info(this, "Client sending:"
 							+ message.getUserMessage());
 					break;
+				case NonCallers:
+					if (multicastGroup == null) {
+						Tracer.info("Early event, ignoring");
+						break;
+					}
+					sleepIfRemoteMulticastGroup(delay);
+					if (localMulticastGroup != null)
+						localMulticastGroup.toOthers(args[0], (String) args[1],
+								(ObjectReceiver) args[2],
+								message.getTimeStamp());
+					else {
+						multicastGroup.newMessage(message); // sever rmi call
+						MessageSent.newCase(CommunicatorSelector.getProcessName(),  message, SessionManager.SESSION_MANAGER_NAME, this);
+
+					}
+//					System.out.println("Client sending:"
+//							+ message.getUserMessage());
+					Tracer.info(this, "Client sending:"
+							+ message.getUserMessage());
+					break;
 				case All:
 					if (multicastGroup == null) {
 						Tracer.info("Multicast event received before join, ignoring");

@@ -132,6 +132,42 @@ public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
 			}
 		}
 	}
+	// some day we will sare code here
+	@Override
+	public void toNonCallers(Object object, String theClientName,
+			ObjectReceiver theClient, long timeStamp, String theCallerName) throws RemoteException {
+		Tracer.info(this, "Process group sending message from:" + theClientName
+				+ " object:" + object);
+		ReceivedMessage receivedMessage = receivedMessageCreator.newObject(
+				clients.get(theClient), theClient, object);
+
+		if (isServer) {
+			for (ObjectReceiver client : clients.keySet()) {
+				if (!client.equals(theClient) && !clients.get(theClient).equals(theCallerName)) {
+					Tracer.info(this, "Server sending to: " + clients.get(client)
+							+ " object:" + object);
+					client.newMessage(receivedMessage);
+					MessageSent.newCase(CommunicatorSelector.getProcessName(),  receivedMessage, clients.get(client), this);
+
+//					MessageSent.newCase(theClientName, receivedMessage, this);
+
+				}
+			}
+		} else {
+			List<UserDelayRecord> sortedClients = getSortedClients();
+			for (UserDelayRecord userDelayRecord : sortedClients) {
+				ObjectReceiver client = userDelayRecord.getClient();
+				if (!client.equals(theClient ) && !clients.get(theClient).equals(theCallerName)) {
+					
+					delay(client, object, timeStamp, clients.get(client));
+					Tracer.info(this, "Client sending to: " + clients.get(client)
+							+ " object:" + object);
+					client.newMessage(receivedMessage);
+					MessageSent.newCase(CommunicatorSelector.getProcessName(), receivedMessage , clients.get(client),  this);
+				}
+			}
+		}
+	}
 	// why is this sending newObject rather than newMessage
 	// sould really have it create a received message and send it
 	@Override

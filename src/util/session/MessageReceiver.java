@@ -11,4 +11,5 @@ public interface MessageReceiver extends Remote {
 	public void newMessage(ReceivedMessage theReceivedMessage) throws RemoteException;
 
 
+
 }

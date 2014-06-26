@@ -42,6 +42,9 @@ public abstract class ASessionManagerCommunicator extends ASessionListenable
 	JoinLock joinLock = new AJoinLock();
 	DelayManager delayManager;
 	boolean isRelayedCommunication;
+	MessageReceiverRunnable messageReceiverRunnable;
+
+	
 
 	public ASessionManagerCommunicator(String theServerHost,
 			String theSessionName, String theApplicationName,
@@ -259,6 +262,14 @@ public abstract class ASessionManagerCommunicator extends ASessionListenable
 
 	public ObjectReceiver getMessageReceiver() {
 		return messageReceiver;
+	}
+	public MessageReceiverRunnable getMessageReceiverRunnable() {
+		return messageReceiverRunnable;
+	}
+
+	public void setMessageReceiverRunnable(
+			MessageReceiverRunnable messageReceiverRunnable) {
+		this.messageReceiverRunnable = messageReceiverRunnable;
 	}
 
 }

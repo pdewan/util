@@ -11,6 +11,7 @@ public class AMessageReceiverRunnable implements MessageReceiverRunnable {
 	DelayManager delayManager;
 	MessageFilter<ReceivedMessage> messsageFilter;
 	boolean isRelayedCommunication;
+	String currentSender;
 	// receives enqueued RMI calls and also delays them. So the delay is at the receiver rather than sending end
 	// it is certainly at the sending site, maybe even at the receiving site
 	// looks like that server messages are delayed not the client messages
@@ -33,7 +34,9 @@ public class AMessageReceiverRunnable implements MessageReceiverRunnable {
 		while (true) {
 			try {
 				Tracer.info(this, "Receiver runnable waiting for input message queue");
+				currentSender = null;
 				ReceivedMessage message = inputMessageQueue.get(); // this may be a join message
+				currentSender = message.getClientName();
 				MessageRetrievedFromQueue.newCase(
 						CommunicatorSelector.getProcessName(), 
 						message, 
@@ -76,6 +79,10 @@ public class AMessageReceiverRunnable implements MessageReceiverRunnable {
 	@Override
 	public void setIsRelayedCommunication(boolean newVal) {
 		isRelayedCommunication = newVal;
+	}
+	@Override
+	public String getCurrentSender() {
+		return currentSender;
 	}
 
 }

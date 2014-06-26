@@ -14,5 +14,7 @@ public interface CommunicatorInternal {
 	public boolean isRelayedCommunication();
 
 	ObjectReceiver getMessageReceiver();
+	MessageReceiverRunnable getMessageReceiverRunnable();
+	void setMessageReceiverRunnable(MessageReceiverRunnable aMessageReceiverRunnable);
 
 }

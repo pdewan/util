@@ -48,6 +48,13 @@ public class ASentMessageMarshaller implements AServerCallsMarshaller {
 				exportedMessageReceiver, SentMessageType.Others, args);
 
 	}
+	
+	public SentMessage toNonCallers(Object object, String aCaller) {
+		Object[] args = { object, clientName, exportedMessageReceiver, aCaller };
+		return new ASentMessage(sessionName, applicationName, clientName,
+				exportedMessageReceiver, SentMessageType.Others, args);
+
+	}
 
 	/*
 	 * (non-Javadoc)

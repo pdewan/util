@@ -23,6 +23,10 @@ public abstract class AnAbstractCommunicator extends
 
 		super(args[0], args[1], args[2], args[3], theIsRelayedCommunication);
 	}
+	@Override
+	public void toCaller(Object object) {
+		toUser(getMessageReceiverRunnable().getCurrentSender(), object);
+	}
 
 	@Override
 	public void toUser(String userName, Object object) {
@@ -43,7 +47,11 @@ public abstract class AnAbstractCommunicator extends
 	}
 
 	@Override
-	public void toUsers(String[] hostNames, Object object) {
+	public void toUsers(String[] aUserNames, Object object) {
+		// should send one message to server ideally
+		for (String aUserName:aUserNames) {
+			toUser(aUserName, object);
+		}
 
 	}
 
@@ -54,6 +62,23 @@ public abstract class AnAbstractCommunicator extends
 
 			Object[] args = { object, clientName, exportedMessageReceiver };
 			SentMessage message = sentMessageCreator.toOthers(object);
+			ToOthersDataSendMarshalled.newCase(
+					
+					CommunicatorSelector.getProcessName(), message, 
+					AddressedSentMessageInfo.OTHERS, this);
+			
+			getSentMessageFilter().filterMessage(message);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	@Override
+	public void toNonCallers(Object object) {
+		try {
+			SendDataRequest.newCase(CommunicatorSelector.getProcessName(),object, AddressedSentMessageInfo.NON_CALLERS, isRelayedCommunication, this);
+
+			Object[] args = { object, clientName, exportedMessageReceiver };
+			SentMessage message = sentMessageCreator.toNonCallers(object, getMessageReceiverRunnable().getCurrentSender());
 			ToOthersDataSendMarshalled.newCase(
 					
 					CommunicatorSelector.getProcessName(), message, 

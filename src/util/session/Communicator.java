@@ -56,4 +56,8 @@ public interface Communicator {
 
 	public void setSentMessageQueuer(MessageFilter<SentMessage> messagQueuer);
 
+	void toNonCallers(Object object);
+
+	void toCaller(Object object);
+
 }

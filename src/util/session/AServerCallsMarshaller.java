@@ -9,6 +9,8 @@ public interface AServerCallsMarshaller {
 	public abstract SentMessage leave();
 
 	public abstract SentMessage toOthers(Object object);
+	
+	public abstract SentMessage toNonCallers(Object object, String aCaller);
 
 	public abstract SentMessage toAll(Object object);
 
