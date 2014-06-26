@@ -25,11 +25,11 @@ public abstract class AnAbstractCommunicator extends
 	}
 	@Override
 	public void toCaller(Object object) {
-		toUser(getMessageReceiverRunnable().getCurrentSender(), object);
+		toClient(getMessageReceiverRunnable().getCurrentSender(), object);
 	}
 
 	@Override
-	public void toUser(String userName, Object object) {
+	public void toClient(String userName, Object object) {
 		try {
 			SendDataRequest.newCase(CommunicatorSelector.getProcessName(), object, userName, isRelayedCommunication, this);
 
@@ -50,7 +50,7 @@ public abstract class AnAbstractCommunicator extends
 	public void toUsers(String[] aUserNames, Object object) {
 		// should send one message to server ideally
 		for (String aUserName:aUserNames) {
-			toUser(aUserName, object);
+			toClient(aUserName, object);
 		}
 
 	}

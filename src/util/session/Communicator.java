@@ -18,7 +18,7 @@ public interface Communicator {
 
 	public void toAll(Object object);
 
-	public void toUser(String userName, Object object);
+	public void toClient(String userName, Object object);
 
 	public void toUsers(String[] userName, Object object);
 
