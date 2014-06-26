@@ -93,7 +93,7 @@ public class AnUmarshalledReceivedMessageDispatcherAndSessionStateManager implem
 					getSessionName(), newSession, newApplication,
 					clients.values());
 		}
-		if (applicationName.equals(theApplicationName)) {
+		if (applicationName != null && applicationName.equals(theApplicationName)) {
 			ClientJoinInformationUpdated.newCase(
 					CommunicatorSelector.getProcessName(),
 					theClientName, theApplicationName, getSessionName(), this);

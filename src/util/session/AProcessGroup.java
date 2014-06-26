@@ -186,7 +186,8 @@ public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
 			ObjectReceiver client, String theApplicationName,
 			boolean newSession, boolean newApplication)
 	/* throws RemoteException */{
-		if (theApplicationName.equals(applicationName)) {
+		if (theApplicationName != null && 
+				theApplicationName.equals(applicationName)) {
 			MulticastGroupJoinInformationUpdated.newCase(
 					CommunicatorSelector.getProcessName(),
 					clientName, theApplicationName, sessionName, this);
