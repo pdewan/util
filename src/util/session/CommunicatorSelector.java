@@ -26,9 +26,9 @@ public class CommunicatorSelector {
 	public static void selectDirectCommunicator() {
 		communicatorFactory = directFactory;
 	}
-	public static Communicator getCommunicator(String serverHost,
-			String theSessionName, String userName, String theApplicationName) {
-		communicator = communicatorFactory.getCommunicator(serverHost, theSessionName, userName, theApplicationName);
+	public static Communicator getCommunicator(String aServerHost,
+			String aSessionName, String aClientName, String anApplicationName) {
+		communicator = communicatorFactory.getCommunicator(aServerHost, aSessionName, aClientName, anApplicationName);
 		if (communicator instanceof ADirectCommunicator)
 			directCommunicator = communicator;
 		else if (communicator instanceof ARelayerCommunicator) 
@@ -36,14 +36,14 @@ public class CommunicatorSelector {
 		return communicator;
 	}
 	
-	public static Communicator getCommunicator(String serverHost,
-			String theSessionName, String userName, String theApplicationName, String aCommunicatorKind) {
+	public static Communicator getCommunicator(String aServerHost,
+			String aSessionName, String aClientName, String anApplicationName, String aRoutingKind) {
 		CommunicatorCreator aFactory;
-		if (aCommunicatorKind.equals(Communicator.DIRECT))
+		if (aRoutingKind.equals(Communicator.DIRECT))
 			aFactory = directFactory;
 		else
 			aFactory = relayerFactory;
-		return aFactory.getCommunicator(serverHost, theSessionName, userName, theApplicationName);
+		return aFactory.getCommunicator(aServerHost, aSessionName, aClientName, anApplicationName);
 	}
 	
 	public static Communicator getDirectCommunicator(String serverHost,

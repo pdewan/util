@@ -89,7 +89,7 @@ public class AnUmarshalledReceivedMessageDispatcherAndSessionStateManager implem
 				theClientName, theApplicationName, getSessionName(), this);
 //		if (clientName.equals(theClientName)) {
 		for (SessionMessageListener listener : sessionMessageListeners) {
-			listener.userJoined(theClientName, theApplicationName,
+			listener.clientJoined(theClientName, theApplicationName,
 					getSessionName(), newSession, newApplication,
 					clients.values());
 		}
@@ -108,7 +108,7 @@ public class AnUmarshalledReceivedMessageDispatcherAndSessionStateManager implem
 				CommunicatorSelector.getProcessName(),
 				theClientName, theApplicationName, getSessionName(), this);
 		for (SessionMessageListener listener : sessionMessageListeners) {
-			listener.userLeft(theClientName, theApplicationName);
+			listener.clientLeft(theClientName, theApplicationName);
 		}
 		if (applicationName.equals(theApplicationName)) {
 			ClientLeaveInformationUpdated.newCase(

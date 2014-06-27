@@ -42,7 +42,7 @@ public interface Communicator {
 
 	public void removeReceivedMessageListener(ReceivedMessageListener listener);
 
-	public void addSessionMessageListener(SessionMessageListener listener);
+	public void addSessionMessageListener(SessionMessageListener aListener);
 
 	public void removeSessionMessageListener(SessionMessageListener listener);
 

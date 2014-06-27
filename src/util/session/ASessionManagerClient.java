@@ -196,7 +196,7 @@ public abstract class ASessionManagerClient extends ASessionListenable
 			String theApplicationName, boolean newSession,
 			boolean newApplication) {
 		for (SessionMessageListener listener : sessionMessageListeners) {
-			listener.userJoined(theClientName, theApplicationName,
+			listener.clientJoined(theClientName, theApplicationName,
 					getSessionName(), newSession, newApplication,
 					clients.values());
 		}
@@ -208,7 +208,7 @@ public abstract class ASessionManagerClient extends ASessionListenable
 	public void delayedUserLeft(String theClientName,
 			ObjectReceiver theClient, String theApplicationName) {
 		for (SessionMessageListener listener : sessionMessageListeners) {
-			listener.userLeft(theClientName, theApplicationName);
+			listener.clientLeft(theClientName, theApplicationName);
 		}
 		if (applicationName.equals(theApplicationName))
 			clients.remove(theClientName);
