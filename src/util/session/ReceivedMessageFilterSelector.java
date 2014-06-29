@@ -1,6 +1,6 @@
 package util.session;
 
-public class AReceivedMessageFilterSelector {
+public class ReceivedMessageFilterSelector {
 	static MessageFilterCreator<ReceivedMessage> queuerFactory = new AMessageForwarderCreator<ReceivedMessage>();
 
 	public static MessageFilterCreator<ReceivedMessage> getMessageFilterFactory() {

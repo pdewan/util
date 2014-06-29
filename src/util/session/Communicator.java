@@ -24,7 +24,7 @@ public interface Communicator {
 
 	public String getSessionName();
 
-	public String getUserName();
+	public String getClientName();
 
 	public int getMinimumDelayToServer();
 

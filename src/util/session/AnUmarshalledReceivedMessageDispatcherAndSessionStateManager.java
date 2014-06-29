@@ -45,7 +45,7 @@ public class AnUmarshalledReceivedMessageDispatcherAndSessionStateManager implem
 
 	public MessageFilter<ReceivedMessage> getReceivedMessageQueuer() {
 		if (receivedMessageQueuer == null) {
-			setReceivedMessageQueuer(AReceivedMessageFilterSelector
+			setReceivedMessageQueuer(ReceivedMessageFilterSelector
 					.getMessageFilterFactory().getMessageFilter());
 		}
 		return receivedMessageQueuer;

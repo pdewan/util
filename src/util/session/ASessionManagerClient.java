@@ -83,7 +83,7 @@ public abstract class ASessionManagerClient extends ASessionListenable
 
 	MessageFilter<SentMessage> getSentMessageQueuer() {
 		if (sentMessageQueuer == null) {
-			setSentMessageQueuer(ASentMessageFilterSelector
+			setSentMessageQueuer(SentMessageFilterSelector
 					.getMessageFilterCreator().getMessageFilter());
 		}
 		return sentMessageQueuer;
@@ -105,7 +105,7 @@ public abstract class ASessionManagerClient extends ASessionListenable
 
 	public MessageFilter<ReceivedMessage> getReceivedMessageQueuer() {
 		if (receivedMessageQueuer == null) {
-			setReceivedMessageQueuer(AReceivedMessageFilterSelector
+			setReceivedMessageQueuer(ReceivedMessageFilterSelector
 					.getMessageFilterFactory().getMessageFilter());
 		}
 		return receivedMessageQueuer;
@@ -265,7 +265,7 @@ public abstract class ASessionManagerClient extends ASessionListenable
 	}
 
 	@Override
-	public String getUserName() {
+	public String getClientName() {
 		return clientName;
 	}
 

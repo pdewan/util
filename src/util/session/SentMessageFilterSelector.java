@@ -1,6 +1,6 @@
 package util.session;
 
-public class ASentMessageFilterSelector {
+public class SentMessageFilterSelector {
 	static MessageFilterCreator<SentMessage> filterFactory = new AMessageForwarderCreator<SentMessage>();
 
 	public static MessageFilterCreator<SentMessage> getMessageFilterCreator() {

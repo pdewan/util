@@ -72,7 +72,7 @@ public class CommunicatorSelector {
 	// process and user names are synonymous
 	public static String getProcessName() {
 		if (communicator != null)
-			return communicator.getUserName();
+			return communicator.getClientName();
 		else
 			return ASessionManager.SESSION_MANAGER_NAME;
 	}
