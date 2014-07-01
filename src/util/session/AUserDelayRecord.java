@@ -3,13 +3,21 @@ package util.session;
 public class AUserDelayRecord implements UserDelayRecord {
 	String name;
 	int delay;
+	long deliveryTime;
+	
+
+	ReceivedMessage receivedMessage;
+	
+
 	ObjectReceiver client;
 
 	public AUserDelayRecord(ObjectReceiver theClient, String theName,
-			int theDelay) {
+			int theDelay, ReceivedMessage aReceivedMessage) {
 		client = theClient;
 		name = theName;
 		delay = theDelay;
+		receivedMessage = aReceivedMessage;
+		deliveryTime = System.currentTimeMillis() + delay;
 	}
 
 	public ObjectReceiver getClient() {
@@ -58,13 +66,37 @@ public class AUserDelayRecord implements UserDelayRecord {
 
 	@Override
 	public int compareTo(UserDelayRecord otherObject) {
-		int otherDelay = otherObject.getDelay();
-		if (delay < otherDelay)
+//		int otherDelay = otherObject.getDelay();
+		long otherDeliveryTime = otherObject.getDeliveryTime();
+
+//		if (delay < otherDelay)
+//			return -1;
+//		else if (delay == otherDelay)
+//			return 0;
+//		else
+//			return +1;
+		if (deliveryTime < otherDeliveryTime)
 			return -1;
-		else if (delay == otherDelay)
+		else if (delay == otherDeliveryTime)
 			return 0;
 		else
 			return +1;
+	}
+	
+	public long getDeliveryTime() {
+		return deliveryTime;
+	}
+
+	public void setDeliveryTime(long deliveryTime) {
+		this.deliveryTime = deliveryTime;
+	}
+	@Override
+	public ReceivedMessage getReceivedMessage() {
+		return receivedMessage;
+	}
+	@Override
+	public void setReceivedMessage(ReceivedMessage receivedMessage) {
+		this.receivedMessage = receivedMessage;
 	}
 
 }

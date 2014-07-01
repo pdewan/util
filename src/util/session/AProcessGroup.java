@@ -66,7 +66,7 @@ public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
 		if (sortedClients == null) {
 			localCommunicator.getDelayManager().refreshAndSortClients();
 			sortedClients = localCommunicator.getDelayManager()
-					.getSortedClients();
+					.getSortedDelayRecords();
 
 		} else {
 			localCommunicator.getDelayManager().refreshClients();
@@ -96,6 +96,39 @@ public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
 			e.printStackTrace();
 		}
 	}
+	
+	void asyncDelay(ObjectReceiver aClient, ReceivedMessage aReceivedMessage, long messageTime, String aClientName) {
+		if (localCommunicator == null)
+			return;
+		int minimumDelay = localCommunicator.getMinimumDelayToPeer(clients
+				.get(aClient));
+		long actualDelay = ASessionManagerClient.calculateDelay(messageTime,
+				minimumDelay, localCommunicator.getDelayVariation());
+		if (actualDelay <= 0) {
+			try {
+				MessageSent.newCase(CommunicatorSelector.getProcessName(), aReceivedMessage , clients.get(aClient),  this);
+
+				aClient.newMessage(aReceivedMessage);
+			} catch (RemoteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			return;
+		}
+//		SentMessageDelayedNew.newCase(clients.get(client), message, actualDelay, this);
+//		SentMessageDelayed.newCase(CommunicatorSelector.getProcessName(), aReceivedMessage, aClientName,actualDelay, this);
+
+		Tracer.info(this, "Client delaying sending message to absolute time: " + messageTime + " and delay:" +
+				  actualDelay);
+		localCommunicator.getDelayManager().addMessage(aReceivedMessage, aClient);
+//		try {
+//			Thread.sleep(actualDelay);
+//
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
+	}
 
 	@Override
 	public void toOthers(Object object, String theClientName,
@@ -118,20 +151,33 @@ public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
 				}
 			}
 		} else {
-			List<UserDelayRecord> sortedClients = getSortedClients();
-			for (UserDelayRecord userDelayRecord : sortedClients) {
-				ObjectReceiver client = userDelayRecord.getClient();
+//			List<UserDelayRecord> sortedClients = getSortedClients();
+//			for (UserDelayRecord userDelayRecord : sortedClients) {
+//				ObjectReceiver client = userDelayRecord.getClient();
+//				if (!client.equals(theClient)) {
+//					
+//					delay(client, object, timeStamp, clients.get(client));
+//					Tracer.info(this, "Client sending to: " + clients.get(client)
+//							+ " object:" + object);
+//					client.newMessage(receivedMessage);
+//					MessageSent.newCase(CommunicatorSelector.getProcessName(), receivedMessage , clients.get(client),  this);
+//				}
+//			}
+			for (ObjectReceiver client : clients.keySet()) {
 				if (!client.equals(theClient)) {
 					
-					delay(client, object, timeStamp, clients.get(client));
+					asyncDelay (client, receivedMessage, timeStamp, clients.get(client));
 					Tracer.info(this, "Client sending to: " + clients.get(client)
 							+ " object:" + object);
-					client.newMessage(receivedMessage);
-					MessageSent.newCase(CommunicatorSelector.getProcessName(), receivedMessage , clients.get(client),  this);
+//					client.newMessage(receivedMessage);
+//					MessageSent.newCase(CommunicatorSelector.getProcessName(), receivedMessage , clients.get(client),  this);
 				}
 			}
 		}
 	}
+//	void blockingOthers(ReceivedMessage receivedMessage) {
+//		
+//	}
 	// some day we will sare code here
 	@Override
 	public void toNonCallers(Object object, String theClientName,

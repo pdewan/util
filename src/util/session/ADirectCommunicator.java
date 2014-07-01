@@ -13,12 +13,15 @@ public class ADirectCommunicator extends AnAbstractCommunicator /*
 			String theApplicationName, String theClientName) {
 		super(theServerHost, theSessionName, theApplicationName, theClientName,
 				false);
+		delayManager.createThread();
 
 	}
 
 	public ADirectCommunicator(String[] args) {
 
 		super(args[0], args[1], args[2], args[3], false);
+		delayManager.createThread();
+
 	}
 
 	void createOutputBufferAndThread() {

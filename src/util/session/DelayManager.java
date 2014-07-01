@@ -2,7 +2,7 @@ package util.session;
 
 import java.util.List;
 
-public interface DelayManager {
+public interface DelayManager extends Runnable {
 
 	public abstract int getMinimumDelayToServer();
 
@@ -22,6 +22,10 @@ public interface DelayManager {
 
 	public void refreshAndSortClients();
 
-	public List<UserDelayRecord> getSortedClients();
+	public List<UserDelayRecord> getSortedDelayRecords();
+
+	void addMessage(ReceivedMessage aMessage, ObjectReceiver aClient);
+
+	void createThread();
 
 }

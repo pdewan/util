@@ -38,6 +38,7 @@ public class SessionTracerSetter {
 
 		Tracer.setKeywordPrintStatus(SentMessageDelayed.class, true);
 		Tracer.setKeywordPrintStatus(SendDataRequest.class, true);
+		Tracer.setKeywordPrintStatus(MessageGivenToFilter.class, true);
 		Tracer.setKeywordPrintStatus(MessageReceived.class, true);
 		Tracer.setKeywordPrintStatus(MessageRetrievedFromQueue.class, true);
 		Tracer.setKeywordPrintStatus(ReceivedMessageDelayed.class, true);

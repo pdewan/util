@@ -4,6 +4,8 @@ public interface BoundedBuffer <ElementType>{
 	public String getName() ;
 
 	public void  put(ElementType element) ;
+	
+//	public void put(int anIndex, ElementType anElement);
 
 	public void  put(ElementType element, long timeOut) ;
 
