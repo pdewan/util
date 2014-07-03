@@ -8,6 +8,7 @@ import util.trace.TraceableInfo;
 
 public class ProcessInfo extends TraceableInfo {
 	protected static boolean longMessage = true;
+	public static boolean showProcessName = true;
 	protected String processName;
 	
 	public ProcessInfo(String aMessage, 
@@ -66,8 +67,16 @@ public class ProcessInfo extends TraceableInfo {
 	
 	public static final String PROCESS_NAME = "Process";
 	
+	public static boolean showProcessname() {
+		return showProcessName;
+	}
+	
+	public static void setShowProcessName(boolean newVal) {
+		showProcessName = newVal;
+	}
+	
 	public static String toString (String aProcessName) {
-		if (aProcessName == null || (aProcessName.isEmpty()) )
+		if (aProcessName == null || (aProcessName.isEmpty()) || !showProcessName )
 			return "";
 		long time = System.currentTimeMillis();
 //		Date date = new Date(time);
