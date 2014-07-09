@@ -9,6 +9,8 @@ import java.util.Map;
 import util.misc.Common;
 import util.models.ABoundedBuffer;
 import util.trace.Tracer;
+import util.trace.session.ClientJoinFinished;
+import util.trace.session.ClientJoinInitiated;
 import util.trace.session.JoinRequest;
 import util.trace.session.JoinRequestMarshalled;
 import util.trace.session.LeaveRequest;
@@ -142,17 +144,23 @@ public abstract class ASessionManagerCommunicator extends ASessionListenable
 	 */
 	
 	public synchronized void join() {
+//		ClientJoinInitiated.newCase(CommunicatorSelector.getProcessName(), clientName, applicationName, sessionName, this);
+
 		asyncJoin();
 		joinLock.waitFotJoin();
+		ClientJoinFinished.newCase(CommunicatorSelector.getProcessName(), clientName, applicationName, sessionName, this);
+
 	}
 	/*
 	 * instead of forking a process it sends data  to a queue served by one process
 	 * @see util.session.Communicator#asyncJoin()
 	 */
 	public synchronized void asyncJoin() {
+		ClientJoinInitiated.newCase(CommunicatorSelector.getProcessName(), clientName, applicationName, sessionName, this);
+
 //		Object[] args = { sessionName, applicationName, clientName,
 //				exportedMessageReceiver };
-		JoinRequest.newCase(CommunicatorSelector.getProcessName(), null, SessionManager.SESSION_MANAGER_NAME, this);
+//		JoinRequest.newCase(CommunicatorSelector.getProcessName(), null, SessionManager.SESSION_MANAGER_NAME, this);
 		SentMessage message = sentMessageCreator.asyncJoin();
 		JoinRequestMarshalled.newCase(CommunicatorSelector.getProcessName(),
 				message, clientName, this);

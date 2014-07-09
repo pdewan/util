@@ -92,7 +92,8 @@ public class ASession extends ASessionListenable implements Session {
 					theClientName, theClient, theApplicationName,
 					retVal.newSession, retVal.newApplication);
 			Tracer.info(this, "Leaving Session Join");
-//			ServerClientJoined.newCase(ACommunicatorSelector.getProcessName(), theClientName, theApplicationName, myName, this);
+			// why was this commented out?
+			ServerClientJoined.newCase(CommunicatorSelector.getProcessName(), theClientName, theApplicationName, myName, this);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

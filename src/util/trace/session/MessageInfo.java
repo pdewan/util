@@ -1,5 +1,7 @@
 package util.trace.session;
 
+import java.util.List;
+
 import util.trace.TraceableInfo;
 
 public class MessageInfo extends ProcessInfo {
@@ -30,6 +32,10 @@ public class MessageInfo extends ProcessInfo {
 	public static final String MESSAGE = "Msg";
 	
 	public static String getData(String aMessage) {
+		List<String> args = getArgs(aMessage, MESSAGE);
+		if (args.size() == 0)
+			return null;
+		
 		return getArgs(aMessage, MESSAGE).get(0);
 	}
 	

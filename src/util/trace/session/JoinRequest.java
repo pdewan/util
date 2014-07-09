@@ -1,7 +1,7 @@
 package util.trace.session;
 
 
-
+// same as clientjoininitiated
 public class JoinRequest extends AddressedMessageInfo{
 
 	public JoinRequest(String aMessage, String aProcessName, Object aDataItem,
