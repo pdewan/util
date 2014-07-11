@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 import util.annotations.Visible;
+import util.misc.Common;
 import util.models.EqualPropertiesDefiner;
 
 // will not make it abstract as we will unparse a string into it
@@ -21,7 +22,7 @@ public  class Traceable extends RuntimeException implements EqualPropertiesDefin
 	protected boolean wait;
 	protected boolean exists;
 	protected List<String> equalPropertiesList;
-	protected String[] equalPropertiesArray = {};
+	protected String[] equalPropertiesArray = {"Class"};
 	
 	static boolean printThread = true; // rmi threads can be have different names in different invocations
 	
@@ -56,7 +57,7 @@ public  class Traceable extends RuntimeException implements EqualPropertiesDefin
 		setEqualPropertiesList();
 	}
 	protected void setEqualPropertiesList() {
-		equalPropertiesList = Arrays.asList(equalPropertiesArray);
+		equalPropertiesList = Common.arrayToArrayList(equalPropertiesArray);
 
 	}
 	public Traceable(String aMessage, Long aTimeStamp, String aThreadName, String anEventSource, Object aFinder) {

@@ -1,6 +1,7 @@
 package util.trace.console;
 
 import java.util.Arrays;
+import java.util.List;
 
 import util.trace.TraceableInfo;
 import util.trace.session.AddressedMessageInfo;
@@ -23,8 +24,14 @@ public class ConsoleOutput extends TraceableInfo{
 		return output;
 	}
 	protected void setEqualPropertiesList() {
-		equalPropertiesArray = new String[]{"Output"};
 		super.setEqualPropertiesList();
+//		consoleEqualPropertiesArray = new String[]{"Output"};
+		 String[] consoleEqualPropertiesArray = {"Output"};
+
+		List<String> aConsoleList = Arrays.asList(consoleEqualPropertiesArray);
+		equalPropertiesList.addAll(aConsoleList);
+
+		
 //		equalPropertiesList = Arrays.asList(equalPropertiesArray);
 
 	}
