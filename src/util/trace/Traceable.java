@@ -1,15 +1,17 @@
 package util.trace;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import util.annotations.Visible;
+import util.models.EqualPropertiesDefiner;
 
 // will not make it abstract as we will unparse a string into it
-public  class Traceable extends RuntimeException {
+public  class Traceable extends RuntimeException implements EqualPropertiesDefiner {
 	static Set<String> messages = new HashSet<String>();
 	protected Object finder;
 	protected Long timeStamp;	
@@ -18,6 +20,8 @@ public  class Traceable extends RuntimeException {
 	protected boolean display;
 	protected boolean wait;
 	protected boolean exists;
+	protected List<String> equalPropertiesList;
+	protected String[] equalPropertiesArray = {};
 	
 	static boolean printThread = true; // rmi threads can be have different names in different invocations
 	
@@ -48,6 +52,12 @@ public  class Traceable extends RuntimeException {
 		// what are we doing with retVal?
 		if (!exists)
 		 retVal =messages.add(aMessage);
+//		equalPropertiesList = Arrays.asList(equalPropertiesArray);
+		setEqualPropertiesList();
+	}
+	protected void setEqualPropertiesList() {
+		equalPropertiesList = Arrays.asList(equalPropertiesArray);
+
 	}
 	public Traceable(String aMessage, Long aTimeStamp, String aThreadName, String anEventSource, Object aFinder) {
 		super(aMessage);
@@ -92,6 +102,8 @@ public  class Traceable extends RuntimeException {
 	
 	public Traceable(String aMessage) {	
 		super(aMessage);
+		setEqualPropertiesList();
+
 		// no firing of event, postponed until init
 	}
 	public void init (Object aFinder) {
@@ -274,6 +286,10 @@ public  class Traceable extends RuntimeException {
 	}
 	public static void setPrintTime(boolean isPrintTime) {
 		Traceable.printTime = isPrintTime;
+	}
+	
+	public List<String> equalProperties() {
+		return equalPropertiesList;
 	}
 
 }

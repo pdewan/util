@@ -1,5 +1,7 @@
 package util.trace.console;
 
+import java.util.Arrays;
+
 import util.trace.TraceableInfo;
 import util.trace.session.AddressedMessageInfo;
 import util.trace.session.ServerClientJoined;
@@ -7,6 +9,7 @@ import util.trace.session.MessageInfo;
 
 public class ConsoleOutput extends TraceableInfo{
 	String output;
+	
 	
 	public ConsoleOutput(String aMessage, String anOutput, Object aFinder) {
 		super(aMessage, aFinder);
@@ -18,6 +21,12 @@ public class ConsoleOutput extends TraceableInfo{
 	}
 	public String getOutput() {
 		return output;
+	}
+	protected void setEqualPropertiesList() {
+		equalPropertiesArray = new String[]{"Output"};
+		super.setEqualPropertiesList();
+//		equalPropertiesList = Arrays.asList(equalPropertiesArray);
+
 	}
 	public void setOutput(String output) {
 		this.output = output;
