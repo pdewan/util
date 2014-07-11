@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import util.annotations.Visible;
+
 // will not make it abstract as we will unparse a string into it
 public  class Traceable extends RuntimeException {
 	static Set<String> messages = new HashSet<String>();
@@ -34,6 +36,8 @@ public  class Traceable extends RuntimeException {
 //		if (!exists)
 //		 retVal =messages.add(aMessage);
 	}
+	@Visible(false)
+
 	public void init (String aMessage, Object aFinder, Long aTimeStamp, String aThreadName, String anEventSource) {
 		finder = aFinder;
 		timeStamp = aTimeStamp;
@@ -73,6 +77,8 @@ public  class Traceable extends RuntimeException {
 	public String getEventSource() {
 		return eventSource;
 	}
+	@Visible(false)
+
 	public static Set<String> getMessages() {
 		return messages;
 	}
@@ -94,6 +100,8 @@ public  class Traceable extends RuntimeException {
 		TraceableBus.newEvent(this);
 		
 	}
+	@Visible(false)
+
 	public Object getFinder() {
 		return finder;
 	}
@@ -104,6 +112,8 @@ public  class Traceable extends RuntimeException {
 //	public boolean getDisplay() {
 //		return Tracer.getKeywordDisplayStatus(this) || Tracer.getKeywordDisplayStatus(getFinder());
 //	}
+	@Visible(false)
+
 	public boolean getDisplay() {
 		return display || Tracer.getKeywordDisplayStatus(getFinder());
 	}
@@ -114,6 +124,8 @@ public  class Traceable extends RuntimeException {
 //	public boolean getWait() {
 //		return Tracer.getKeywordWaitStatus(this) ||  Tracer.getKeywordWaitStatus(getFinder()) ;
 //	}
+	@Visible(false)
+
 	public boolean getWait() {
 		return wait ||  Tracer.getKeywordWaitStatus(getFinder()) ;
 	}
@@ -245,12 +257,18 @@ public  class Traceable extends RuntimeException {
 			return null;
 		}
 	}
+	@Visible(false)
+
 	public static boolean isPrintThread() {
 		return printThread;
 	}
+	@Visible(false)
+
 	public static void setPrintThread(boolean isPrintThread) {
 		Traceable.printThread = isPrintThread;
 	}
+	@Visible(false)
+
 	public static boolean isPrintTime() {
 		return printTime;
 	}

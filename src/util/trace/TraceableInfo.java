@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import util.annotations.Visible;
+
 
 
 public  class TraceableInfo extends Traceable {
@@ -118,6 +120,7 @@ public  class TraceableInfo extends Traceable {
 //			return null;
 //		}
 //	}
+	@Visible(false)
 	public static boolean isPrintDuplicates() {
 		return printDuplicates;
 	}
@@ -131,12 +134,15 @@ public  class TraceableInfo extends Traceable {
    	    retVal.announce();
     	return retVal;
 	}
+	@Visible(false)
 	public static boolean isPrintSource() {
 		return printSource;
 	}
 	public static void setPrintSource(boolean printSource) {
 		TraceableInfo.printSource = printSource;
 	}
+	@Visible(false)
+
 	public static boolean isPrintTraceable() {
 		return printTraceable;
 	}
