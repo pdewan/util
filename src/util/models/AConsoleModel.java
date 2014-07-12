@@ -25,6 +25,8 @@ import util.trace.console.ConsoleOutput;
 
 public class AConsoleModel implements ConsoleModel {
 	public static final String DEFAULT_INPUT_PROMPT = "$ ";
+	public static final String OUT_SUFFIX = "Output";
+	public static final String ERROR_SUFFIX = "Input";
 	String input = "";
 	StringBuilder output = new StringBuilder("");
 	Thread outputThread, errorThread;
@@ -70,6 +72,8 @@ public class AConsoleModel implements ConsoleModel {
 				new AConsoleModelStreamReader(AConsoleModelStreamReader.OUTPUT, process.getInputStream(), this));
 		errorThread = new Thread(				
 				new AConsoleModelStreamReader(AConsoleModelStreamReader.ERROR, process.getErrorStream(),  this));
+		outputThread.setName(aTitle + OUT_SUFFIX);
+		errorThread.setName(aTitle + ERROR_SUFFIX);
 		outputThread.start();
 		errorThread.start();
 	}
