@@ -22,5 +22,6 @@ public interface ConsoleModel extends PropertyListenerRegisterer/*, WindowListen
 	void newError(String anError);
 	String getInputPrompt();
 	void setInputPrompt(String inputPrompt);
+	void setIndexAndLogDirectory(int index, String aLogDirectory);
 
 }

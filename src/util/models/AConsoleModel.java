@@ -35,6 +35,8 @@ public class AConsoleModel implements ConsoleModel {
 	String title;
 	String globalTranscriptFile, localTranscriptFile;
 	String inputPrompt = DEFAULT_INPUT_PROMPT;
+	int index;
+	String logDirectory;
 	
 
 
@@ -65,6 +67,7 @@ public class AConsoleModel implements ConsoleModel {
 	public void init(Process aProcess, String aTitle) {	
 		process = aProcess;
 		title = aTitle;
+		setLocalTranscriptFile();
 		setGlobalPrefix();
 		printStream = new PrintStream(
 				process.getOutputStream());
@@ -222,6 +225,65 @@ public class AConsoleModel implements ConsoleModel {
 	public void setInputPrompt(String inputPrompt) {
 		this.inputPrompt = inputPrompt;
 	}
+	@Visible(false)
+	public int getIndex() {
+		return index;
+	}
+	void setLocalTranscriptFile() {
+		if (title == null || logDirectory == null) return;
+		setLocalTranscriptFile (getLocalTranscriptFileName(logDirectory,index, getTitle()));
+		try {
+			Common.clearOrCreateFile(getLocalTranscriptFile());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	@Override
+	public void setIndexAndLogDirectory(int index, String aLogDirectory) {
+		this.index = index;
+		logDirectory = aLogDirectory;
+		setLocalTranscriptFile();
+
+	}
+	@Visible(false)
+	public String getLogDirectory() {
+		return logDirectory;
+	}
+	public void setLogDirectory(String logDirectory) {
+		this.logDirectory = logDirectory;
+	}
+	
+	public static final String INDEX_SUFFIX = "_";
+	public static final String TRANSCRIPT_FILE_SUFFIX = ".txt";
+	public static final String GLOBAL_FILE_NAME = "globalTranscript.txt";
+
+	public static String getLocalTranscriptFileName(String aDirectory, Integer anIndex, Class aClass) {
+		return aDirectory + "/" + anIndex + "_" + aClass.getSimpleName() + TRANSCRIPT_FILE_SUFFIX ;
+	}
+	
+	public static String getLocalTranscriptFileName(String aDirectory, Integer anIndex, String aTitle) {
+		return aDirectory + "/" + anIndex + "_" + aTitle + TRANSCRIPT_FILE_SUFFIX ;
+	}
+	
+	public static String getClassName(String aLocalTranscriptFileName) {
+		int aStart = aLocalTranscriptFileName.indexOf(INDEX_SUFFIX) + 1;
+		int anEnd = aLocalTranscriptFileName.indexOf(TRANSCRIPT_FILE_SUFFIX);
+		return aLocalTranscriptFileName.substring(aStart, anEnd);
+	}
+	
+	public static String getTitle(String aLocalTranscriptFileName) {
+		int aStart = aLocalTranscriptFileName.indexOf(INDEX_SUFFIX) + 1;
+		int anEnd = aLocalTranscriptFileName.indexOf(TRANSCRIPT_FILE_SUFFIX);
+		return aLocalTranscriptFileName.substring(aStart, anEnd);
+	}
+	
+	
+	public static String getGlobalTranscriptFileName (String aDirectory) {
+		return aDirectory + "/" + GLOBAL_FILE_NAME;
+	}
+	
 //	@Visible(false)
 //	@Override
 //	public void windowActivated(WindowEvent arg0) {	}
