@@ -284,6 +284,10 @@ public class AConsoleModel implements ConsoleModel {
 		return aDirectory + "/" + GLOBAL_FILE_NAME;
 	}
 	
+	public String toString() {
+		return title;
+	}
+	
 //	@Visible(false)
 //	@Override
 //	public void windowActivated(WindowEvent arg0) {	}
