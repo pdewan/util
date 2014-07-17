@@ -22,7 +22,9 @@ import util.trace.Tracer;
 import util.trace.console.ConsoleError;
 import util.trace.console.ConsoleInput;
 import util.trace.console.ConsoleOutput;
-
+/*
+ * Both input and output threads are accessing, so syncchronized
+ */
 public class AConsoleModel implements ConsoleModel {
 	public static final String DEFAULT_INPUT_PROMPT = "$ ";
 	public static final String OUT_SUFFIX = "Output";
@@ -98,7 +100,7 @@ public class AConsoleModel implements ConsoleModel {
 	public String getInput() {
 		return input;
 	}	
-	public void setInput(String newVal) {
+	public synchronized void setInput(String newVal) {
 		addOutput(inputPrompt + newVal);
 		printStream.println(newVal);
 		printStream.flush();		
@@ -119,7 +121,7 @@ public class AConsoleModel implements ConsoleModel {
 	}
 	@Override
 	@Visible(false)
-	public void newOutput(String anOutput) {
+	public synchronized void newOutput(String anOutput) {
 		addOutput(anOutput);
 		if (Tracer.isInfo(anOutput))
 			return;
@@ -131,7 +133,7 @@ public class AConsoleModel implements ConsoleModel {
 	}
 	@Override
 	@Visible(false)
-	public void newError(String anError) {
+	public synchronized void newError(String anError) {
 		addOutput(anError);
 		if (Tracer.isInfo(anError))
 			return;
@@ -149,7 +151,7 @@ public class AConsoleModel implements ConsoleModel {
 		globalPrefix = globalPrefix();
 	}
 	@Visible(false)
-	public void addOutput(String newVal) {
+	public synchronized void addOutput(String newVal) {
 		String actualOutput = newVal + "\n";
 		if (globalTranscriptFile != null)
 			try {
