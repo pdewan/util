@@ -292,10 +292,12 @@ public class AConsoleModel implements ConsoleModel {
 		return title;
 	}
 	@Override
+	@Visible(false)
 	public Class getExecedClass() {
 		return execedClass;
 	}
 	@Override
+	@Visible(false) 
 	public void setExecedClass(Class aClass) {
 		execedClass = aClass;
 	}
