@@ -32,6 +32,9 @@ public class ConsoleModelUtility {
 	public static boolean isConsole(PropertyChangeEvent aConsoleModelEvent, Class aClass ) {
 		return ((ConsoleModel) (aConsoleModelEvent.getSource())).getTitle().contains(aClass.getSimpleName());		
 	}
+	public static boolean isConsole(PropertyChangeEvent aConsoleModelEvent, String aName ) {
+		return ((ConsoleModel) (aConsoleModelEvent.getSource())).getTitle().contains(aName);		
+	}
 	public static boolean containsText(PropertyChangeEvent aConsoleModelEvent,  String aText) {
 		return (aConsoleModelEvent.getNewValue().toString()).contains(aText);
 	}

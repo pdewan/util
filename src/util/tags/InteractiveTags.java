@@ -5,6 +5,7 @@ public interface InteractiveTags {
 	String INTERACTOR = "Interactor";
 	String VIEW = "View";
 	String CONTROLLER = "Controller";
+	String COMPOSER = "Composer";
 	
 
 }
