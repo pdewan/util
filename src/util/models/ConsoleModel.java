@@ -15,7 +15,7 @@ public interface ConsoleModel extends PropertyListenerRegisterer/*, WindowListen
 	void initFrame(Frame aFrame);
 	String getGlobalTranscriptFile();
 	void setGlobalTranscriptFile(String transcriptFile);
-	void init(Process aProcess, String aTitle);
+	void init(Process aProcess, String aTitle, Class aClass);
 	String getLocalTranscriptFile();
 	void setLocalTranscriptFile(String localTranscriptFile);
 	void newOutput(String anOutput);
@@ -23,5 +23,7 @@ public interface ConsoleModel extends PropertyListenerRegisterer/*, WindowListen
 	String getInputPrompt();
 	void setInputPrompt(String inputPrompt);
 	void setIndexAndLogDirectory(int index, String aLogDirectory);
+	Class getExecedClass();
+	void setExecedClass(Class aClass);
 
 }

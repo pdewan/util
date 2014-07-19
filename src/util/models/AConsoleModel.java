@@ -39,6 +39,7 @@ public class AConsoleModel implements ConsoleModel {
 	String inputPrompt = DEFAULT_INPUT_PROMPT;
 	int index;
 	String logDirectory;
+	Class execedClass;
 	
 
 
@@ -49,9 +50,9 @@ public class AConsoleModel implements ConsoleModel {
 		propertyChangeSupport = new PropertyChangeSupport(this);
 		
 	}
-	public AConsoleModel(Process aProcess, String aTitle) {
+	public AConsoleModel(Process aProcess, String aTitle, Class aClass) {
 		this();
-		init(aProcess, aTitle);
+		init(aProcess, aTitle, aClass);
 
 //		propertyChangeSupport = new PropertyChangeSupport(this);
 //		process = aProcess;
@@ -66,7 +67,8 @@ public class AConsoleModel implements ConsoleModel {
 //		errorThread.start();
 	}
 	@Override
-	public void init(Process aProcess, String aTitle) {	
+	public void init(Process aProcess, String aTitle, Class aClass) {
+		execedClass = aClass;
 		process = aProcess;
 		title = aTitle;
 		setLocalTranscriptFile();
@@ -262,11 +264,11 @@ public class AConsoleModel implements ConsoleModel {
 	public static final String GLOBAL_FILE_NAME = "globalTranscript.txt";
 
 	public static String getLocalTranscriptFileName(String aDirectory, Integer anIndex, Class aClass) {
-		return aDirectory + "/" + anIndex + "_" + aClass.getSimpleName() + TRANSCRIPT_FILE_SUFFIX ;
+		return (aDirectory + "/" + anIndex + "_" + aClass.getSimpleName() + TRANSCRIPT_FILE_SUFFIX).trim() ;
 	}
 	
 	public static String getLocalTranscriptFileName(String aDirectory, Integer anIndex, String aTitle) {
-		return aDirectory + "/" + anIndex + "_" + aTitle + TRANSCRIPT_FILE_SUFFIX ;
+		return ( aDirectory + "/" + anIndex + "_" + aTitle + TRANSCRIPT_FILE_SUFFIX).trim() ;
 	}
 	
 	public static String getClassName(String aLocalTranscriptFileName) {
@@ -288,6 +290,14 @@ public class AConsoleModel implements ConsoleModel {
 	
 	public String toString() {
 		return title;
+	}
+	@Override
+	public Class getExecedClass() {
+		return execedClass;
+	}
+	@Override
+	public void setExecedClass(Class aClass) {
+		execedClass = aClass;
 	}
 	
 //	@Visible(false)

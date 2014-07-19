@@ -10,6 +10,7 @@ import util.trace.Tracer;
 
 public class AProcessExecer implements ProcessExecer {
 	Process process;
+	Class execedClass;
 	String className;
 	String args;
 	ConsoleModel consoleModel;
@@ -19,6 +20,7 @@ public class AProcessExecer implements ProcessExecer {
 	public AProcessExecer( Class aJavaClass, String anArgs) {
 		String currentDir = System.getProperty("user.dir");
 		className = aJavaClass.getName();
+		execedClass = aJavaClass;
 		args = anArgs;
 		String classPath = 
 		           System.getProperty("java.class.path");
@@ -35,10 +37,14 @@ public class AProcessExecer implements ProcessExecer {
 	protected String toTitle(Class aJavaClass, String anArgs) {
 		Tags aTags =  (Tags) aJavaClass.getAnnotation(Tags.class);
 		if (aTags == null || aTags.value().length == 0)
-		return aJavaClass.getSimpleName() + " " + anArgs;
+		return aJavaClass.getSimpleName()  + anArgs;
 		String aTagTitle = "";
-		for (String aTag: aTags.value()) {
-			aTagTitle += aTag + " ";
+		String[] aTagArray = aTags.value();
+//		for (String aTag: aTags.value()) {
+		for (int i = 0; i < aTagArray.length; i++) {
+			String aTag = aTagArray[i];
+			aTagTitle += 
+					(i == 0)? aTag: " " + aTag;
 		}
 		return aTagTitle + anArgs;
 	}
@@ -59,9 +65,9 @@ public class AProcessExecer implements ProcessExecer {
 		   process = rt.exec(command, null, binDirectory);
 //		   consoleModel = new AConsoleModel(process, title);
 		   if (consoleModel == null)
-			   consoleModel = new AConsoleModel(process, title);
+			   consoleModel = new AConsoleModel(process, title, execedClass);
 		   else
-			   consoleModel.init(process, title);
+			   consoleModel.init(process, title, execedClass);
 			   
 		} catch (Exception e) {
 			e.printStackTrace();
