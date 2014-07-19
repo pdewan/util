@@ -2,6 +2,7 @@ package util.remote;
 
 import java.io.File;
 
+import util.annotations.Tags;
 import util.annotations.Visible;
 import util.models.AConsoleModel;
 import util.models.ConsoleModel;
@@ -25,8 +26,22 @@ public class AProcessExecer implements ProcessExecer {
 //        command = "java -cp " + classPath + " " + className + " " + args;
         command = "java -cp \"" + classPath + "\" " + className + " " + args;
 
-        title = aJavaClass.getSimpleName() + " " + args;
-	}	
+//        title = aJavaClass.getSimpleName() + " " + args;
+        title = toTitle (aJavaClass, args);
+	}
+	
+	
+	
+	protected String toTitle(Class aJavaClass, String anArgs) {
+		Tags aTags =  (Tags) aJavaClass.getAnnotation(Tags.class);
+		if (aTags == null || aTags.value().length == 0)
+		return aJavaClass.getSimpleName() + " " + anArgs;
+		String aTagTitle = "";
+		for (String aTag: aTags.value()) {
+			aTagTitle += aTag + " ";
+		}
+		return aTagTitle + anArgs;
+	}
 	
 //	public AProcessExecer( String aCommand) {
 //		command = aCommand;  
