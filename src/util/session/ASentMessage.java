@@ -175,12 +175,12 @@ public class ASentMessage implements SentMessage {
 		return retVal;
 	}
 	public static String toString(Object aType, long aTimeStamp, Object aUserMessage) {
-		return  "(" +
-				"Type(" + aType + ")" + ", " + 
-				(Traceable.isPrintTime()? "TS(" + aTimeStamp + ")" + ", " :"")+
+		return  "[" +
+				"Type(" + aType + "]" + "; " + 
+				(Traceable.isPrintTime()? "TS[" + aTimeStamp + "]" + "; " :"")+
 //				"[" + Common.toString(args) + "]";
-				"Data(" + (aUserMessage != null? aUserMessage:"") + ")"
-				+")";
+				"Data[" + (aUserMessage != null? aUserMessage:"") + "]"
+				+"]";
 	}
 	public String toString() {
 		return //sendingUser + "->" + 
