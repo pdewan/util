@@ -12,9 +12,9 @@ public interface DistributedTags {
 	String NIO = "NIO";
 	String GIPC = "GIPC";
 	// some typical client names
-	String ALICE = "Alice";
-	String BOB = "Bob";
-	String CATHY = "Cathy";
-	String DAVID = "David";
+	String CLIENT_1 = "Alice";
+	String CLIENT_2 = "Bob";
+	String CLIENT_3 = "Cathy";
+	String CLIENT_4 = "David";
 
 }
