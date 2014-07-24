@@ -11,6 +11,7 @@ import util.trace.session.DataReceiveMarshalled;
 import util.trace.session.MessagePutInQueue;
 import util.trace.session.MessageReceived;
 import util.trace.session.QueueCreated;
+import util.trace.session.SessionMessageReceived;
 import util.trace.session.ThreadCreated;
 
 @util.annotations.StructurePattern(util.annotations.StructurePatternNames.BEAN_PATTERN)
@@ -115,9 +116,16 @@ public class AMessageReceiver implements ObjectReceiver/*
 	@Override
 	public void newMessage(ReceivedMessage aReceivedMessage)
 			throws RemoteException {
-		MessageReceived.newCase(
+		if (aReceivedMessage.isUserMessage()) {
+			MessageReceived.newCase(
+					CommunicatorSelector.getProcessName(), 
+					aReceivedMessage.getUserMessage(), aReceivedMessage.getClientName(), this);
+		}
+		else {
+		SessionMessageReceived.newCase(
 				CommunicatorSelector.getProcessName(), 
 				aReceivedMessage, aReceivedMessage.getClientName(), this);
+		}
 		Tracer.info(this, "Client received message:" + aReceivedMessage);
 
 		if (aReceivedMessage.getReceivedMessageType() == ReceivedMessageType.ClientJoined) { // unblocks the joiner
