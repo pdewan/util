@@ -90,21 +90,28 @@ public class AMessageReceiver implements ObjectReceiver/*
 		ThreadCreated.newCase(messageReceiverThread.getName(), CommunicatorSelector.getProcessName(), this);
 		messageReceiverThread.start();
 	}
-
+	/*
+	 * called by relayer
+	 * @see util.session.ObjectReceiver#newObject(java.lang.String, util.session.ObjectReceiver, java.lang.Object)
+	 */
 	@Override
 	public synchronized void newObject(String clientName,
 			ObjectReceiver client, Object value) { // rmi call
 		Tracer.info(this, "Client received newObject from:" + clientName);
+		MessageReceived.newCase(
+				CommunicatorSelector.getProcessName(), 
+				value, clientName, this);
 		ReceivedMessage receivedMesage = receivedMessageCreator.newObject(
 				clientName, client, value); // just making it into a queueble entity - nice thing about gipc is that we get the queuable entity, this now goes to another thread
 		DataReceiveMarshalled.newCase(
 				CommunicatorSelector.getProcessName(), receivedMesage, clientName, this);
+	
 		
 		MessagePutInQueue.newCase(CommunicatorSelector.getProcessName(), receivedMesage, receivedMesage.getClientName(), inputMessageQueue.getName(), this);
 		
 		inputMessageQueue.put(receivedMesage);
 	}
-
+	// called directly by remote P2P peer
 	@Override
 	public void newMessage(ReceivedMessage aReceivedMessage)
 			throws RemoteException {
