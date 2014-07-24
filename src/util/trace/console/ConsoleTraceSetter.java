@@ -10,12 +10,14 @@ public class ConsoleTraceSetter {
 		Tracer.showInfo(true);
 		TraceableInfo.setPrintSource(true);
 		Tracer.setMessagePrefixKind(MessagePrefixKind.FULL_CLASS_NAME);
+		Tracer.setImplicitPrintKeywordKind(ImplicitKeywordKind.OBJECT_CLASS_NAME);
+
 		setConsolePrintStatus();		
 	}
 	
 	public static void setConsolePrintStatus() {
 //		SessionTracerSetter.setSessionPrintStatus();
-		Tracer.setImplicitPrintKeywordKind(ImplicitKeywordKind.OBJECT_CLASS_NAME);
+//		Tracer.setImplicitPrintKeywordKind(ImplicitKeywordKind.OBJECT_CLASS_NAME);
 		
 		Tracer.setKeywordPrintStatus(ConsoleOutput.class, true);
 		Tracer.setKeywordPrintStatus(ConsoleError.class, true);
