@@ -2,7 +2,7 @@ package util.trace.session;
 
 
 
-public class SessionMessageReceived extends MessageReceived{
+public class SessionMessageReceived extends AddressedMessageInfo{
 
 	public SessionMessageReceived(String aMessage, String aProcessName,  Object aDataItem, String aSourceOrDestination, Object aFinder) {
 		super(aMessage, aProcessName, aDataItem,  aSourceOrDestination, aFinder);
