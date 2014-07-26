@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import util.awt.ADelegateFrame;
-import util.awt.Painter;
+import util.awt.DelegateFramePainter;
 import util.awt.SerializableGraphicsRequest;
 
 public class ALogPainter implements LogPainter {

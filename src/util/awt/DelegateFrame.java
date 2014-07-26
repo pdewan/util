@@ -4,9 +4,9 @@ import java.awt.Graphics;
 
 public interface DelegateFrame {
 
-	public void addPainter(Painter painter);
+	public void addPainter(DelegateFramePainter painter);
 
-	public void removePainter(Painter painter);
+	public void removePainter(DelegateFramePainter painter);
 
 	public void paint(Graphics g);
 

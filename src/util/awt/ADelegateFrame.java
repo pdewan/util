@@ -30,17 +30,17 @@ public class ADelegateFrame extends Frame implements DelegateFrame {
 	}
 
 	Map<Graphics, ListenableGraphics> toListenableGraphics = new HashMap();
-	Vector<Painter> painters = new Vector();
+	Vector<DelegateFramePainter> painters = new Vector();
 	ArrayList<ListenablePainter> listenablePainters = new ArrayList();
 	ArrayList<OutputListener> outputListeners = new ArrayList();
 
-	public void addPainter(Painter painter) {
+	public void addPainter(DelegateFramePainter painter) {
 		if (painters.contains(painter))
 			return;
 		painters.add(painter);
 	}
 
-	public void removePainter(Painter painter) {
+	public void removePainter(DelegateFramePainter painter) {
 		if (painters.contains(painter))
 			return;
 		painters.remove(painter);
