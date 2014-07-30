@@ -246,7 +246,7 @@ public class ADelegatingAWTEventQueue extends EventQueue implements DelegatingAW
 //						sentEvent, id);
 
 				for (AWTEventQueueHandler listener : eventQueueListeners) {
-					System.out.println(" notifying:" + sentEvent);
+//					System.out.println(" notifying:" + sentEvent);
 
 //					listener.newEvent(serializedEvent);
 					listener.newEvent(sentEvent);
