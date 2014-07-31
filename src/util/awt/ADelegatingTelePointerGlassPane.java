@@ -163,6 +163,7 @@ public class ADelegatingTelePointerGlassPane extends JPanel implements Delegatin
 		x += incX;
 		y += incY;
 		repaint();
+		notifyTelePointerListeners(new Point(x, y));
 	}
 	@Override
 	public void mouseMoved(MouseEvent arg0) {
