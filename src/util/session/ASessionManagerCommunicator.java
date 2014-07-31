@@ -43,7 +43,8 @@ public abstract class ASessionManagerCommunicator extends ASessionListenable
 	SerializedProcessGroups serializedMulticastGroups;
 	JoinLock joinLock = new AJoinLock();
 	DelayManager delayManager;
-	boolean isRelayedCommunication;
+	boolean relayedCommunication;
+	boolean orderedDelivery;
 	MessageReceiverRunnable messageReceiverRunnable;
 
 	
@@ -51,7 +52,7 @@ public abstract class ASessionManagerCommunicator extends ASessionListenable
 	public ASessionManagerCommunicator(String theServerHost,
 			String theSessionName, String theApplicationName,
 			String theClientName, boolean theIsRelayedCommunication) {
-		isRelayedCommunication = theIsRelayedCommunication;
+		relayedCommunication = theIsRelayedCommunication;
 		create(theServerHost, theSessionName, theApplicationName, theClientName);
 	}
 
@@ -60,7 +61,7 @@ public abstract class ASessionManagerCommunicator extends ASessionListenable
 		if (args.length < 4) {
 			Tracer.fatalError("Please supply server host name, session Name, and clientName as main argument");
 		}
-		isRelayedCommunication = theIsRelayedCommunication;
+		relayedCommunication = theIsRelayedCommunication;
 
 		create(args[0], args[1], args[2], args[3]);
 	}
@@ -278,6 +279,12 @@ public abstract class ASessionManagerCommunicator extends ASessionListenable
 	public void setMessageReceiverRunnable(
 			MessageReceiverRunnable messageReceiverRunnable) {
 		this.messageReceiverRunnable = messageReceiverRunnable;
+	}
+	public boolean isOrderedDelivery() {
+		return orderedDelivery;
+	}
+	public void setOrderedDelivery(boolean newVal) {
+		orderedDelivery = newVal;
 	}
 
 }

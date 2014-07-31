@@ -31,7 +31,7 @@ public abstract class AnAbstractCommunicator extends
 	@Override
 	public void toClient(String userName, Object object) {
 		try {
-			SendDataRequest.newCase(CommunicatorSelector.getProcessName(), object, userName, isRelayedCommunication, this);
+			SendDataRequest.newCase(CommunicatorSelector.getProcessName(), object, userName, relayedCommunication, this);
 
 			Object[] args = { userName, object, clientName,
 					exportedMessageReceiver };
@@ -58,7 +58,7 @@ public abstract class AnAbstractCommunicator extends
 	@Override
 	public void toOthers(Object object) {
 		try {
-			SendDataRequest.newCase(CommunicatorSelector.getProcessName(),object, AddressedSentMessageInfo.OTHERS, isRelayedCommunication, this);
+			SendDataRequest.newCase(CommunicatorSelector.getProcessName(),object, AddressedSentMessageInfo.OTHERS, relayedCommunication, this);
 
 			Object[] args = { object, clientName, exportedMessageReceiver };
 			SentMessage message = sentMessageCreator.toOthers(object);
@@ -75,7 +75,7 @@ public abstract class AnAbstractCommunicator extends
 	@Override
 	public void toNonCallers(Object object) {
 		try {
-			SendDataRequest.newCase(CommunicatorSelector.getProcessName(),object, AddressedSentMessageInfo.NON_CALLERS, isRelayedCommunication, this);
+			SendDataRequest.newCase(CommunicatorSelector.getProcessName(),object, AddressedSentMessageInfo.NON_CALLERS, relayedCommunication, this);
 
 			Object[] args = { object, clientName, exportedMessageReceiver };
 			SentMessage message = sentMessageCreator.toNonCallers(object, getMessageReceiverRunnable().getCurrentSender());
@@ -93,7 +93,7 @@ public abstract class AnAbstractCommunicator extends
 	@Override
 	public void toAll(Object object) {
 		try {
-			SendDataRequest.newCase(CommunicatorSelector.getProcessName(), object, AddressedSentMessageInfo.ALL, isRelayedCommunication, this);
+			SendDataRequest.newCase(CommunicatorSelector.getProcessName(), object, AddressedSentMessageInfo.ALL, relayedCommunication, this);
 
 			Object[] args = { object, clientName, exportedMessageReceiver };
 			SentMessage message = sentMessageCreator.toAll(object);
@@ -118,7 +118,7 @@ public abstract class AnAbstractCommunicator extends
 	}
 
 	public boolean isRelayedCommunication() {
-		return isRelayedCommunication;
+		return relayedCommunication;
 	}
 
 }

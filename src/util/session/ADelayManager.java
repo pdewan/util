@@ -203,7 +203,8 @@ public class ADelayManager implements DelayManager {
 					communicator.getClients()
 					.get(aClient), aDelay, aReceivedMessage));
 			// messages have to go in FIFO order
-//			Collections.sort(sortedDelayRecords);
+			if (!communicator.isOrderedDelivery())
+			Collections.sort(sortedDelayRecords);
 			if (sortedDelayRecords.size() == 1)
 				notifyNonEmptyQueue();
 			

@@ -12,6 +12,9 @@ public interface CommunicatorInternal {
 	void setDelayManager(DelayManager theDelayManager);
 
 	public boolean isRelayedCommunication();
+	
+	public boolean isOrderedDelivery();
+	public void setOrderedDelivery(boolean newVal);
 
 	ObjectReceiver getMessageReceiver();
 	MessageReceiverRunnable getMessageReceiverRunnable();
