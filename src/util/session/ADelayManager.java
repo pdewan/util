@@ -202,7 +202,8 @@ public class ADelayManager implements DelayManager {
 			.add(new AUserDelayRecord(aClient, 
 					communicator.getClients()
 					.get(aClient), aDelay, aReceivedMessage));
-			Collections.sort(sortedDelayRecords);
+			// messages have to go in FIFO order
+//			Collections.sort(sortedDelayRecords);
 			if (sortedDelayRecords.size() == 1)
 				notifyNonEmptyQueue();
 			
