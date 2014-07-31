@@ -108,7 +108,7 @@ public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
 				minimumDelay, localCommunicator.getDelayVariation());
 		
 		if (actualDelay <= 0) {
-			System.out.println ("Message not delayed, delay:" + actualDelay + " time stamp:" + aReceivedMessage.getTimeStamp());
+//			System.out.println ("Message not delayed, delay:" + actualDelay + " time stamp:" + aReceivedMessage.getTimeStamp());
 			try {
 				MessageSent.newCase(CommunicatorSelector.getProcessName(), aReceivedMessage , clients.get(aClient),  this);
 

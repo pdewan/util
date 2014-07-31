@@ -44,7 +44,7 @@ public abstract class ASessionManagerCommunicator extends ASessionListenable
 	JoinLock joinLock = new AJoinLock();
 	DelayManager delayManager;
 	boolean relayedCommunication;
-	boolean orderedDelivery;
+	boolean orderedDelivery = true;
 	MessageReceiverRunnable messageReceiverRunnable;
 
 	
