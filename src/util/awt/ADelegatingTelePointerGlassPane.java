@@ -88,8 +88,8 @@ public class ADelegatingTelePointerGlassPane extends JPanel implements Delegatin
 	}
 	 
 	boolean inTelePointer (MouseEvent event) {
-		return event.getX() >= x && event.getX() <= (event.getX() + getPointerWidth()) &&
-				event.getY() >= y && event.getY() <= (event.getY() + getPointerHeight());
+		return event.getX() >= x && event.getX() <= (x + getPointerWidth()) &&
+				event.getY() >= y && event.getY() <= (y + getPointerHeight());
 	}
 	@Override
 	 public void eventDispatched(AWTEvent event) { 
@@ -139,6 +139,7 @@ public class ADelegatingTelePointerGlassPane extends JPanel implements Delegatin
 	@Override
 	public void mousePressed(MouseEvent arg0) {
 		if (inTelePointer (arg0)) {
+			System.out.println("In telepointer:" + arg0);
 			pointerSelected = true;
 			clickX = arg0.getX();
 			clickY = arg0.getY();
