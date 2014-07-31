@@ -30,5 +30,6 @@ public interface DelegatingTelepointerGlassPane
 	void addTelePointerListener(PointListener aListener);
 
 	void removeTelePointerListener(PointListener aListener);
+	void repaint();
 
 }

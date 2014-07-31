@@ -46,7 +46,10 @@ public class ADelegatingTelePointerGlassPane extends JPanel implements Delegatin
 		aFrame.setGlassPane(this);
 		this.setVisible(true);
 	}
-
+	
+	public void repaint() {
+		super.repaint();
+	}
 	public void paint(Graphics g) {
 		super.paint(g);
 //		g.setColor(Color.RED);
