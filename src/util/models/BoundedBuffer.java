@@ -1,16 +1,18 @@
 package util.models;
 
-public interface BoundedBuffer <ElementType>{
+import java.util.concurrent.BlockingQueue;
+
+public interface BoundedBuffer <ElementType> extends BlockingQueue<ElementType>{
 	public String getName() ;
 
-	public void  put(ElementType element) ;
+	public void  put(ElementType element) throws InterruptedException ;
 	
 //	public void put(int anIndex, ElementType anElement);
 
-	public void  put(ElementType element, long timeOut) ;
+//	public void  put(ElementType element, long timeOut) throws InterruptedException;
 
-	public  ElementType get() ;
+	public  ElementType get() throws InterruptedException ;
 
-	public  ElementType get(long timeOut) ;
+//	public  ElementType get(long timeOut) throws InterruptedException;
 
 }

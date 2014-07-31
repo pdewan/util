@@ -16,7 +16,12 @@ public class ASentMessageQueuer implements MessageProcessor<SentMessage> {
 	@Override
 	public void processMessage(SentMessage theMessage) {
 		MessagePutInQueue.newCase(CommunicatorSelector.getProcessName(), theMessage, theMessage.getSendingUser(), outBuffer.getName(), this);
-		outBuffer.put(theMessage);
+		try {
+			outBuffer.put(theMessage);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 

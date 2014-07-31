@@ -160,7 +160,12 @@ public abstract class ASessionManagerClient extends ASessionListenable
 		SentMessage sentMessage = new ASentMessage(sessionName, applicationName, clientName,
 				exportedMessageReceiver, SentMessageType.Join, args);
 		MessagePutInQueue.newCase(CommunicatorSelector.getProcessName(), sentMessage, null, outputMessageQueue.getName(), this);
-		outputMessageQueue.put(sentMessage);
+		try {
+			outputMessageQueue.put(sentMessage);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 //		outputMessageQueue
 //				.put(new ASentMessage(sessionName, applicationName, clientName,
 //						exportedMessageReceiver, SentMessageType.Join, args));
@@ -182,7 +187,12 @@ public abstract class ASessionManagerClient extends ASessionListenable
 				false, false, null, null, null);
 		MessagePutInQueue.newCase(CommunicatorSelector.getProcessName(), receivedMesage, receivedMesage.getClientName(),  inputMessageQueue.getName(), this);
 
-		inputMessageQueue.put(receivedMesage);
+		try {
+			inputMessageQueue.put(receivedMesage);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public void delayedNewObject(String clientName, Object value) {
@@ -229,7 +239,12 @@ public abstract class ASessionManagerClient extends ASessionListenable
 				theClients, serializedProcessGroups, processGroup);
 		MessagePutInQueue.newCase(CommunicatorSelector.getProcessName(), receivedMesage, receivedMesage.getClientName(), inputMessageQueue.getName(), this);
 
-		inputMessageQueue.put(receivedMesage);
+		try {
+			inputMessageQueue.put(receivedMesage);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
@@ -240,7 +255,12 @@ public abstract class ASessionManagerClient extends ASessionListenable
 				theApplicationName, null, false, false, null, null, null);
 		MessagePutInQueue.newCase(CommunicatorSelector.getProcessName(), receivedMesage, receivedMesage.getClientName(), inputMessageQueue.getName(), this);
 
-		inputMessageQueue.put(receivedMesage);
+		try {
+			inputMessageQueue.put(receivedMesage);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public int getMinimumDelayToServer() {

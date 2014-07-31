@@ -110,7 +110,12 @@ public class AMessageReceiver implements ObjectReceiver/*
 		
 		MessagePutInQueue.newCase(CommunicatorSelector.getProcessName(), receivedMesage, receivedMesage.getClientName(), inputMessageQueue.getName(), this);
 		
-		inputMessageQueue.put(receivedMesage);
+		try {
+			inputMessageQueue.put(receivedMesage);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	// called directly by remote P2P peer
 	@Override
@@ -135,7 +140,12 @@ public class AMessageReceiver implements ObjectReceiver/*
 		}
 		MessagePutInQueue.newCase(CommunicatorSelector.getProcessName(), aReceivedMessage, aReceivedMessage.getClientName(), inputMessageQueue.getName(), this);
 
-		inputMessageQueue.put(aReceivedMessage);
+		try {
+			inputMessageQueue.put(aReceivedMessage);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	void processUndelayedUserJoined(ProcessGroup processGroup, // this is the relayer group
@@ -163,7 +173,12 @@ public class AMessageReceiver implements ObjectReceiver/*
 				client, theApplicationName, newSession, newApplication);
 		MessagePutInQueue.newCase(CommunicatorSelector.getProcessName(), aReceivedMessage, aReceivedMessage.getClientName(), inputMessageQueue.getName(), this);
 
-		inputMessageQueue.put(aReceivedMessage);
+		try {
+			inputMessageQueue.put(aReceivedMessage);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
@@ -174,7 +189,12 @@ public class AMessageReceiver implements ObjectReceiver/*
 				theClientName, theClient, theApplicationName);
 		MessagePutInQueue.newCase(CommunicatorSelector.getProcessName(), receivedMessage, receivedMessage.getClientName(), inputMessageQueue.getName(), this);
 
-		inputMessageQueue.put(receivedMessage);
+		try {
+			inputMessageQueue.put(receivedMessage);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public void setClients(Map<ObjectReceiver, String> theClients)
