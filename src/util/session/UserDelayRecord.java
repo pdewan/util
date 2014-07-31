@@ -11,7 +11,7 @@ public interface UserDelayRecord extends Comparable<UserDelayRecord> {
 
 	public abstract void setName(String name);
 
-	public abstract int getDelay();
+	public abstract long getDelay();
 
 	public abstract void setDelay(int delay);
 	public long getDeliveryTime() ;

@@ -329,14 +329,15 @@ public abstract class ASessionManagerClient extends ASessionListenable
 		return calculateDelay(messageTime, getMinimumDelayToServer(),
 				getDelayVariation());
 	}
-
+// why is this duplicated?
 	public static long calculateDelay(long messageTime, int minimumDelay,
 			int delayVariation) {
-		double random = Math.random();
-		long randomDelay = Math.round(delayVariation * random);
-		long actualDelay = randomDelay + minimumDelay
-				- (System.currentTimeMillis() - messageTime);
-		return actualDelay;
+//		double random = Math.random();
+//		long randomDelay = Math.round(delayVariation * random);
+//		long actualDelay = randomDelay + minimumDelay
+//				- (System.currentTimeMillis() - messageTime);
+//		return actualDelay;
+		return ADelayManager.calculateDelay(messageTime, minimumDelay, delayVariation);
 	}
 
 	@Override

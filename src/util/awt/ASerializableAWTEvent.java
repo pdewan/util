@@ -18,6 +18,8 @@ public class ASerializableAWTEvent implements SerializableAWTEvent {
 		componentId = theComponentId;
 		if (theEvent != null)
 		paramString = theEvent.paramString();
+//		if (paramString == null)
+//			paramString = ""; // toString seems to barf
 	}
 	public AWTEvent getAWTEvent() {
 		return event;
@@ -36,6 +38,9 @@ public class ASerializableAWTEvent implements SerializableAWTEvent {
 	}
 	public void setAWTEvent(AWTEvent anEvent) {
 		event = anEvent;
+	}
+	public String toString() {
+		return "ID: " + componentId + " " + event.getClass();
 	}
 
 }

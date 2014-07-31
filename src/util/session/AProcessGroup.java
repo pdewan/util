@@ -80,7 +80,9 @@ public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
 			return;
 		int minimumDelay = localCommunicator.getMinimumDelayToPeer(clients
 				.get(client));
-		long actualDelay = ASessionManagerClient.calculateDelay(messageTime,
+//		long actualDelay = ASessionManagerClient.calculateDelay(messageTime,
+//				minimumDelay, localCommunicator.getDelayVariation());
+		long actualDelay = ADelayManager.calculateDelay(messageTime,
 				minimumDelay, localCommunicator.getDelayVariation());
 		if (actualDelay <= 0)
 			return;
@@ -104,7 +106,9 @@ public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
 				.get(aClient));
 		long actualDelay = ASessionManagerClient.calculateDelay(messageTime,
 				minimumDelay, localCommunicator.getDelayVariation());
+		
 		if (actualDelay <= 0) {
+			System.out.println ("Message not delayed, delay:" + actualDelay + " time stamp:" + aReceivedMessage.getTimeStamp());
 			try {
 				MessageSent.newCase(CommunicatorSelector.getProcessName(), aReceivedMessage , clients.get(aClient),  this);
 
@@ -120,8 +124,9 @@ public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
 //		SentMessageDelayed.newCase(CommunicatorSelector.getProcessName(), aReceivedMessage, aClientName,actualDelay, this);
 
 		Tracer.info(this, "Client delaying sending message to absolute time: " + messageTime + " and delay:" +
-				  actualDelay);
-		localCommunicator.getDelayManager().addMessage(aReceivedMessage, aClient);
+				  actualDelay + " and time stamp:" + aReceivedMessage.getTimeStamp());
+		
+		localCommunicator.getDelayManager().addMessage(aReceivedMessage, aClient, actualDelay);
 //		try {
 //			Thread.sleep(actualDelay);
 //

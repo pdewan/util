@@ -24,7 +24,7 @@ public interface DelayManager extends Runnable {
 
 	public List<UserDelayRecord> getSortedDelayRecords();
 
-	void addMessage(ReceivedMessage aMessage, ObjectReceiver aClient);
+	void addMessage(ReceivedMessage aMessage, ObjectReceiver aClient, long aDelay);
 
 	void createThread();
 

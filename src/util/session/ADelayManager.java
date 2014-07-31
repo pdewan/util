@@ -75,6 +75,8 @@ public class ADelayManager implements DelayManager {
 		long delay = aUserDelayRecord.getDeliveryTime() - currentTime;
 		ReceivedMessage aReceivedMessage = aUserDelayRecord.getReceivedMessage();
 		MessageReceiver aClient = aUserDelayRecord.getClient();
+//		System.out.println("delivery time:" + aUserDelayRecord.getDeliveryTime() + " currentTime:" + currentTime +
+//		" TS:" + aReceivedMessage.getTimeStamp());
 		String aName = aUserDelayRecord.getName();
 		MessageRetrievedFromQueue.newCase(
 				CommunicatorSelector.getProcessName(), 
@@ -87,7 +89,10 @@ public class ADelayManager implements DelayManager {
 					aReceivedMessage, aName, delay, this);
 
 			ThreadSupport.sleep(delay);
-		}
+		} 
+//		else {
+//			System.out.println("Message not delayed, delay:" + delay + "TS:" + aReceivedMessage.getTimeStamp());
+//		}
 	
 		
 		try {
@@ -152,10 +157,21 @@ public class ADelayManager implements DelayManager {
 
 	public static long calculateDelay(long messageTime, int minimumDelay,
 			int delayVariation) {
+		if (minimumDelay == 0) return 0; // as there is only one delay variation for all sites, we dont want sites with no dleay to have variation
+//		System.out.println("delayvariation:" + delayVariation + " min delay:" + minimumDelay);
 		double random = Math.random();
+//		System.out.println("random:" + random);
 		long randomDelay = Math.round(delayVariation * random);
+//		System.out.println("random delay:" + randomDelay);
+		long delayIncurred = (System.currentTimeMillis() - messageTime);
+//		System.out.println("delay incurred:" + delayIncurred);
+
 		long actualDelay = randomDelay + minimumDelay
-				- (System.currentTimeMillis() - messageTime);
+				- delayIncurred;
+//				- (System.currentTimeMillis() - messageTime);
+//		System.out.println("actual delay:" + actualDelay);
+
+		
 		return actualDelay;
 	}
 
@@ -172,15 +188,20 @@ public class ADelayManager implements DelayManager {
 		}
 	}
 	@Override
-	public  void addMessage(ReceivedMessage aReceivedMessage, ObjectReceiver aClient) {
+	public  void addMessage(ReceivedMessage aReceivedMessage, ObjectReceiver aClient, long aDelay) {
 			MessagePutInQueue.newCase(
 					CommunicatorSelector.getProcessName(), 
 					aReceivedMessage, aReceivedMessage.getClientName(), DELAY_QUEUE_NAME, this);
 
+//			sortedDelayRecords
+//					.add(new AUserDelayRecord(aClient, 
+//							communicator.getClients()
+//							.get(aClient), getMinimumDelayToPeer(communicator
+//							.getClients().get(aClient)), aReceivedMessage));
 			sortedDelayRecords
-					.add(new AUserDelayRecord(aClient, communicator.getClients()
-							.get(aClient), getMinimumDelayToPeer(communicator
-							.getClients().get(aClient)), aReceivedMessage));
+			.add(new AUserDelayRecord(aClient, 
+					communicator.getClients()
+					.get(aClient), aDelay, aReceivedMessage));
 			Collections.sort(sortedDelayRecords);
 			if (sortedDelayRecords.size() == 1)
 				notifyNonEmptyQueue();

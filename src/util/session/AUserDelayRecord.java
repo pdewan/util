@@ -2,7 +2,7 @@ package util.session;
 
 public class AUserDelayRecord implements UserDelayRecord {
 	String name;
-	int delay;
+	long delay;
 	long deliveryTime;
 	
 
@@ -12,12 +12,12 @@ public class AUserDelayRecord implements UserDelayRecord {
 	ObjectReceiver client;
 
 	public AUserDelayRecord(ObjectReceiver theClient, String theName,
-			int theDelay, ReceivedMessage aReceivedMessage) {
+			long theDelay, ReceivedMessage aReceivedMessage) {
 		client = theClient;
 		name = theName;
 		delay = theDelay;
 		receivedMessage = aReceivedMessage;
-		deliveryTime = System.currentTimeMillis() + delay;
+		setDeliveryTime (System.currentTimeMillis() + delay);
 	}
 
 	public ObjectReceiver getClient() {
@@ -51,7 +51,7 @@ public class AUserDelayRecord implements UserDelayRecord {
 	 * 
 	 * @see util.session.DelayUserRecord#getDelay()
 	 */
-	public int getDelay() {
+	public long getDelay() {
 		return delay;
 	}
 
@@ -88,6 +88,7 @@ public class AUserDelayRecord implements UserDelayRecord {
 	}
 
 	public void setDeliveryTime(long deliveryTime) {
+//		System.out.println("Delivery time set to:" + deliveryTime + " TS:" + receivedMessage.getTimeStamp());
 		this.deliveryTime = deliveryTime;
 	}
 	@Override
