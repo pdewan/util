@@ -27,6 +27,7 @@ public class ADelegatingTelePointerGlassPane extends JPanel implements Delegatin
 	JFrame frame;
 	protected int pointerWidth = DIAMETER, pointerHeight = DIAMETER;
 	protected List<GraphicsPainter> painters = new ArrayList();
+	protected List<PointListener> telepointerListeners = new ArrayList();
 	
 	
 	public ADelegatingTelePointerGlassPane(JFrame aFrame) {
@@ -141,6 +142,7 @@ public class ADelegatingTelePointerGlassPane extends JPanel implements Delegatin
 			pointerSelected = true;
 			clickX = arg0.getX();
 			clickY = arg0.getY();
+			notifyTelePointerListeners(new Point(clickX, clickY));
 		}
 		
 	}
@@ -211,12 +213,29 @@ public class ADelegatingTelePointerGlassPane extends JPanel implements Delegatin
 		
 	}
 	
+	
+
+	@Override
+	public void addTelePointerListener(PointListener aListener) {
+		telepointerListeners.add(aListener);
+		
+	}
+	@Override
+	public void removeTelePointerListener(PointListener aListener) {
+		telepointerListeners.remove(aListener);
+		
+	}
+	
 	protected void notifyPainters(Graphics g) {
 		for (GraphicsPainter aPainter:painters) {
-			aPainter.paint(g);
-			
+			aPainter.paint(g);			
 		}
-	}
-	    
+	} 
+	protected void notifyTelePointerListeners(Point aPoint) {
+		for (PointListener aPointListener:telepointerListeners) {
+			aPointListener.newPoint(aPoint);			
+		}
+	}    
+
 
 }

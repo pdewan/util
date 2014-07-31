@@ -27,4 +27,8 @@ public interface DelegatingTelepointerGlassPane
 
 	void setPointerY(int newVal);
 
+	void addTelePointerListener(PointListener aListener);
+
+	void removeTelePointerListener(PointListener aListener);
+
 }
