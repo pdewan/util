@@ -146,7 +146,7 @@ public class ADelegatingTelePointerGlassPane extends JPanel implements Delegatin
 			pointerSelected = true;
 			clickX = arg0.getX();
 			clickY = arg0.getY();
-			repaint();
+//			repaint(); // not really necessary
 			notifyTelePointerListeners(new Point(clickX, clickY));
 		}
 		
