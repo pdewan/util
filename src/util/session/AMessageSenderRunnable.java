@@ -54,6 +54,7 @@ public class AMessageSenderRunnable implements MessageSenderRunnable {
 				MessageRetrievedFromQueue.newCase(
 						CommunicatorSelector.getProcessName(), 
 						message, 
+//						message.getArgs()[3].toString(),
 						null,
 						outputMessageQueue.getName(),
 						this);
