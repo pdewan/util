@@ -142,7 +142,7 @@ public class ADelegatingTelePointerGlassPane extends JPanel implements Delegatin
 	@Override
 	public void mousePressed(MouseEvent arg0) {
 		if (inTelePointer (arg0)) {
-			System.out.println("In telepointer:" + arg0);
+//			System.out.println("In telepointer:" + arg0);
 			pointerSelected = true;
 			clickX = arg0.getX();
 			clickY = arg0.getY();
