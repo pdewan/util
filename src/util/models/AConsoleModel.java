@@ -35,19 +35,23 @@ public class AConsoleModel implements ConsoleModel {
 	PrintStream printStream;
 	Process process;
 	String title;
-	String globalTranscriptFile, localTranscriptFile;
+//	String globalTranscriptFile, localTranscriptFile;
 	String inputPrompt = DEFAULT_INPUT_PROMPT;
-	int index;
+//	int index;
 	String logDirectory;
 	Class execedClass;
+	LocalGlobalTranscriptManager localGlobalTranscriptManager;
 	
 
+
+	
 
 	public static final int CONSOLE_WIDTH = 320;
 	public static final int CONSOLE_HEIGHT =350;
 	PropertyChangeSupport propertyChangeSupport;
 	public AConsoleModel() {
 		propertyChangeSupport = new PropertyChangeSupport(this);
+		localGlobalTranscriptManager = new ALocalGlobalTranscriptManager();
 		
 	}
 	public AConsoleModel(Process aProcess, String aTitle, Class aClass) {
@@ -71,8 +75,9 @@ public class AConsoleModel implements ConsoleModel {
 		execedClass = aClass;
 		process = aProcess;
 		title = aTitle;
-		setLocalTranscriptFile();
-		setGlobalPrefix();
+		localGlobalTranscriptManager.setProcessName(aTitle);
+//		setLocalTranscriptFile();
+//		setGlobalPrefix();
 		printStream = new PrintStream(
 				process.getOutputStream());
 	    outputThread = new Thread(				
@@ -145,30 +150,31 @@ public class AConsoleModel implements ConsoleModel {
 			addOutput(infoString);
 	}
 	
-	String globalPrefix;
-	protected String globalPrefix() {
-		return  "(" + title.trim() + ") ";
-	}
-	protected void setGlobalPrefix() {
-		globalPrefix = globalPrefix();
-	}
+//	String globalPrefix;
+//	protected String globalPrefix() {
+//		return  "(" + title.trim() + ") ";
+//	}
+//	protected void setGlobalPrefix() {
+//		globalPrefix = globalPrefix();
+//	}
 	@Visible(false)
 	public synchronized void addOutput(String newVal) {
 		String actualOutput = newVal + "\n";
-		if (globalTranscriptFile != null)
-			try {
-				Common.appendText(globalTranscriptFile, globalPrefix + actualOutput);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		if (localTranscriptFile != null)
-			try {
-				Common.appendText(localTranscriptFile, actualOutput);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		localGlobalTranscriptManager.addOutput(newVal);
+//		if (globalTranscriptFile != null)
+//			try {
+//				Common.appendText(globalTranscriptFile, globalPrefix + actualOutput);
+//			} catch (IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		if (localTranscriptFile != null)
+//			try {
+//				Common.appendText(localTranscriptFile, actualOutput);
+//			} catch (IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
 		output.append(actualOutput);
 		propertyChangeSupport.firePropertyChange(new PropertyChangeEvent(this, OUTPUT_LINE, null, newVal ));
 
@@ -199,26 +205,26 @@ public class AConsoleModel implements ConsoleModel {
 	public void initFrame(Frame aFrame) {
 //		aFrame.addWindowListener(this);
 	}	
-	@Visible(false)
-	@Override
-	public String getGlobalTranscriptFile() {
-		return globalTranscriptFile;
-	}
-	@Visible(false)
-	@Override
-	public void setGlobalTranscriptFile(String transcriptFile) {
-		this.globalTranscriptFile = transcriptFile;
-	}
-	@Override
-	@Visible(false)
-	public String getLocalTranscriptFile() {
-		return localTranscriptFile;
-	}
-	@Override
-	@Visible(false)
-	public void setLocalTranscriptFile(String localTranscriptFile) {
-		this.localTranscriptFile = localTranscriptFile;
-	}
+//	@Visible(false)
+//	@Override
+//	public String getGlobalTranscriptFile() {
+//		return localGlobalTranscriptManager
+//	}
+//	@Visible(false)
+//	@Override
+//	public void setGlobalTranscriptFile(String transcriptFile) {
+//		this.globalTranscriptFile = transcriptFile;
+//	}
+//	@Override
+//	@Visible(false)
+//	public String getLocalTranscriptFile() {
+//		return localTranscriptFile;
+//	}
+//	@Override
+//	@Visible(false)
+//	public void setLocalTranscriptFile(String localTranscriptFile) {
+//		this.localTranscriptFile = localTranscriptFile;
+//	}
 	@Override
 	@Visible(false)
 	public String getInputPrompt() {
@@ -229,28 +235,29 @@ public class AConsoleModel implements ConsoleModel {
 	public void setInputPrompt(String inputPrompt) {
 		this.inputPrompt = inputPrompt;
 	}
-	@Visible(false)
-	public int getIndex() {
-		return index;
-	}
-	void setLocalTranscriptFile() {
-		if (title == null || logDirectory == null) return;
-		setLocalTranscriptFile (getLocalTranscriptFileName(logDirectory,index, getTitle()));
-		try {
-			Common.clearOrCreateFile(getLocalTranscriptFile());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-	}
-	@Override
-	public void setIndexAndLogDirectory(int index, String aLogDirectory) {
-		this.index = index;
-		logDirectory = aLogDirectory;
-		setLocalTranscriptFile();
-
-	}
+//	@Visible(false)
+//	public int getIndex() {
+//		return index;
+//	}
+//	void setLocalTranscriptFile() {
+//		if (title == null || logDirectory == null) return;
+//		setLocalTranscriptFile (getLocalTranscriptFileName(logDirectory,index, getTitle()));
+//		try {
+//			Common.clearOrCreateFile(getLocalTranscriptFile());
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		
+//	}
+//	@Override
+//	public void setIndexAndLogDirectory(int index, String aLogDirectory) {
+//		localGlobalTranscriptManager.setIndexAndLogDirectory(index, aLogDirectory);
+////		this.index = index;
+////		logDirectory = aLogDirectory;
+////		setLocalTranscriptFile();
+//
+//	}
 	@Visible(false)
 	public String getLogDirectory() {
 		return logDirectory;
@@ -271,17 +278,17 @@ public class AConsoleModel implements ConsoleModel {
 		return ( aDirectory + "/" + anIndex + "_" + aTitle + TRANSCRIPT_FILE_SUFFIX).trim() ;
 	}
 	
-	public static String getClassName(String aLocalTranscriptFileName) {
-		int aStart = aLocalTranscriptFileName.indexOf(INDEX_SUFFIX) + 1;
-		int anEnd = aLocalTranscriptFileName.indexOf(TRANSCRIPT_FILE_SUFFIX);
-		return aLocalTranscriptFileName.substring(aStart, anEnd);
-	}
-	
-	public static String getTitle(String aLocalTranscriptFileName) {
-		int aStart = aLocalTranscriptFileName.indexOf(INDEX_SUFFIX) + 1;
-		int anEnd = aLocalTranscriptFileName.indexOf(TRANSCRIPT_FILE_SUFFIX);
-		return aLocalTranscriptFileName.substring(aStart, anEnd);
-	}
+//	public static String getClassName(String aLocalTranscriptFileName) {
+//		int aStart = aLocalTranscriptFileName.indexOf(INDEX_SUFFIX) + 1;
+//		int anEnd = aLocalTranscriptFileName.indexOf(TRANSCRIPT_FILE_SUFFIX);
+//		return aLocalTranscriptFileName.substring(aStart, anEnd);
+//	}
+//	
+//	public static String getTitle(String aLocalTranscriptFileName) {
+//		int aStart = aLocalTranscriptFileName.indexOf(INDEX_SUFFIX) + 1;
+//		int anEnd = aLocalTranscriptFileName.indexOf(TRANSCRIPT_FILE_SUFFIX);
+//		return aLocalTranscriptFileName.substring(aStart, anEnd);
+//	}
 	
 	
 	public static String getGlobalTranscriptFileName (String aDirectory) {
@@ -301,6 +308,21 @@ public class AConsoleModel implements ConsoleModel {
 	public void setExecedClass(Class aClass) {
 		execedClass = aClass;
 	}
+	@Visible(false)
+	public LocalGlobalTranscriptManager getLocalGlobalTranscriptManager() {
+		return localGlobalTranscriptManager;
+	}
+	@Visible(false)
+
+	public void setLocalGlobalTranscriptManager(
+			LocalGlobalTranscriptManager localGlobalTranscriptManager) {
+		this.localGlobalTranscriptManager = localGlobalTranscriptManager;
+	}
+//	@Override
+//	public void setLocalGlobalTranscriptManager() {
+//		// TODO Auto-generated method stub
+//		
+//	}
 	
 //	@Visible(false)
 //	@Override

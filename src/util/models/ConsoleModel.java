@@ -3,6 +3,8 @@ package util.models;
 import java.awt.Frame;
 import java.awt.event.WindowListener;
 
+import util.annotations.Visible;
+
 public interface ConsoleModel extends PropertyListenerRegisterer/*, WindowListener*/{
 	public final String OUTPUT_LINE = "outputLine";
 	public String getInput() ;
@@ -13,17 +15,20 @@ public interface ConsoleModel extends PropertyListenerRegisterer/*, WindowListen
 	public void exit();
 //	void setOutput(StringBuilder newVal);
 	void initFrame(Frame aFrame);
-	String getGlobalTranscriptFile();
-	void setGlobalTranscriptFile(String transcriptFile);
+//	String getGlobalTranscriptFile();
+//	void setGlobalTranscriptFile(String transcriptFile);
 	void init(Process aProcess, String aTitle, Class aClass);
-	String getLocalTranscriptFile();
-	void setLocalTranscriptFile(String localTranscriptFile);
+//	String getLocalTranscriptFile();
+//	void setLocalTranscriptFile(String localTranscriptFile);
 	void newOutput(String anOutput);
 	void newError(String anError);
 	String getInputPrompt();
 	void setInputPrompt(String inputPrompt);
-	void setIndexAndLogDirectory(int index, String aLogDirectory);
+//	void setIndexAndLogDirectory(int index, String aLogDirectory);
 	Class getExecedClass();
 	void setExecedClass(Class aClass);
+	public LocalGlobalTranscriptManager getLocalGlobalTranscriptManager() ;
+	public void setLocalGlobalTranscriptManager(
+			LocalGlobalTranscriptManager localGlobalTranscriptManager) ;
 
 }

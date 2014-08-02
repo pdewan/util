@@ -689,7 +689,9 @@ public class Common {
 			// thread.start();
 			// thread.join(timeOut);
 			classNamesBuffer.put(name);
-			Class classFromName = (Class) classesBuffer.get(timeOut);
+//			Class classFromName = (Class) classesBuffer.get(timeOut);
+			Class classFromName = (Class) classesBuffer.get();
+
 			// Class classFromName = runnable.getClassFromName();
 			if (classFromName == null) {
 				System.out

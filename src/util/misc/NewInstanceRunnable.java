@@ -29,7 +29,12 @@ public class NewInstanceRunnable implements Runnable {
 				Common.instanceBuffer.put(obj);
 			} catch (Exception e) {
 				System.out.println(e);
-				Common.instanceBuffer.put(null);
+				try {
+					Common.instanceBuffer.put(null);
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		}
 
