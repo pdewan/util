@@ -7,6 +7,10 @@ import util.annotations.Visible;
 
 public interface ConsoleModel extends PropertyListenerRegisterer/*, WindowListener*/{
 	public final String OUTPUT_LINE = "outputLine";
+	public final String OUTPUT = "output";
+	public final String INPUT = "input";
+
+
 	public String getInput() ;
 	public void addOutput(String newVal) ;
 	public void setInput(String newVal);

@@ -112,7 +112,7 @@ public class AConsoleModel implements ConsoleModel {
 		printStream.println(newVal);
 		printStream.flush();		
 		// fire the actual value first for other interactors
-		propertyChangeSupport.firePropertyChange(new PropertyChangeEvent(this, "input", null, newVal ));
+		propertyChangeSupport.firePropertyChange(new PropertyChangeEvent(this, ConsoleModel.INPUT, null, newVal ));
 		if (Tracer.isInfo(newVal))
 			return;
 		ConsoleInput consoleInput = ConsoleInput.newCase(newVal, this);
@@ -120,7 +120,7 @@ public class AConsoleModel implements ConsoleModel {
 		if (infoString != null)
 			addOutput(infoString);
 		// and then the reset value
-		propertyChangeSupport.firePropertyChange(new PropertyChangeEvent(this, "input", null, input ));
+		propertyChangeSupport.firePropertyChange(new PropertyChangeEvent(this, ConsoleModel.INPUT, null, input ));
 		
 		
 		// put a sleep after each firing, as some kind of deadlock occurs
@@ -178,7 +178,7 @@ public class AConsoleModel implements ConsoleModel {
 		output.append(actualOutput);
 		propertyChangeSupport.firePropertyChange(new PropertyChangeEvent(this, OUTPUT_LINE, null, newVal ));
 
-		propertyChangeSupport.firePropertyChange(new PropertyChangeEvent(this, "output", null, output ));
+		propertyChangeSupport.firePropertyChange(new PropertyChangeEvent(this, ConsoleModel.OUTPUT, null, output ));
 	}
 	@DisplayToString(true)
 	@PreferredWidgetClass(JTextArea.class)

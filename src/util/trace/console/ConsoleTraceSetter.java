@@ -9,6 +9,7 @@ public class ConsoleTraceSetter {
 	public static void traceConsole() {
 		Tracer.showInfo(true);
 		TraceableInfo.setPrintSource(true);
+		TraceableInfo.setPrintTime(false);
 		Tracer.setMessagePrefixKind(MessagePrefixKind.FULL_CLASS_NAME);
 		Tracer.setImplicitPrintKeywordKind(ImplicitKeywordKind.OBJECT_CLASS_NAME);
 
