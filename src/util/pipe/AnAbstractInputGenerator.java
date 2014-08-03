@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public abstract class AnAbstractOutputBasedInputGenerator implements OutputBasedInputGenerator {
+public abstract class AnAbstractInputGenerator implements InputGenerator {
 	protected List<ProcessInputListener> processInputListeners = new ArrayList();
 	protected Map<String, Boolean> processToTerminatedSucessfully = new HashMap();
 //	protected boolean terminatedSuccessfully;
@@ -71,6 +71,12 @@ public abstract class AnAbstractOutputBasedInputGenerator implements OutputBased
 			aProcess = "";
 		processToTerminatedSucessfully.put(aProcess, terminatedSuccessfully);
 	}
-	
+	// will not be used much probably
+	public void newInput(String aProcessName, String anInput) {
+		
+	}
+	public void inputTerminated(String aProcessName) {
+		
+	}
 
 }

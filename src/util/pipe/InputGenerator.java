@@ -1,7 +1,7 @@
 package util.pipe;
 
 
-public interface OutputBasedInputGenerator extends ProcessOutputListener {
+public interface InputGenerator extends ProcessOutputListener, ProcessInputListener {
 	public final String OUTPUT_LINE = ConsoleModel.OUTPUT_LINE;
 	public final String INPUT = "input";
 //	 void processNewOutputLine(String aProcessName, String aNewOutputLine);
