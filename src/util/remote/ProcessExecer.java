@@ -1,5 +1,5 @@
 package util.remote;
-import util.models.ConsoleModel;
+import util.pipe.ConsoleModel;
 public interface ProcessExecer {	
 	public Process execProcess() ;	
 	public Process getProcess();	

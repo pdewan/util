@@ -1,4 +1,4 @@
-package util.models;
+package util.pipe;
 
 import java.awt.Frame;
 import java.awt.event.WindowEvent;
@@ -18,6 +18,8 @@ import util.annotations.PreferredWidgetClass;
 import util.annotations.Row;
 import util.annotations.Visible;
 import util.misc.Common;
+import util.models.ALocalGlobalTranscriptManager;
+import util.models.LocalGlobalTranscriptManager;
 import util.trace.Tracer;
 import util.trace.console.ConsoleError;
 import util.trace.console.ConsoleInput;

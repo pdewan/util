@@ -4,8 +4,8 @@ import java.io.File;
 
 import util.annotations.Tags;
 import util.annotations.Visible;
-import util.models.AConsoleModel;
-import util.models.ConsoleModel;
+import util.pipe.AConsoleModel;
+import util.pipe.ConsoleModel;
 import util.trace.Tracer;
 
 public class AProcessExecer implements ProcessExecer {

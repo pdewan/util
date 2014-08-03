@@ -1,9 +1,11 @@
-package util.models;
+package util.pipe;
 
 import java.awt.Frame;
 import java.awt.event.WindowListener;
 
 import util.annotations.Visible;
+import util.models.LocalGlobalTranscriptManager;
+import util.models.PropertyListenerRegisterer;
 
 public interface ConsoleModel extends PropertyListenerRegisterer/*, WindowListener*/{
 	public final String OUTPUT_LINE = "outputLine";
