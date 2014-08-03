@@ -35,7 +35,10 @@ public class AConsoleModel implements ConsoleModel {
 	PrintStream printStream;
 	Process process;
 	String title;
-//	String globalTranscriptFile, localTranscriptFile;
+	String processName;
+
+
+	//	String globalTranscriptFile, localTranscriptFile;
 	String inputPrompt = DEFAULT_INPUT_PROMPT;
 //	int index;
 	String logDirectory;
@@ -317,6 +320,15 @@ public class AConsoleModel implements ConsoleModel {
 	public void setLocalGlobalTranscriptManager(
 			LocalGlobalTranscriptManager localGlobalTranscriptManager) {
 		this.localGlobalTranscriptManager = localGlobalTranscriptManager;
+	}
+	@Override
+	@Visible(false)
+	public String getProcessName() {
+		return processName;
+	}
+	@Override
+	public void setProcessName(String processName) {
+		this.processName = processName;
 	}
 //	@Override
 //	public void setLocalGlobalTranscriptManager() {

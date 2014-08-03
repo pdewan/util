@@ -34,5 +34,7 @@ public interface ConsoleModel extends PropertyListenerRegisterer/*, WindowListen
 	public LocalGlobalTranscriptManager getLocalGlobalTranscriptManager() ;
 	public void setLocalGlobalTranscriptManager(
 			LocalGlobalTranscriptManager localGlobalTranscriptManager) ;
+	String getProcessName();
+	void setProcessName(String processName);
 
 }
