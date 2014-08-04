@@ -74,6 +74,11 @@ public class ADelayManager implements DelayManager {
 		long currentTime = System.currentTimeMillis();
 		long delay = aUserDelayRecord.getDeliveryTime() - currentTime;
 		ReceivedMessage aReceivedMessage = aUserDelayRecord.getReceivedMessage();
+		if (aReceivedMessage == null) {
+			System.out.println("Null received message!");
+			return;
+		}
+			
 		MessageReceiver aClient = aUserDelayRecord.getClient();
 //		System.out.println("delivery time:" + aUserDelayRecord.getDeliveryTime() + " currentTime:" + currentTime +
 //		" TS:" + aReceivedMessage.getTimeStamp());
@@ -234,12 +239,13 @@ public class ADelayManager implements DelayManager {
 
 	public void setMinimumDelayToPeer(String thePeer, int theDelay) {
 		peerDelays.put(thePeer, theDelay);
-		refreshClients();
-		UserDelayRecord userDelayRecord = getUserDelayRecord(thePeer);
-		if (userDelayRecord == null)
-			return;
-		userDelayRecord.setDelay(theDelay);
-		Collections.sort(sortedDelayRecords);
+		// not sure we want to refresh clients or sort past clients
+//		refreshClients();
+//		UserDelayRecord userDelayRecord = getUserDelayRecord(thePeer);
+//		if (userDelayRecord == null)
+//			return;
+//		userDelayRecord.setDelay(theDelay);
+//		Collections.sort(sortedDelayRecords);
 
 	}
 

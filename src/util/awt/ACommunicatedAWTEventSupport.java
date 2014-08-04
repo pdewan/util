@@ -161,6 +161,8 @@ public class ACommunicatedAWTEventSupport implements CommunicatedAWTEventSupport
 		AWTEvent aReceivedAWTEvent = aReceivedEvent.getAWTEvent();
 		if (aReceivedAWTEvent == null)
 			return null;
+		if (component == null)
+			return null;
 		AWTEvent retVal = aReceivedAWTEvent;
 		
 			 if (aReceivedAWTEvent instanceof MouseEvent) {

@@ -16,7 +16,7 @@ public class AUserDelayRecord implements UserDelayRecord {
 		client = theClient;
 		name = theName;
 		delay = theDelay;
-		receivedMessage = aReceivedMessage;
+		setReceivedMessage(aReceivedMessage);
 		setDeliveryTime (System.currentTimeMillis() + delay);
 	}
 
@@ -96,8 +96,11 @@ public class AUserDelayRecord implements UserDelayRecord {
 		return receivedMessage;
 	}
 	@Override
-	public void setReceivedMessage(ReceivedMessage receivedMessage) {
-		this.receivedMessage = receivedMessage;
+	public void setReceivedMessage(ReceivedMessage newVal) {
+		if (newVal == null) {
+			System.out.println("Null message set:" + newVal);
+		}
+		this.receivedMessage = newVal;
 	}
 
 }
