@@ -17,18 +17,18 @@ import java.util.Set;
 public class ADelegatingAWTEventQueue extends EventQueue implements DelegatingAWTEventQueue {
 	static ADelegatingAWTEventQueue eventQueue; // serevres as a factory class
 	CommunicatedAWTEventSupport communicatedEventSupport = new ACommunicatedAWTEventSupport();
-	Object wToolkit;
-	InvocationEvent globalCursorEvent;
+//	Object wToolkit;
+//	InvocationEvent globalCursorEvent;
 	List<AWTEventQueueHandler> eventQueueListeners = new ArrayList();
-	Set<Integer> notCommunicatedEvents = new HashSet();
-	Class[] communicatedEventClasses = { MouseEvent.class, KeyEvent.class,
-			// InputEvent.class,
-			ComponentEvent.class,
-	// WindowEvent.class
-	};
-	Class[] notDispatchedRemoteEventClasses = { ComponentEvent.class };
-	boolean onlyModifiedMouseEvents = true;
-	boolean sendInvocationEvents = true;
+//	Set<Integer> notCommunicatedEvents = new HashSet();
+//	Class[] communicatedEventClasses = { MouseEvent.class, KeyEvent.class,
+//			// InputEvent.class,
+//			ComponentEvent.class,
+//	// WindowEvent.class
+//	};
+//	Class[] notDispatchedRemoteEventClasses = { ComponentEvent.class };
+//	boolean onlyModifiedMouseEvents = true;
+//	boolean sendInvocationEvents = true;
 
 	public ADelegatingAWTEventQueue() {
 		if (eventQueue != null)
