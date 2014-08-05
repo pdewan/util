@@ -80,7 +80,12 @@ public class AConsoleModel implements ConsoleModel {
 		execedClass = aClass;
 		process = aProcess;
 		title = aTitle;
+		if (processName != null)
+		localGlobalTranscriptManager.setProcessName(processName);
+		else
+			
 		localGlobalTranscriptManager.setProcessName(aTitle);
+
 //		setLocalTranscriptFile();
 //		setGlobalPrefix();
 		printStream = new PrintStream(

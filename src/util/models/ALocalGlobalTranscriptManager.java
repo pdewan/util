@@ -232,7 +232,7 @@ public class ALocalGlobalTranscriptManager  implements LocalGlobalTranscriptMana
 	}
 	void setLocalTranscriptFile() {
 		if (processName == null || logDirectory == null) return;
-		setLocalTranscriptFile (getLocalTranscriptFileName(logDirectory,index, getProcessName()));
+		setLocalTranscriptFile (getLocalTranscriptFileName(logDirectory, index, getProcessName()));
 		try {
 			Common.clearOrCreateFile(getLocalTranscriptFile());
 		} catch (IOException e) {

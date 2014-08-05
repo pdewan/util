@@ -10,5 +10,26 @@ public interface InputGenerator extends ProcessOutputListener, ProcessInputListe
 	 void removeProcessInputListener(ProcessInputListener aListener);
 	  boolean isTerminatedSuccessfully(String aProcess);
 	 void setTerminatedSuccessfully(String aProcess, boolean terminatedSuccessfully) ;
+	 void addProcessName(String aProcessName);
+
+		void processNamesAdded();
+		void executionStarted();
+
+		void notifyInteractionTermination();
+
+		void waitForInteractionTermination();
+//		public List<ConsoleModel> getConsoleModels() ;
+
+
+
+//		public void setConsoleModels(List<ConsoleModel> consoleModels) ;
+
+
+
+		public boolean isTerminated() ;
+
+
+
+		public void setTerminated(boolean terminated) ;
 
 }

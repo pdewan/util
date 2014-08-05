@@ -78,5 +78,75 @@ public abstract class AnAbstractInputGenerator implements InputGenerator {
 	public void inputTerminated(String aProcessName) {
 		
 	}
+	
+	// from ADemoer
+protected List<String> processNames = new ArrayList();
+
+
+	
+	boolean terminated;
+
+	@Override
+	public synchronized void notifyInteractionTermination() {
+		terminated = true;
+		this.notify();
+		
+	}
+	@Override
+	public synchronized void waitForInteractionTermination() {
+		try {
+			while (!terminated)
+			this.wait();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	
+	@Override
+	public void addProcessName(String aProcessName) {
+		if (!processNames.contains(aProcessName)) {
+    		processNames.add(aProcessName);
+    		
+    	}
+		
+	}
+	@Override
+	public void processNamesAdded() {
+		
+	}
+
+
+
+
+	public boolean isTerminated() {
+		return terminated;
+	}
+
+
+
+	public void setTerminated(boolean terminated) {
+		this.terminated = terminated;
+	}
+
+
+
+
+	
+//   protected void newIOFromProcess(String aProcessName, Object newValue) {
+//    	// inefficient as each output causes this codee to be executed
+////    	addProcessName(aProcessName);
+//    }
+@Override
+public void newOutputLine(String aProcessName, String anOutputLine) {
+	// TODO Auto-generated method stub
+	
+}
+@Override
+public void executionStarted() {
+	// TODO Auto-generated method stub
+	
+}
 
 }
