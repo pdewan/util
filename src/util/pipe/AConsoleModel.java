@@ -123,6 +123,7 @@ public class AConsoleModel implements ConsoleModel {
 		printStream.flush();		
 		// fire the actual value first for other interactors
 		propertyChangeSupport.firePropertyChange(new PropertyChangeEvent(this, ConsoleModel.INPUT, null, newVal ));
+		// why would this be info ever?
 		if (Tracer.isInfo(newVal))
 			return;
 		ConsoleInput consoleInput = ConsoleInput.newCase(newVal, this);
