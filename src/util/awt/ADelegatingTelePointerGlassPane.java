@@ -274,5 +274,13 @@ public class ADelegatingTelePointerGlassPane extends JPanel implements Delegatin
 	public void setGlassPaneController(GlassPaneController glassPaneController) {
 		this.glassPaneController = glassPaneController;
 	}
+	public int getPointerSize() {
+		return getPointerWidth();
+	}
+	public void setPointerSize(int pointerSize) {
+		setPointerWidth(pointerSize);
+		setPointerHeight(pointerSize);
+	}
+	
 
 }

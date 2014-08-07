@@ -52,5 +52,14 @@ public class AGlassPaneController implements GlassPaneController{
 	public void setGlassPaneController(GlassPaneController newVal) {
 		glassPane = newVal;		
 	}
+	@Override
+	public int getPointerSize() {
+		return glassPane.getPointerSize();
+	}
+	@Override
+	public void setPointerSize(int aSize) {
+		glassPane.setPointerSize(aSize);
+		
+	}
 
 }
