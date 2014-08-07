@@ -28,6 +28,7 @@ public class ADelegatingTelePointerGlassPane extends JPanel implements Delegatin
 	protected int pointerWidth = DIAMETER, pointerHeight = DIAMETER;
 	protected List<GraphicsPainter> painters = new ArrayList();
 	protected List<PointListener> telepointerListeners = new ArrayList();
+	boolean showTelePointer;
 	
 	
 	public ADelegatingTelePointerGlassPane(JFrame aFrame) {
@@ -241,6 +242,14 @@ public class ADelegatingTelePointerGlassPane extends JPanel implements Delegatin
 		for (PointListener aPointListener:telepointerListeners) {
 			aPointListener.newPoint(aPoint);			
 		}
+	}
+	@Override
+	public boolean isShowTelePointer() {
+		return showTelePointer;
+	}
+	@Override
+	public void setShowTelePointer(boolean showTelePointer) {
+		this.showTelePointer = showTelePointer;
 	}    
 
 
