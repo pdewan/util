@@ -1,4 +1,7 @@
 package util.awt;
+import javax.swing.JSlider;
+
+import util.annotations.PreferredWidgetClass;
 import util.annotations.Visible;
 
 public class AGlassPaneController implements GlassPaneController{
@@ -13,11 +16,13 @@ public class AGlassPaneController implements GlassPaneController{
 	}
 
 	@Override
+	@PreferredWidgetClass(JSlider.class)
 	public void setPointerWidth(int aWidth) {
 		glassPane.setPointerWidth(aWidth);
 	}
 
 	@Override
+	@PreferredWidgetClass(JSlider.class)
 	public int getPointerHeight() {
 		return glassPane.getPointerHeight();
 	}
