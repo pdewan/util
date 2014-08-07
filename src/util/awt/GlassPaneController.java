@@ -1,6 +1,9 @@
 package util.awt;
 
 public interface GlassPaneController {
+	int getPointerSize();
+
+	void setPointerSize(int aSize);
 	int getPointerWidth();
 
 	void setPointerWidth(int aWidth);
