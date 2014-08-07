@@ -17,6 +17,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import util.annotations.Visible;
+
 
 public class ADelegatingTelePointerGlassPane extends JPanel implements DelegatingTelepointerGlassPane{
 	public static final int DIAMETER = 10;
@@ -47,10 +49,11 @@ public class ADelegatingTelePointerGlassPane extends JPanel implements Delegatin
 		aFrame.setGlassPane(this);
 		this.setVisible(true);
 	}
-	
+	@Visible(false)
 	public void repaint() {
 		super.repaint();
 	}
+	@Visible(false)
 	public void paint(Graphics g) {
 		super.paint(g);
 //		g.setColor(Color.RED);
@@ -61,16 +64,17 @@ public class ADelegatingTelePointerGlassPane extends JPanel implements Delegatin
 	public int getPointerX() {
 		return x;
 	}
+	@Visible(false)
 	@Override
 	public void setPointerX(int newVal) {
 		x = newVal;
 	}
+	@Visible(false)
 	@Override
 	public int getPointerY() {
 		return y;
 	}
 	@Override
-
 	public void setPointerY(int newVal) {
 		y = newVal;
 	}
@@ -95,6 +99,7 @@ public class ADelegatingTelePointerGlassPane extends JPanel implements Delegatin
 		return event.getX() >= x && event.getX() <= (x + getPointerWidth()) &&
 				event.getY() >= y && event.getY() <= (y + getPointerHeight());
 	}
+	@Visible(false)
 	@Override
 	 public void eventDispatched(AWTEvent event) { 
 		System.out.println("foo");
@@ -116,30 +121,30 @@ public class ADelegatingTelePointerGlassPane extends JPanel implements Delegatin
 	            repaint(); 
 	        } 
 	    } 
-	
+	@Visible(false)
 	@Override
 	protected void processEvent (AWTEvent anEvent) {
 		super.processEvent(anEvent);
 	}
 	
-	
+	@Visible(false)
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
 		
 	}
-
+	@Visible(false)
 	@Override
 	public void mouseEntered(MouseEvent arg0) {
 		
 		
 	}
-
+	@Visible(false)
 	@Override
 	public void mouseExited(MouseEvent arg0) {
 		
 		
 	}
-
+	@Visible(false)
 	@Override
 	public void mousePressed(MouseEvent arg0) {
 		if (inTelePointer (arg0)) {
@@ -152,12 +157,13 @@ public class ADelegatingTelePointerGlassPane extends JPanel implements Delegatin
 		}
 		
 	}
-
+	@Visible(false)
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
 		pointerSelected = false;
 		
 	}
+	@Visible(false)
 	@Override
 	public void mouseDragged(MouseEvent event) {
 		if (!pointerSelected) return;
@@ -170,6 +176,7 @@ public class ADelegatingTelePointerGlassPane extends JPanel implements Delegatin
 		repaint();
 		notifyTelePointerListeners(new Point(x, y));
 	}
+	@Visible(false)
 	@Override
 	public void mouseMoved(MouseEvent arg0) {
 		// TODO Auto-generated method stub
@@ -190,30 +197,30 @@ public class ADelegatingTelePointerGlassPane extends JPanel implements Delegatin
 //		// TODO Auto-generated method stub
 //		
 //	}
-
+	@Visible(false)
 	@Override
 	public void keyPressed(KeyEvent arg0) {
 		System.out.println("Key pressed in relepointer");
 	}
-
+	@Visible(false)
 	@Override
 	public void keyReleased(KeyEvent arg0) {
 		// TODO Auto-generated method stub
 		
 	}
-
+	@Visible(false)
 	@Override
 	public void keyTyped(KeyEvent arg0) {
 		// TODO Auto-generated method stub
 		
 	}
-
+	@Visible(false)
 	@Override
 	public void addPainter(GraphicsPainter aPainter) {
 		painters.add(aPainter);
 		
 	}
-
+	@Visible(false)
 	@Override
 	public void removePainter(GraphicsPainter aPainter) {
 		painters.remove(aPainter);
@@ -221,23 +228,25 @@ public class ADelegatingTelePointerGlassPane extends JPanel implements Delegatin
 	}
 	
 	
-
+	@Visible(false)
 	@Override
 	public void addTelePointerListener(PointListener aListener) {
 		telepointerListeners.add(aListener);
 		
 	}
+	@Visible(false)
 	@Override
 	public void removeTelePointerListener(PointListener aListener) {
 		telepointerListeners.remove(aListener);
 		
 	}
-	
+	@Visible(false)
 	protected void notifyPainters(Graphics g) {
 		for (GraphicsPainter aPainter:painters) {
 			aPainter.paint(g);			
 		}
 	} 
+	@Visible(false)
 	protected void notifyTelePointerListeners(Point aPoint) {
 		for (PointListener aPointListener:telepointerListeners) {
 			aPointListener.newPoint(aPoint);			
