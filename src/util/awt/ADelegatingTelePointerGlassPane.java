@@ -31,6 +31,8 @@ public class ADelegatingTelePointerGlassPane extends JPanel implements Delegatin
 	protected List<GraphicsPainter> painters = new ArrayList();
 	protected List<PointListener> telepointerListeners = new ArrayList();
 	boolean showTelePointer;
+	GlassPaneController glassPaneController;
+	
 	
 	
 	public ADelegatingTelePointerGlassPane(JFrame aFrame) {
@@ -45,9 +47,10 @@ public class ADelegatingTelePointerGlassPane extends JPanel implements Delegatin
 //			    + AWTEvent.KEY_EVENT_MASK;
 //		Toolkit.getDefaultToolkit().addAWTEventListener( this, eventMask);
 		this.setOpaque(false);
-		AGlassPaneRedispatcher redispatcher = new AGlassPaneRedispatcher(this, aFrame);
+		GlassPaneRedispatcher redispatcher = new AGlassPaneRedispatcher(this, aFrame);
 		aFrame.setGlassPane(this);
 		this.setVisible(true);
+		setGlassPaneController(new AGlassPaneController(this));
 	}
 	@Visible(false)
 	public void repaint() {
@@ -85,6 +88,7 @@ public class ADelegatingTelePointerGlassPane extends JPanel implements Delegatin
 	@Override
 	public void setPointerWidth(int aWidth) {
 		pointerWidth = aWidth;
+		repaint();
 	}
 	@Override
 	public int getPointerHeight() {
@@ -93,6 +97,7 @@ public class ADelegatingTelePointerGlassPane extends JPanel implements Delegatin
 	@Override
 	public void setPointerHeight(int aHeight) {
 		pointerHeight = aHeight;
+		repaint();
 	}
 	 
 	boolean inTelePointer (MouseEvent event) {
@@ -259,7 +264,15 @@ public class ADelegatingTelePointerGlassPane extends JPanel implements Delegatin
 	@Override
 	public void setShowTelePointer(boolean showTelePointer) {
 		this.showTelePointer = showTelePointer;
-	}    
-
+		repaint();
+	}  
+	@Override
+	public GlassPaneController getGlassPaneController() {
+		return glassPaneController;
+	}
+	@Override
+	public void setGlassPaneController(GlassPaneController glassPaneController) {
+		this.glassPaneController = glassPaneController;
+	}
 
 }

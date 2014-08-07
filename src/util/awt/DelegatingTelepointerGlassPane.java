@@ -7,15 +7,15 @@ import java.awt.event.MouseMotionListener;
 
 
 public interface DelegatingTelepointerGlassPane 
-        extends MouseListener, MouseMotionListener, AWTEventListener, KeyListener {
+        extends MouseListener, MouseMotionListener, AWTEventListener, KeyListener, GlassPaneController {
 
-	int getPointerWidth();
-
-	void setPointerWidth(int aWidth);
-
-	int getPointerHeight();
-
-	void setPointerHeight(int aHeight);
+//	int getPointerWidth();
+//
+//	void setPointerWidth(int aWidth);
+//
+//	int getPointerHeight();
+//
+//	void setPointerHeight(int aHeight);
 	void addPainter(GraphicsPainter aPainter);
 	void removePainter(GraphicsPainter aPainter);
 
@@ -32,8 +32,8 @@ public interface DelegatingTelepointerGlassPane
 	void removeTelePointerListener(PointListener aListener);
 	void repaint();
 
-	boolean isShowTelePointer();
-
-	void setShowTelePointer(boolean showTelePointer);
+//	boolean isShowTelePointer();
+//
+//	void setShowTelePointer(boolean showTelePointer);
 
 }

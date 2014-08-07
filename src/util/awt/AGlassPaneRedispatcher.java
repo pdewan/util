@@ -15,7 +15,7 @@ import javax.swing.JMenu;
 import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
 
-public class AGlassPaneRedispatcher implements KeyListener, MouseListener, MouseMotionListener{
+public class AGlassPaneRedispatcher implements GlassPaneRedispatcher{
 	JComponent glassPane;
 	JFrame frame;
 	Point lastPosition;
