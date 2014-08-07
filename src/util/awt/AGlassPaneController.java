@@ -1,6 +1,7 @@
 package util.awt;
 import javax.swing.JSlider;
 
+import util.annotations.Position;
 import util.annotations.PreferredWidgetClass;
 import util.annotations.Visible;
 
@@ -10,19 +11,22 @@ public class AGlassPaneController implements GlassPaneController{
 		glassPane = aGlassPane;
 	}
 	@Override
+	@Position(2)
+	@PreferredWidgetClass(JSlider.class)
 	public int getPointerWidth() {
 		// TODO Auto-generated method stub
 		return glassPane.getPointerWidth();
 	}
 
 	@Override
-	@PreferredWidgetClass(JSlider.class)
 	public void setPointerWidth(int aWidth) {
 		glassPane.setPointerWidth(aWidth);
 	}
 
 	@Override
+	
 	@PreferredWidgetClass(JSlider.class)
+	@Position(3)
 	public int getPointerHeight() {
 		return glassPane.getPointerHeight();
 	}
@@ -34,6 +38,7 @@ public class AGlassPaneController implements GlassPaneController{
 	}
 
 	@Override
+	@Position(0)
 	public boolean isShowTelePointer() {
 		return glassPane.isShowTelePointer();
 	}
@@ -53,6 +58,8 @@ public class AGlassPaneController implements GlassPaneController{
 		glassPane = newVal;		
 	}
 	@Override
+	@PreferredWidgetClass(JSlider.class)
+	@Position(1)
 	public int getPointerSize() {
 		return glassPane.getPointerSize();
 	}

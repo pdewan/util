@@ -88,6 +88,7 @@ public class ADelegatingTelePointerGlassPane extends JPanel implements Delegatin
 	@Override
 	public void setPointerWidth(int aWidth) {
 		pointerWidth = aWidth;
+//		System.out.println("aWidth:" + pointerWidth);
 		repaint();
 	}
 	@Override
@@ -97,6 +98,8 @@ public class ADelegatingTelePointerGlassPane extends JPanel implements Delegatin
 	@Override
 	public void setPointerHeight(int aHeight) {
 		pointerHeight = aHeight;
+//		System.out.println("aWidth:" + pointerHeight);
+
 		repaint();
 	}
 	 
