@@ -5,7 +5,7 @@ public interface InputGenerator extends ProcessOutputListener, ProcessInputListe
 	public final String OUTPUT_LINE = ConsoleModel.OUTPUT_LINE;
 	public final String INPUT = "input";
 //	 void processNewOutputLine(String aProcessName, String aNewOutputLine);
-	 void notifyNewInput(String aProcessName, String aNewInput);
+	 void notifyNewInputLine(String aProcessName, String aNewInput);
 	 void addProcessInputListener(ProcessInputListener aListener);	 
 	 void removeProcessInputListener(ProcessInputListener aListener);
 	  boolean isTerminatedSuccessfully(String aProcess);

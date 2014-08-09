@@ -24,9 +24,9 @@ public abstract class AnAbstractInputGenerator implements InputGenerator {
 	
 	
 
-	public void notifyNewInput(String aProcessName, String anInput) {
+	public void notifyNewInputLine(String aProcessName, String anInput) {
 		for (ProcessInputListener aListener:processInputListeners) {
-			aListener.newInput(aProcessName, anInput);
+			aListener.newInputLine(aProcessName, anInput);
 		}
 	}
 	
@@ -72,7 +72,7 @@ public abstract class AnAbstractInputGenerator implements InputGenerator {
 		processToTerminatedSucessfully.put(aProcess, terminatedSuccessfully);
 	}
 	// will not be used much probably
-	public void newInput(String aProcessName, String anInput) {
+	public void newInputLine(String aProcessName, String anInput) {
 		
 	}
 	public void inputTerminated(String aProcessName) {
@@ -90,6 +90,9 @@ protected List<String> processNames = new ArrayList();
 	public synchronized void notifyInteractionTermination() {
 		terminated = true;
 		this.notify();
+		for (String aProcessName:processNames) {
+			notifyTermination(aProcessName);
+		}
 		
 	}
 	@Override
