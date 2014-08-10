@@ -43,7 +43,10 @@ public class ConsoleOutput extends TraceableInfo{
 		return  toString(System.currentTimeMillis()) + " " + OUTPUT + "(" + anOutput + ")";
 	}
 	public static String getOutput(String aMessage) {
-		return getArgs(aMessage, OUTPUT).get(0);
+//		return getArgs(aMessage, OUTPUT).get(0);
+		List<String> args = getArgs(aMessage, OUTPUT);
+		if (args.size() == 0) return "";
+		else return args.get(0);
 	}
 	public static ConsoleOutput toTraceable(String aMessage) {
 		return new ConsoleOutput (aMessage, getOutput(aMessage));
