@@ -229,6 +229,7 @@ public  class Traceable extends RuntimeException implements EqualPropertiesDefin
 				if (endArgIndex == -1)
 					endArgIndex = anArgsString.length();
 				String arg = anArgsString.substring(startArgIndex, endArgIndex);
+				if (arg.length() > 0)
 				retVal.add(arg.trim());
 				if (endArgIndex == anArgsString.length())
 					return retVal;
