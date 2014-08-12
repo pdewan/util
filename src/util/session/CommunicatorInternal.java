@@ -19,5 +19,8 @@ public interface CommunicatorInternal {
 	ObjectReceiver getMessageReceiver();
 	MessageReceiverRunnable getMessageReceiverRunnable();
 	void setMessageReceiverRunnable(MessageReceiverRunnable aMessageReceiverRunnable);
+	MessageFilter<ReceivedMessage> getReceivedMessageFilter();
+	void setReceivedMessageFilter(MessageFilter<ReceivedMessage> newVal);
+
 
 }

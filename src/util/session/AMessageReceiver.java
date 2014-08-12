@@ -79,10 +79,10 @@ public class AMessageReceiver implements ObjectReceiver/*
 		inputMessageQueue = new ABoundedBuffer(INPUT_MESSAGE_QUEUE);
 		QueueCreated.newCase(CommunicatorSelector.getProcessName(), inputMessageQueue.getName(), this);
 
-
+		communicator.setReceivedMessageFilter(delayedMessageReceiver.getReceivedMessageFilter());
 		messageReceiverRunnable = new AMessageReceiverRunnable(
 				inputMessageQueue, delayManager,
-				delayedMessageReceiver.getReceivedMessageQueuer());
+				delayedMessageReceiver.getReceivedMessageFilter());
 		messageReceiverRunnable.setIsRelayedCommunication(communicator
 				.isRelayedCommunication());
 		communicator.setMessageReceiverRunnable(messageReceiverRunnable);
@@ -209,5 +209,13 @@ public class AMessageReceiver implements ObjectReceiver/*
 	public SerializedProcessGroups getSerializedMulticastGroups() {
 		return serializedMulticastGroups;
 	}
+//	@Override
+//	public MessageDispatcher getDelayedMessageReceiver() {
+//		return delayedMessageReceiver;
+//	}
+//	@Override
+//	public void setDelayedMessageReceiver(MessageDispatcher delayedMessageReceiver) {
+//		this.delayedMessageReceiver = delayedMessageReceiver;
+//	}
 	
 }

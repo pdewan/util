@@ -11,6 +11,8 @@ import util.trace.session.ToUserDataSendMarshalled;
 @util.annotations.StructurePattern(util.annotations.StructurePatternNames.BEAN_PATTERN)
 public abstract class AnAbstractCommunicator extends
 		/* ASessionManagerClient */ASessionManagerCommunicator {
+	MessageFilter<ReceivedMessage> receiveMessageFilter;
+	
 	public AnAbstractCommunicator(String theServerHost, String theSessionName,
 			String theApplicationName, String theClientName,
 			boolean theIsRelayedCommunication) {
@@ -119,6 +121,12 @@ public abstract class AnAbstractCommunicator extends
 
 	public boolean isRelayedCommunication() {
 		return relayedCommunication;
+	}
+	public MessageFilter<ReceivedMessage> getReceivedMessageFilter() {
+		return receiveMessageFilter;
+	}
+	public void setReceivedMessageFilter(MessageFilter<ReceivedMessage> newVal) {
+		receiveMessageFilter = newVal;
 	}
 
 }

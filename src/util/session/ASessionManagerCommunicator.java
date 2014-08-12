@@ -27,7 +27,7 @@ public abstract class ASessionManagerCommunicator extends ASessionListenable
 														 */Serializable {
 	MessageProcessor<SentMessage> sentMessageProcessor;
 	AServerCallsMarshaller sentMessageCreator;
-	MessageFilter<SentMessage> sentMessageQueuer;
+	MessageFilter<SentMessage> sentMessageFilter;
 	ObjectReceiver messageReceiver;
 	MessageDispatcher delayedMessageReceiver;
 	ObjectReceiver exportedMessageReceiver;
@@ -90,11 +90,11 @@ public abstract class ASessionManagerCommunicator extends ASessionListenable
 	}
 
 	MessageFilter<SentMessage> getSentMessageFilter() {
-		if (sentMessageQueuer == null) {
-			setSentMessageQueuer(SentMessageFilterSelector
+		if (sentMessageFilter == null) {
+			setSentMessageFilter(SentMessageFilterSelector
 					.getMessageFilterCreator().getMessageFilter());
 		}
-		return sentMessageQueuer;
+		return sentMessageFilter;
 	}
 
 	void createOutputBufferAndThread() {
@@ -255,10 +255,10 @@ public abstract class ASessionManagerCommunicator extends ASessionListenable
 		return messageReceiverToClientName;
 	}
 
-	public void setSentMessageQueuer(
+	public void setSentMessageFilter(
 			MessageFilter<SentMessage> theSentMessageQueuer) {
-		sentMessageQueuer = theSentMessageQueuer;
-		sentMessageQueuer.setMessageProcessor(sentMessageProcessor);
+		sentMessageFilter = theSentMessageQueuer;
+		sentMessageFilter.setMessageProcessor(sentMessageProcessor);
 	}
 
 	public DelayManager getDelayManager() {

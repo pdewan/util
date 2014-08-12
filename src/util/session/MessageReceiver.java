@@ -10,6 +10,10 @@ public interface MessageReceiver extends Remote {
 //	public void userLeft(String theClientName, MessageReceiver theClient, String theApplicationName) throws RemoteException;
 	public void newMessage(ReceivedMessage theReceivedMessage) throws RemoteException;
 
+//	MessageDispatcher getDelayedMessageReceiver();
+//
+//	void setDelayedMessageReceiver(MessageDispatcher delayedMessageReceiver);
+
 
 
 }

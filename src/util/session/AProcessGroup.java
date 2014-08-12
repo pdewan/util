@@ -222,28 +222,51 @@ public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
 	// why is this sending newObject rather than newMessage
 	// sould really have it create a received message and send it
 	@Override
+//	public void toAll(Object object, String theClientName,
+//			ObjectReceiver theClient, long timeStamp) throws RemoteException {
+//		if (isServer) {
+//			for (ObjectReceiver client : clients.keySet()) {
+//				client.newObject(clients.get(theClient), theClient, object);
+////				MessageSent.newCase(clients.get(client), object, this);
+//				MessageSent.newCase(CommunicatorSelector.getProcessName(), object , clients.get(client),  this);
+//
+//
+//			}
+//		} else {
+//			List<UserDelayRecord> sortedClients = getSortedClients();
+//			for (UserDelayRecord userDelayRecord : sortedClients) {
+//				ObjectReceiver client = userDelayRecord.getClient();
+//				delay(client, object, timeStamp, userDelayRecord.getName());
+//				client.newObject(clients.get(theClient), theClient, object);
+////				MessageSent.newCase(clients.get(client), object , this);
+//				MessageSent.newCase(CommunicatorSelector.getProcessName(), object , clients.get(client),  this);
+//
+//
+//			}
+//		}
+//	}
+	
 	public void toAll(Object object, String theClientName,
 			ObjectReceiver theClient, long timeStamp) throws RemoteException {
+		toOthers(object, theClientName, theClient, timeStamp);
+		ReceivedMessage receivedMessage = receivedMessageCreator.newObject(
+				clients.get(theClient), theClient, object);
 		if (isServer) {
-			for (ObjectReceiver client : clients.keySet()) {
-				client.newObject(clients.get(theClient), theClient, object);
-//				MessageSent.newCase(clients.get(client), object, this);
-				MessageSent.newCase(CommunicatorSelector.getProcessName(), object , clients.get(client),  this);
+			
+			theClient.newMessage(receivedMessage);
+//			MessageSent.newCase(CommunicatorSelector.getProcessName(),  receivedMessage, clients.get(theClient), this);
 
-
-			}
+			
 		} else {
-			List<UserDelayRecord> sortedClients = getSortedClients();
-			for (UserDelayRecord userDelayRecord : sortedClients) {
-				ObjectReceiver client = userDelayRecord.getClient();
-				delay(client, object, timeStamp, userDelayRecord.getName());
-				client.newObject(clients.get(theClient), theClient, object);
-//				MessageSent.newCase(clients.get(client), object , this);
-				MessageSent.newCase(CommunicatorSelector.getProcessName(), object , clients.get(client),  this);
+			localCommunicator.getReceivedMessageFilter().filterMessage(receivedMessage);
+//				localCommunicator.get
+//				MessageSent.newCase(CommunicatorSelector.getProcessName(), object , clients.get(theClient),  this);
 
 
 			}
-		}
+		MessageSent.newCase(CommunicatorSelector.getProcessName(),  receivedMessage, clients.get(theClient), this);
+
+		
 	}
 
 	@Override

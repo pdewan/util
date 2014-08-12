@@ -25,7 +25,7 @@ public class AnUmarshalledReceivedMessageDispatcherAndSessionStateManager implem
 												 */MessageDispatcher,
 		Serializable {
 	MessageProcessor<ReceivedMessage> receivedMessageProcessor;
-	MessageFilter<ReceivedMessage> receivedMessageQueuer;
+	MessageFilter<ReceivedMessage> receivedMessageFilter;
 	String clientName;
 	String sessionName;
 	String applicationName;
@@ -43,12 +43,12 @@ public class AnUmarshalledReceivedMessageDispatcherAndSessionStateManager implem
 				theClientName, theCommunicator);
 	}
 
-	public MessageFilter<ReceivedMessage> getReceivedMessageQueuer() {
-		if (receivedMessageQueuer == null) {
-			setReceivedMessageQueuer(ReceivedMessageFilterSelector
+	public MessageFilter<ReceivedMessage> getReceivedMessageFilter() {
+		if (receivedMessageFilter == null) {
+			setReceivedMessageFilter(ReceivedMessageFilterSelector
 					.getMessageFilterFactory().getMessageFilter());
 		}
-		return receivedMessageQueuer;
+		return receivedMessageFilter;
 	}
 
 	public void create(String serverHost, String theSessionName,
@@ -181,10 +181,10 @@ public class AnUmarshalledReceivedMessageDispatcherAndSessionStateManager implem
 		return serializedMulticastGroups;
 	}
 
-	public void setReceivedMessageQueuer(
+	public void setReceivedMessageFilter(
 			MessageFilter<ReceivedMessage> theReceivedMessageQueuer) {
-		receivedMessageQueuer = theReceivedMessageQueuer;
-		receivedMessageQueuer.setMessageProcessor(receivedMessageProcessor);
+		receivedMessageFilter = theReceivedMessageQueuer;
+		receivedMessageFilter.setMessageProcessor(receivedMessageProcessor);
 
 	}
 

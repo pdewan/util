@@ -81,9 +81,9 @@ public abstract class ASessionManagerClient extends ASessionListenable
 		}
 	}
 
-	MessageFilter<SentMessage> getSentMessageQueuer() {
+	MessageFilter<SentMessage> getSentMessageFilter() {
 		if (sentMessageQueuer == null) {
-			setSentMessageQueuer(SentMessageFilterSelector
+			setSentMessageFilter(SentMessageFilterSelector
 					.getMessageFilterCreator().getMessageFilter());
 		}
 		return sentMessageQueuer;
@@ -102,8 +102,8 @@ public abstract class ASessionManagerClient extends ASessionListenable
 
 		messageSenderThread.start();
 	}
-
-	public MessageFilter<ReceivedMessage> getReceivedMessageQueuer() {
+	@Override
+	public MessageFilter<ReceivedMessage> getReceivedMessageFilter() {
 		if (receivedMessageQueuer == null) {
 			setReceivedMessageQueuer(ReceivedMessageFilterSelector
 					.getMessageFilterFactory().getMessageFilter());
@@ -118,7 +118,7 @@ public abstract class ASessionManagerClient extends ASessionListenable
 		receivedMessageProcessor = new AReceivedMessageUmarshaller(this, clientName);
 
 		messageReceiverRunnable = new AMessageReceiverRunnable(
-				inputMessageQueue, this, getReceivedMessageQueuer());
+				inputMessageQueue, this, getReceivedMessageFilter());
 		messageReceiverThread = new Thread(messageReceiverRunnable);
 		ThreadCreated.newCase(messageReceiverThread.getName(), CommunicatorSelector.getProcessName(), this);
 
@@ -366,7 +366,7 @@ public abstract class ASessionManagerClient extends ASessionListenable
 		return serializedMulticastGroups;
 	}
 
-	public void setSentMessageQueuer(
+	public void setSentMessageFilter(
 			MessageFilter<SentMessage> theSentMessageQueuer) {
 		sentMessageQueuer = theSentMessageQueuer;
 		sentMessageQueuer.setMessageProcessor(sentMessageProcessor);

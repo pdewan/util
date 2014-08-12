@@ -34,7 +34,7 @@ public interface MessageDispatcher {
 	public void delayedUserLeft(String theClientName,
 			ObjectReceiver theClient, String theApplicationName);
 
-	MessageFilter<ReceivedMessage> getReceivedMessageQueuer();
+	MessageFilter<ReceivedMessage> getReceivedMessageFilter();
 
 	public void setClients(Map<ObjectReceiver, String> theClients);
 

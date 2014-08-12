@@ -54,7 +54,7 @@ public interface Communicator {
 
 	public Map<ObjectReceiver, String> getClients();
 
-	public void setSentMessageQueuer(MessageFilter<SentMessage> messagQueuer);
+	public void setSentMessageFilter(MessageFilter<SentMessage> messagQueuer);
 
 	void toNonCallers(Object object);
 
