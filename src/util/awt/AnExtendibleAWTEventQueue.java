@@ -8,6 +8,9 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.InvocationEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.beans.PropertyVetoException;
+import java.beans.VetoableChangeListener;
+import java.beans.VetoableChangeSupport;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -19,9 +22,10 @@ import util.models.Vetoer;
 public class AnExtendibleAWTEventQueue extends EventQueue implements ExtendibleAWTEventQueue {
 	static AnExtendibleAWTEventQueue eventQueue; // serevres as a factory class
 	CommunicatedAWTEventSupport communicatedEventSupport = new ACommunicatedAWTEventSupport();
+	VetoableChangeSupport vetoChangeSupport = new VetoableChangeSupport(this);
 
 	List<AWTEventQueueHandler> eventQueueListeners = new ArrayList();
-	List<Vetoer<AWTEvent>> vetoers = new ArrayList();
+//	List<Vetoer<AWTEvent>> vetoers = new ArrayList();
 
 	public AnExtendibleAWTEventQueue() {
 		if (eventQueue != null)
@@ -70,10 +74,12 @@ public class AnExtendibleAWTEventQueue extends EventQueue implements ExtendibleA
 
 	
 	public void dispatchEvent(AWTEvent anEvent) {
-		
-		if (vetoed(anEvent)) {
+		try {
+		vetoChangeSupport.fireVetoableChange(WINDOW, null, anEvent);
+		} catch (PropertyVetoException e) {
 			return;
 		}
+		
 
 		AWTEvent sentEvent = communicatedEventSupport.toSentEvent(anEvent);
 
@@ -131,20 +137,33 @@ public class AnExtendibleAWTEventQueue extends EventQueue implements ExtendibleA
 			CommunicatedAWTEventSupport communicatedEventSupport) {
 		this.communicatedEventSupport = communicatedEventSupport;
 	}
-	public void addVetoer(Vetoer theVetoer) {
-		vetoers.add(theVetoer);		
-	}
-	public void removeVetoer(Vetoer theVetoer) {
-		vetoers.remove(theVetoer);		
-	}
-	protected boolean vetoed(AWTEvent theValue) {
-		for (Vetoer vetoer:vetoers) {
-			if (vetoer.veto(theValue)) return true;
-		}
-		return false;
-	}
+//	public void addVetoer(Vetoer theVetoer) {
+//		vetoers.add(theVetoer);		
+//	}
+//	public void removeVetoer(Vetoer theVetoer) {
+//		vetoers.remove(theVetoer);		
+//	}
+	
+//	protected boolean vetoed(AWTEvent theValue) {
+//		for (Vetoer vetoer:vetoers) {
+//			if (vetoer.veto(theValue)) return true;
+//		}
+//		return false;
+//	}
 
 	static {
 		eventQueue = new AnExtendibleAWTEventQueue();
+	}
+
+	@Override
+	public void addVetoableChangeListener(VetoableChangeListener listener) {
+		vetoChangeSupport.addVetoableChangeListener(listener);
+	}
+
+
+
+	@Override
+	public void removeVetoableChangeListener(VetoableChangeListener listener) {
+		vetoChangeSupport.removeVetoableChangeListener(listener);		
 	}
 }
