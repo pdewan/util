@@ -4,9 +4,9 @@ import java.beans.PropertyChangeListener;
 import java.util.List;
 
 import util.misc.ClearanceManager;
-import util.models.PropertyListenerRegisterer;
+import util.models.PropertyListenerRegistrar;
 
-public interface SingleStepper extends  PropertyListenerRegisterer {
+public interface SingleStepper extends  PropertyListenerRegistrar {
 	
 //	public List history() ;
 	public boolean preForward() ;

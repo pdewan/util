@@ -3,7 +3,7 @@ package util.models;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
-public interface LabelBeanModel extends PropertyListenerRegisterer{
+public interface LabelBeanModel extends PropertyListenerRegistrar{
 	public String getText() ;
 //	public void setText(String text) ;
 	public Icon getIcon() ;
