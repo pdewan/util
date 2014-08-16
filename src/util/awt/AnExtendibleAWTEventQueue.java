@@ -74,6 +74,7 @@ public class AnExtendibleAWTEventQueue extends EventQueue implements ExtendibleA
 
 	
 	public void dispatchEvent(AWTEvent anEvent) {
+		if (anEvent instanceof MouseEvent || anEvent instanceof KeyEvent)
 		try {
 		vetoChangeSupport.fireVetoableChange(WINDOW, null, anEvent);
 		} catch (PropertyVetoException e) {
