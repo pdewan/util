@@ -1,6 +1,7 @@
 package util.awt;
 
 import java.awt.AWTEvent;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.ComponentEvent;
@@ -212,14 +213,36 @@ public class AWTMisc {
 		return mousevent.getID() == MouseEvent.MOUSE_EXITED;
 	}
 
+//	public static Point getLocation(AWTEvent event) {
+//		
+//			if ((event instanceof MouseEvent || (event instanceof KeyEvent))) {
+////				throw new RuntimeException("Event  with ID: " + event.getID()
+////						+ " is not a mouse event");
+//			return getLocation(event.paramString());
+//			} else {
+//				return null;
+//			}
+//		
+//	}
+	
+//	public static Object getDeepestSource (AWTEvent event) {
+//		Source aSource = event.getSource();
+//		if (!(event instanceof Component))
+//			return 
+//		if (!(event.getSource() instanceof Frame))
+//			return event.get
+//	}
+	
 	public static Point getLocation(AWTEvent event) {
+		if (event instanceof MouseEvent) {
+			MouseEvent aMouseEvent = (MouseEvent) event;
+			return aMouseEvent.getPoint();		
+		} else {
+			return null;
+		}
 		
-			if (!(event instanceof MouseEvent))
-				throw new RuntimeException("Event  with ID: " + event.getID()
-						+ " is not a mouse event");
-			return getLocation(event.paramString());
-		
-	}
+	
+}
 
 	public static int getX(AWTEvent event) {
 		return getLocation(event).x;
