@@ -6,7 +6,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
 
-public interface DelegatingTelepointerGlassPane 
+public interface ExtendibleTelepointerGlassPane 
         extends MouseListener, MouseMotionListener, AWTEventListener, KeyListener, GlassPaneController {
 
 //	int getPointerWidth();

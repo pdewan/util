@@ -20,7 +20,7 @@ import javax.swing.SwingUtilities;
 import util.annotations.Visible;
 
 
-public class ADelegatingTelePointerGlassPane extends JPanel implements DelegatingTelepointerGlassPane{
+public class AnExtendibleTelePointerGlassPane extends JPanel implements ExtendibleTelepointerGlassPane{
 	public static final int DIAMETER = 10;
 	int x = 50;
 	int y = 50;
@@ -35,7 +35,7 @@ public class ADelegatingTelePointerGlassPane extends JPanel implements Delegatin
 	
 	
 	
-	public ADelegatingTelePointerGlassPane(JFrame aFrame) {
+	public AnExtendibleTelePointerGlassPane(JFrame aFrame) {
 		frame = aFrame;
 		this.setFocusable(false);
 		this.addMouseListener(this);
