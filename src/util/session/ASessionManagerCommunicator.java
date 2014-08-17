@@ -88,8 +88,8 @@ public abstract class ASessionManagerCommunicator extends ASessionListenable
 			return null;
 		}
 	}
-
-	MessageFilter<SentMessage> getSentMessageFilter() {
+	@Override
+	public MessageFilter<SentMessage> getSentMessageFilter() {
 		if (sentMessageFilter == null) {
 			setSentMessageFilter(SentMessageFilterSelector
 					.getMessageFilterCreator().getMessageFilter());

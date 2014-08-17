@@ -22,5 +22,7 @@ public interface CommunicatorInternal {
 	MessageFilter<ReceivedMessage> getReceivedMessageFilter();
 	void setReceivedMessageFilter(MessageFilter<ReceivedMessage> newVal);
 
+	MessageFilter<SentMessage> getSentMessageFilter();
+
 
 }

@@ -59,5 +59,9 @@ public interface Communicator {
 	void toNonCallers(Object object);
 
 	void toCaller(Object object);
+	MessageFilter<ReceivedMessage> getReceivedMessageFilter();
+	void setReceivedMessageFilter(MessageFilter<ReceivedMessage> newVal);
+
+	MessageFilter<SentMessage> getSentMessageFilter();
 
 }

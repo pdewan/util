@@ -81,7 +81,7 @@ public abstract class ASessionManagerClient extends ASessionListenable
 		}
 	}
 
-	MessageFilter<SentMessage> getSentMessageFilter() {
+	public MessageFilter<SentMessage> getSentMessageFilter() {
 		if (sentMessageQueuer == null) {
 			setSentMessageFilter(SentMessageFilterSelector
 					.getMessageFilterCreator().getMessageFilter());
