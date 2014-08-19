@@ -38,7 +38,10 @@ public class AConsoleModel implements ConsoleModel {
 	Process process;
 	String title;
 	String processName;
+	boolean redirectIO;
 
+
+	
 
 	//	String globalTranscriptFile, localTranscriptFile;
 	String inputPrompt = DEFAULT_INPUT_PROMPT;
@@ -59,9 +62,9 @@ public class AConsoleModel implements ConsoleModel {
 		localGlobalTranscriptManager = new ALocalGlobalTranscriptManager();
 		
 	}
-	public AConsoleModel(Process aProcess, String aTitle, Class aClass) {
+	public AConsoleModel(Process aProcess, String aTitle, Class aClass, boolean isRedirectIO) {
 		this();
-		init(aProcess, aTitle, aClass);
+		init(aProcess, aTitle, aClass, isRedirectIO);
 
 //		propertyChangeSupport = new PropertyChangeSupport(this);
 //		process = aProcess;
@@ -76,7 +79,8 @@ public class AConsoleModel implements ConsoleModel {
 //		errorThread.start();
 	}
 	@Override
-	public void init(Process aProcess, String aTitle, Class aClass) {
+	public void init(Process aProcess, String aTitle, Class aClass, boolean anIsRdirectIO) {
+		redirectIO = anIsRdirectIO;
 		execedClass = aClass;
 		process = aProcess;
 		title = aTitle;
@@ -88,6 +92,7 @@ public class AConsoleModel implements ConsoleModel {
 
 //		setLocalTranscriptFile();
 //		setGlobalPrefix();
+		if (redirectIO) {
 		printStream = new PrintStream(
 				process.getOutputStream());
 	    outputThread = new Thread(				
@@ -98,6 +103,7 @@ public class AConsoleModel implements ConsoleModel {
 		errorThread.setName(aTitle + ERROR_SUFFIX);
 		outputThread.start();
 		errorThread.start();
+		}
 	}
 //	public AConsoleModel(String aTitle) {
 //		propertyChangeSupport = new PropertyChangeSupport(this);

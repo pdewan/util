@@ -23,7 +23,7 @@ public interface ConsoleModel extends PropertyListenerRegistrar/*, WindowListene
 	void initFrame(Frame aFrame);
 //	String getGlobalTranscriptFile();
 //	void setGlobalTranscriptFile(String transcriptFile);
-	void init(Process aProcess, String aTitle, Class aClass);
+	void init(Process aProcess, String aTitle, Class aClass, boolean anIsRdirectIO);
 //	String getLocalTranscriptFile();
 //	void setLocalTranscriptFile(String localTranscriptFile);
 	void newOutput(String anOutput);

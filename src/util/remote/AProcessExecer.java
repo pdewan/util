@@ -17,7 +17,8 @@ public class AProcessExecer implements ProcessExecer {
 	
 	String command;
 	String title;
-	public AProcessExecer( Class aJavaClass, String anArgs) {
+	boolean redirectIO;
+	public AProcessExecer( Class aJavaClass, String anArgs, boolean anIsRdirectIO) {
 		String currentDir = System.getProperty("user.dir");
 		className = aJavaClass.getName();
 		execedClass = aJavaClass;
@@ -30,6 +31,7 @@ public class AProcessExecer implements ProcessExecer {
 
 //        title = aJavaClass.getSimpleName() + " " + args;
         title = toTitle (aJavaClass, args);
+        redirectIO = anIsRdirectIO;
 	}
 	
 	
@@ -65,9 +67,9 @@ public class AProcessExecer implements ProcessExecer {
 		   process = rt.exec(command, null, binDirectory);
 //		   consoleModel = new AConsoleModel(process, title);
 		   if (consoleModel == null)
-			   consoleModel = new AConsoleModel(process, title, execedClass);
+			   consoleModel = new AConsoleModel(process, title, execedClass, true);
 		   else
-			   consoleModel.init(process, title, execedClass);
+			   consoleModel.init(process, title, execedClass, redirectIO);
 			   
 		} catch (Exception e) {
 			e.printStackTrace();
