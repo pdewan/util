@@ -92,7 +92,7 @@ public class AConsoleModel implements ConsoleModel {
 
 //		setLocalTranscriptFile();
 //		setGlobalPrefix();
-		if (redirectIO) {
+//		if (redirectIO) {
 		printStream = new PrintStream(
 				process.getOutputStream());
 	    outputThread = new Thread(				
@@ -103,7 +103,7 @@ public class AConsoleModel implements ConsoleModel {
 		errorThread.setName(aTitle + ERROR_SUFFIX);
 		outputThread.start();
 		errorThread.start();
-		}
+//		}
 	}
 //	public AConsoleModel(String aTitle) {
 //		propertyChangeSupport = new PropertyChangeSupport(this);
@@ -146,6 +146,10 @@ public class AConsoleModel implements ConsoleModel {
 	@Override
 	@Visible(false)
 	public synchronized void newOutput(String anOutput) {
+		if (!redirectIO) {
+			System.out.println(anOutput);
+			return;
+		}
 		addOutput(anOutput);
 		if (Tracer.isInfo(anOutput))
 			return;
