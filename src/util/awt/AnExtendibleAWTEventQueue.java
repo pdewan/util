@@ -86,9 +86,12 @@ public class AnExtendibleAWTEventQueue extends EventQueue implements ExtendibleA
 		try {
 		vetoChangeSupport.fireVetoableChange(WINDOW, null, anEvent);
 		} catch (PropertyVetoException e) {
+			System.out.println("Not Dispatching event:" + anEvent);
+
 			return;
 		}
-		
+//		System.out.println("Dispatching event:" + anEvent);
+		super.dispatchEvent(anEvent);
 
 		AWTEvent sentEvent = communicatedEventSupport.toSentEvent(anEvent);
 
@@ -116,8 +119,7 @@ public class AnExtendibleAWTEventQueue extends EventQueue implements ExtendibleA
 				}
 			}
 		}
-
-		super.dispatchEvent(anEvent);
+	
 
 	}
 
