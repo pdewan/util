@@ -60,10 +60,19 @@ public class AProcessExecer implements ProcessExecer {
 		try {
 		   Runtime rt = Runtime.getRuntime();
 		   Tracer.info(this, "Execing command " + command);
+		   String workingDirectory = System.getProperty("user.dir");
+//		   Tracer.info(this, "Working Directory = " +
+//		           System.getProperty("user.dir"));
 		   Tracer.info(this, "Working Directory = " +
-		           System.getProperty("user.dir"));
+		           workingDirectory);
 		 
-		   File binDirectory = new File ("bin");
+//		   File binDirectory = null;
+		   String binName = null;
+		   if (workingDirectory.endsWith("bin"))
+				   binName = ".";
+		   else
+			   binName = "bin";
+		   File binDirectory = new File(binName);
 		   process = rt.exec(command, null, binDirectory);
 //		   consoleModel = new AConsoleModel(process, title);
 		   if (consoleModel == null)
