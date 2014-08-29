@@ -33,7 +33,10 @@ public class AProcessExecer implements ProcessExecer {
         title = toTitle (aJavaClass, args);
         redirectIO = anIsRdirectIO;
 	}
-	
+	public AProcessExecer( String aCommand, boolean anIsRdirectIO) {
+		command = aCommand;
+        redirectIO = anIsRdirectIO;
+	}
 	
 	
 	protected String toTitle(Class aJavaClass, String anArgs) {
