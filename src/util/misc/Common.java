@@ -567,7 +567,10 @@ public class Common {
 	
 	public static String toRelativeName (String aParentName, String aChildName) {
 		try {
-		int parentStart = aChildName.indexOf(aChildName);
+			// how did this ever work?
+//		int parentStart = aChildName.indexOf(aChildName);
+		int parentStart = aChildName.toLowerCase().indexOf(aParentName.toLowerCase());
+		// why is this not always 0
 		if (parentStart < 0) {
 			Tracer.error(aParentName + " is not in " + aParentName);
 			return null;
