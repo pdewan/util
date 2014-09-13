@@ -46,6 +46,8 @@ public abstract class ASessionManagerCommunicator extends ASessionListenable
 	boolean relayedCommunication;
 	boolean orderedDelivery = true;
 	MessageReceiverRunnable messageReceiverRunnable;
+	Map<String, DelayManager> clientToDelayManager = new HashMap();
+	boolean centralDelayManager;
 
 	
 
@@ -119,7 +121,7 @@ public abstract class ASessionManagerCommunicator extends ASessionListenable
 			sessionManager = getSessionManagerHandle(serverHost);
 			sessionName = theSessionName;
 			applicationName = theApplicationName;
-			delayManager = new ADelayManager(this);
+			delayManager = new ADelayManager(this, "all peers"); // a common delay manager in case we do not want one for each peer
 			delayedMessageReceiver = new AnUmarshalledReceivedMessageDispatcherAndSessionStateManager(serverHost,
 					theSessionName, theApplicationName, theClientName, this);
 			createOutputBufferAndThread();
@@ -285,6 +287,29 @@ public abstract class ASessionManagerCommunicator extends ASessionListenable
 	}
 	public void setOrderedDelivery(boolean newVal) {
 		orderedDelivery = newVal;
+	}
+//	@Override
+//	public void newClient(String aClientName) {
+////		if ()
+////		clientToDelayManager.put(aClientName, new ADelayManager(this));
+//	}
+	@Override
+	public DelayManager getDelayManager(String aClientName) {
+		if (centralDelayManager) {
+			if (delayManager == null) {
+				delayManager = new ADelayManager(this, "all peers");
+//				delayManager.createThread();
+			}
+			delayManager.createThread(); // will be a no op if already created
+			return delayManager;
+		}
+		DelayManager retVal = clientToDelayManager.get(aClientName);
+		if (retVal == null) {
+			retVal = new ADelayManager(this, aClientName);
+			clientToDelayManager.put(aClientName, retVal);
+			retVal.createThread();
+		}
+		return retVal;
 	}
 
 }

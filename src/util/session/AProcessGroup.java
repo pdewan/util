@@ -24,6 +24,7 @@ public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
 	AnAbstractCommunicator localCommunicator;
 	List<UserDelayRecord> sortedClients;
 	MessageProcessor<SentMessage> sentMessageProcessor;
+//	boolean singleDelayManager;
 
 	boolean isServer;
 	ABoundedBuffer<SentMessage> outputMessageQueue;
@@ -107,26 +108,28 @@ public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
 		long actualDelay = ASessionManagerClient.calculateDelay(messageTime,
 				minimumDelay, localCommunicator.getDelayVariation());
 		// let us switch to delay process so that we are not blocked sending to other site
-		if (actualDelay <= 0) {
-//			System.out.println ("Message not delayed, delay:" + actualDelay + " time stamp:" + aReceivedMessage.getTimeStamp());
-			try {
-				MessageSent.newCase(CommunicatorSelector.getProcessName(), aReceivedMessage , clients.get(aClient),  this);
-
-				aClient.newMessage(aReceivedMessage);
-			} catch (RemoteException e) {
-				e.printStackTrace();
-			}
-
-			return;
-		}
+//		if (actualDelay <= 0) {
+////			System.out.println ("Message not delayed, delay:" + actualDelay + " time stamp:" + aReceivedMessage.getTimeStamp());
+//			try {
+//				MessageSent.newCase(CommunicatorSelector.getProcessName(), aReceivedMessage , clients.get(aClient),  this);
+//
+//				aClient.newMessage(aReceivedMessage);
+//			} catch (RemoteException e) {
+//				e.printStackTrace();
+//			}
+//
+//			return;
+//		}
 		
-		if (actualDelay > 0) {
+//		if (actualDelay > 0) {
 
-		Tracer.info(this, "Client delaying sending message to absolute time: " + messageTime + " and delay:" +
-				  actualDelay + " and time stamp:" + aReceivedMessage.getTimeStamp());
-		}
-		
-		localCommunicator.getDelayManager().addMessage(aReceivedMessage, aClient, actualDelay);
+//		Tracer.info(this, "Client delaying sending message to absolute time: " + messageTime + " and delay:" +
+//				  actualDelay + " and time stamp:" + aReceivedMessage.getTimeStamp());
+//		}
+//		localCommunicator.getDelayManager().addMessage(aReceivedMessage, aClient, actualDelay);
+		DelayManager aDelayManager = localCommunicator.getDelayManager(clients.get(aClient));
+		aDelayManager.addMessage(aReceivedMessage, aClient, actualDelay);
+	
 //		try {
 //			Thread.sleep(actualDelay);
 //

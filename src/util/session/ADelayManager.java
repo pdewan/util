@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Set;
 
 import util.misc.ThreadSupport;
+import util.trace.Tracer;
 import util.trace.session.MessagePutInQueue;
 import util.trace.session.MessageRetrievedFromQueue;
 import util.trace.session.MessageSent;
@@ -19,6 +20,8 @@ import util.trace.session.SentMessageDelayed;
 /*
  * should probably be created by factory
  * does not actually delay, ssimply keeps teh delays
+ * aclso delays, had a threrad for peers but keeps delays to server
+ * bad design!
  */
 public class ADelayManager implements DelayManager {
 
@@ -29,16 +32,18 @@ public class ADelayManager implements DelayManager {
 	Thread delayThread;
 	public static final String DELAY_THREAD_NAME = "Peer Message Delayer";
 	public static final String DELAY_QUEUE_NAME = "Delay Queue";
+	String destination;
 
-	public ADelayManager(CommunicatorInternal theCommunicator) {
+	public ADelayManager(CommunicatorInternal theCommunicator, String aDestination) {
 		communicator = theCommunicator;
+		destination = aDestination;
 	}
 	
 	@Override
 	public void createThread() {
 		if (delayThread != null) return;
 		delayThread = new Thread(this);
-		delayThread.setName(DELAY_THREAD_NAME);
+		delayThread.setName(DELAY_THREAD_NAME + " for " + destination);
 		delayThread.start();
 		
 		
@@ -90,6 +95,8 @@ public class ADelayManager implements DelayManager {
 				DELAY_QUEUE_NAME,
 				this);
 		if (delay > 0) {
+//			Tracer.info(this, "Client delaying sending message to absolute time: " + messageTime + " and delay:" +
+//					  actualDelay + " and time stamp:" + aReceivedMessage.getTimeStamp());
 			SentMessageDelayed.newCase(CommunicatorSelector.getProcessName(), 
 					aReceivedMessage, aName, delay, this);
 

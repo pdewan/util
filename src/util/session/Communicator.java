@@ -64,4 +64,8 @@ public interface Communicator {
 
 	MessageFilter<SentMessage> getSentMessageFilter();
 
+//	void newClient(String aClientName);
+
+	DelayManager getDelayManager(String aClientName);
+
 }
