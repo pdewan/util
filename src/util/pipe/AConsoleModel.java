@@ -146,11 +146,11 @@ public class AConsoleModel implements ConsoleModel {
 	@Override
 	@Visible(false)
 	public synchronized void newOutput(String anOutput) {
-		if (!redirectIO) {
-			System.out.println(anOutput);
-			// do not return, make sure the ConsoleOutput event is fired
-//			return;
-		}
+//		if (!redirectIO) {
+//			System.out.println(anOutput);
+//			// do not return, make sure the ConsoleOutput event is fired
+////			return;
+//		}
 		addOutput(anOutput);
 		if (Tracer.isInfo(anOutput))
 			return;
@@ -183,8 +183,10 @@ public class AConsoleModel implements ConsoleModel {
 	public synchronized void addOutput(String newVal) {
 		String actualOutput = newVal + "\n";
 		localGlobalTranscriptManager.addOutput(newVal);
-		if (!redirectIO)
+		if (!redirectIO) {
+			System.out.println(newVal);
 			return;
+		}
 
 		output.append(actualOutput);
 		propertyChangeSupport.firePropertyChange(new PropertyChangeEvent(this, OUTPUT_LINE, null, newVal ));
