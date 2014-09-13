@@ -185,10 +185,11 @@ public class AConsoleModel implements ConsoleModel {
 		localGlobalTranscriptManager.addOutput(newVal);
 		if (!redirectIO) {
 			System.out.println(newVal);
-			return;
-		}
+//			return;
+		} else {
 
 		output.append(actualOutput);
+		}
 		propertyChangeSupport.firePropertyChange(new PropertyChangeEvent(this, OUTPUT_LINE, null, newVal ));
 
 		propertyChangeSupport.firePropertyChange(new PropertyChangeEvent(this, ConsoleModel.OUTPUT, null, output ));
