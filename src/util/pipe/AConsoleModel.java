@@ -38,7 +38,7 @@ public class AConsoleModel implements ConsoleModel {
 	Process process;
 	String title;
 	String processName;
-	boolean redirectIO;
+	boolean redirectIO; // should we actually redirect output from System.in and System.out to ConsoleModel strings
 
 
 	
@@ -148,7 +148,8 @@ public class AConsoleModel implements ConsoleModel {
 	public synchronized void newOutput(String anOutput) {
 		if (!redirectIO) {
 			System.out.println(anOutput);
-			return;
+			// do not return, make sure the ConsoleOutput event is fired
+//			return;
 		}
 		addOutput(anOutput);
 		if (Tracer.isInfo(anOutput))
@@ -182,20 +183,9 @@ public class AConsoleModel implements ConsoleModel {
 	public synchronized void addOutput(String newVal) {
 		String actualOutput = newVal + "\n";
 		localGlobalTranscriptManager.addOutput(newVal);
-//		if (globalTranscriptFile != null)
-//			try {
-//				Common.appendText(globalTranscriptFile, globalPrefix + actualOutput);
-//			} catch (IOException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//		if (localTranscriptFile != null)
-//			try {
-//				Common.appendText(localTranscriptFile, actualOutput);
-//			} catch (IOException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
+		if (!redirectIO)
+			return;
+
 		output.append(actualOutput);
 		propertyChangeSupport.firePropertyChange(new PropertyChangeEvent(this, OUTPUT_LINE, null, newVal ));
 

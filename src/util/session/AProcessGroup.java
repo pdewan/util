@@ -106,7 +106,7 @@ public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
 				.get(aClient));
 		long actualDelay = ASessionManagerClient.calculateDelay(messageTime,
 				minimumDelay, localCommunicator.getDelayVariation());
-		
+		// let us switch to delay process so that we are not blocked sending to other site
 		if (actualDelay <= 0) {
 //			System.out.println ("Message not delayed, delay:" + actualDelay + " time stamp:" + aReceivedMessage.getTimeStamp());
 			try {
@@ -114,17 +114,17 @@ public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
 
 				aClient.newMessage(aReceivedMessage);
 			} catch (RemoteException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
 			return;
 		}
-//		SentMessageDelayedNew.newCase(clients.get(client), message, actualDelay, this);
-//		SentMessageDelayed.newCase(CommunicatorSelector.getProcessName(), aReceivedMessage, aClientName,actualDelay, this);
+		
+		if (actualDelay > 0) {
 
 		Tracer.info(this, "Client delaying sending message to absolute time: " + messageTime + " and delay:" +
 				  actualDelay + " and time stamp:" + aReceivedMessage.getTimeStamp());
+		}
 		
 		localCommunicator.getDelayManager().addMessage(aReceivedMessage, aClient, actualDelay);
 //		try {
@@ -280,6 +280,7 @@ public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
 				return;
 			}
 		}
+		System.err.println("Message, " + object + " to non member user:" + userName + " cannot be sent.");
 	}
 
 	@Override
