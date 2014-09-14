@@ -30,7 +30,7 @@ public class ADelayManager implements DelayManager {
 	List<UserDelayRecord> sortedDelayRecords = new LinkedList(); // really need a queue
 	CommunicatorInternal communicator;
 	Thread delayThread;
-	public static final String DELAY_THREAD_NAME = "Peer Message Delayer";
+	public static final String DELAY_THREAD_NAME = "Peer Message Sender";
 	public static final String DELAY_QUEUE_NAME = "Delay Queue";
 	String destination;
 
