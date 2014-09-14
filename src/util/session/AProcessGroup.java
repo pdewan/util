@@ -54,7 +54,9 @@ public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
 			messageSenderRunnable = new AServerMessageSenderRunnable(
 					outputMessageQueue, null, this);
 			Thread messageSenderThread = new Thread(messageSenderRunnable);
-			messageSenderThread.setName("Process Group:" + applicationName);
+//			messageSenderThread.setName("Process Group:" + applicationName);
+			messageSenderThread.setName("Message Sender" + "(" + sessionName + "," + applicationName + ")");
+
 			ServerMessageFilter messageQueuer = ServerSentMessageFilterSelector
 					.getMessageQueuerFactory().getMessageQueuer();
 			ThreadCreated.newCase(messageSenderThread.getName(), CommunicatorSelector.getProcessName(), this);

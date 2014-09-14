@@ -68,4 +68,6 @@ public interface Communicator {
 
 	DelayManager getDelayManager(String aClientName);
 
+	String getApplicationName();
+
 }

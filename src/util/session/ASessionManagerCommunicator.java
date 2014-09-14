@@ -107,7 +107,9 @@ public abstract class ASessionManagerCommunicator extends ASessionListenable
 		messageSenderRunnable = new AMessageSenderRunnable(outputMessageQueue,
 				delayManager, sessionManager);
 		messageSenderThread = new Thread(messageSenderRunnable);
-		messageSenderThread.setName("Message Sender");
+//		messageSenderThread.setName("Message Sender");
+		messageSenderThread.setName("Message Sender" + "(" + sessionName + ", " + applicationName + ")");
+
 		ThreadCreated.newCase(messageSenderThread.getName(), CommunicatorSelector.getProcessName(), this);
 
 		messageSenderThread.start();
@@ -202,6 +204,11 @@ public abstract class ASessionManagerCommunicator extends ASessionListenable
 	@Override
 	public String getSessionName() {
 		return sessionName;
+	}
+	
+	@Override
+	public String getApplicationName() {
+		return applicationName;
 	}
 
 	@Override

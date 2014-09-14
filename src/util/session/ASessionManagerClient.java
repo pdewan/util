@@ -97,7 +97,7 @@ public abstract class ASessionManagerClient extends ASessionListenable
 		messageSenderRunnable = new AMessageSenderRunnable(outputMessageQueue,
 				this, sessionManager);
 		messageSenderThread = new Thread(messageSenderRunnable);
-		messageSenderThread.setName("Message Sender");
+		messageSenderThread.setName("Message Sender" + "(" + sessionName + "," + applicationName + ")");
 		ThreadCreated.newCase(messageSenderThread.getName(), CommunicatorSelector.getProcessName(), this);
 
 		messageSenderThread.start();

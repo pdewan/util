@@ -28,13 +28,13 @@ public class ADelayManager implements DelayManager {
 	int delayToServer, delayVariation;
 	Map<String, Integer> peerDelays = new HashMap();
 	List<UserDelayRecord> sortedDelayRecords = new LinkedList(); // really need a queue
-	CommunicatorInternal communicator;
+	Communicator communicator;
 	Thread delayThread;
-	public static final String DELAY_THREAD_NAME = "Peer Message Sender";
+	public static final String DELAY_THREAD_NAME = "Message Sender";
 	public static final String DELAY_QUEUE_NAME = "Delay Queue";
 	String destination;
 
-	public ADelayManager(CommunicatorInternal theCommunicator, String aDestination) {
+	public ADelayManager(Communicator theCommunicator, String aDestination) {
 		communicator = theCommunicator;
 		destination = aDestination;
 	}
@@ -43,7 +43,8 @@ public class ADelayManager implements DelayManager {
 	public void createThread() {
 		if (delayThread != null) return;
 		delayThread = new Thread(this);
-		delayThread.setName(DELAY_THREAD_NAME + " for " + destination);
+		delayThread.setName(DELAY_THREAD_NAME + 
+				"(" + communicator.getSessionName() + ", " + communicator.getApplicationName() + ", " +  destination + ")");
 		delayThread.start();
 		
 		
@@ -215,7 +216,7 @@ public class ADelayManager implements DelayManager {
 					communicator.getClients()
 					.get(aClient), aDelay, aReceivedMessage));
 			// messages have to go in FIFO order
-			if (!communicator.isOrderedDelivery())
+			if (!((CommunicatorInternal) communicator).isOrderedDelivery())
 			Collections.sort(sortedDelayRecords);
 			if (sortedDelayRecords.size() == 1)
 				notifyNonEmptyQueue();
