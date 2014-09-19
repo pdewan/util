@@ -4,6 +4,8 @@ import util.trace.TraceableInfo;
 
 public class AddressedSentMessageInfo extends AddressedMessageInfo {
 	public static final String OTHERS = "others";
+	public static final String CLIENT = "client";
+
 	public static final String NON_CALLERS = "nonCallers";
 	public static final String CALLER = "caller";
 
