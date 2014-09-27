@@ -8,5 +8,6 @@ public interface ApplicationTags {
 	String TELEPOINTER = "Telepointer";
 	String DEMOER = "Demoer"; 
 	String TESTER = "Tester";
+	String REPLICATED_WINDOW = "ReplicatedWindow";
 
 }
