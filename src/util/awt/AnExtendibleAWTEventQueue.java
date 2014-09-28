@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Set;
 
 import util.models.Vetoer;
+import util.trace.awt.AWTEventDispatched;
 
 
 public class AnExtendibleAWTEventQueue extends EventQueue implements ExtendibleAWTEventQueue {
@@ -75,11 +76,14 @@ public class AnExtendibleAWTEventQueue extends EventQueue implements ExtendibleA
 	boolean isRelevantMouseEvent(AWTEvent anEvent) {
 		return AWTMisc.isMouseClickedEvent(anEvent) ||
 				AWTMisc.isMousePressedEvent(anEvent) ||
+				AWTMisc.isMouseReleasedEvent(anEvent) ||
 				AWTMisc.isMouseDraggedEvent(anEvent);
 	}
 	
 	public void dispatchEvent(AWTEvent anEvent) {
-		if (
+		AWTEvent sentEvent = communicatedEventSupport.toSentEvent(anEvent);
+
+		if ( sentEvent != null && // do not control event if it is not shared
 				(anEvent instanceof MouseEvent && 
 				
 				isRelevantMouseEvent(anEvent)) || anEvent instanceof KeyEvent)
@@ -91,9 +95,10 @@ public class AnExtendibleAWTEventQueue extends EventQueue implements ExtendibleA
 			return;
 		}
 //		System.out.println("Dispatching event:" + anEvent);
+		AWTEventDispatched.newCase(anEvent,  this);
 		super.dispatchEvent(anEvent);
 
-		AWTEvent sentEvent = communicatedEventSupport.toSentEvent(anEvent);
+//		AWTEvent sentEvent = communicatedEventSupport.toSentEvent(anEvent);
 
 		// System.out.println("Dispatching:" + anEvent);
 		// System.out.println("Sent event:" + sentEvent);
