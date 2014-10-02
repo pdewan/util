@@ -31,6 +31,9 @@ public  class Traceable extends RuntimeException implements EqualPropertiesDefin
 
 	static boolean printTime = true; // again time makes it difficult to diff different traces
 	static Set<Class> instantiatedClasses = new HashSet();
+	static Set<Class> notInstantiatedClasses = new HashSet();
+	static boolean defaultInstantiate;
+	
 	protected void maybePrintMessage(String aMessage, boolean isDuplicate) {
 		
 	}
@@ -301,7 +304,18 @@ public  class Traceable extends RuntimeException implements EqualPropertiesDefin
 	public List<String> equalProperties() {
 		return equalPropertiesList;
 	}
+	public static boolean isDefaultInstantiate() {
+		return defaultInstantiate;
+	}
+	public static void setDefaultInstantiate(boolean defaultInstantiate) {
+		Traceable.defaultInstantiate = defaultInstantiate;
+	}
 	
-	
+	public static void addInstantiatedClass(Class aClass) {
+		instantiatedClasses.add(aClass);
+	}
+	public static void addNotInstantiatedClass(Class aClass) {
+		notInstantiatedClasses.add(aClass);
+	}
 
 }
