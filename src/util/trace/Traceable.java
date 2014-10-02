@@ -3,8 +3,10 @@ package util.trace;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import util.annotations.Visible;
@@ -28,6 +30,7 @@ public  class Traceable extends RuntimeException implements EqualPropertiesDefin
 	
 
 	static boolean printTime = true; // again time makes it difficult to diff different traces
+	static Set<Class> instantiatedClasses = new HashSet();
 	protected void maybePrintMessage(String aMessage, boolean isDuplicate) {
 		
 	}
@@ -298,5 +301,7 @@ public  class Traceable extends RuntimeException implements EqualPropertiesDefin
 	public List<String> equalProperties() {
 		return equalPropertiesList;
 	}
+	
+	
 
 }
