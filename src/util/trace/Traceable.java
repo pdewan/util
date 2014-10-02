@@ -317,5 +317,9 @@ public  class Traceable extends RuntimeException implements EqualPropertiesDefin
 	public static void addNotInstantiatedClass(Class aClass) {
 		notInstantiatedClasses.add(aClass);
 	}
+	public static boolean shouldInstantiate(Class aClass) {
+		return (isDefaultInstantiate() && !notInstantiatedClasses.contains(aClass) ) ||
+				(!isDefaultInstantiate() && instantiatedClasses.contains(aClass));
+	}
 
 }
