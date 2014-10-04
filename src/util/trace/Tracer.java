@@ -231,6 +231,15 @@ public class Tracer {
 //		info(caller, getImplicitPrintKeyword(caller), info);
 		printInfo(toInfo(caller, info));
 	}
+	
+	public static boolean isPrintInfoEnabled(Object caller) {
+		String keyWord =  getImplicitPrintKeyword(caller);
+		return getKeywordPrintStatus(keyWord);
+	}
+	public static boolean isPrintInfoEnabled(Class caller) {
+		String keyWord =  getImplicitPrintKeyword(caller);
+		return getKeywordPrintStatus(keyWord);
+	}
 	static void  printInfo(String anInfo) {
 		if (anInfo == null) return;
 		System.out.println(anInfo);
