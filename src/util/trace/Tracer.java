@@ -150,9 +150,33 @@ public class Tracer {
 //		}
 
 	}
+	public static String toInfoBody(Class object, String keyWord, String info) {
+//		if (!getKeywordPrintStatus(keyWord))
+//			return null;
+		switch (messagePrefixKind) {
+		case SHORT_CLASS_NAME:
+			return toInfoWithPrefix(object.getSimpleName(), info);
+
+		case FULL_CLASS_NAME:
+			return toInfoWithPrefix(object.getName(), info);
+
+		case PACKAGE_NAME:
+			return toInfoWithPrefix(keyWord, info);
+		case OBJECT_TO_STRING:
+			return toInfoWithPrefix(object.toString(), info);
+
+		case NONE:
+			return toInfo(info);
+
+		}
+		return null;
+
+	}
+	
 	public static String toInfo(Object object, String keyWord, String info) {
 		if (!getKeywordPrintStatus(keyWord))
 			return null;
+//		return toInfoBody(object, keyWord, info);
 		switch (messagePrefixKind) {
 		case SHORT_CLASS_NAME:
 			return toInfoWithPrefix(object.getClass().getSimpleName(), info);
@@ -223,10 +247,22 @@ public class Tracer {
 	}
 	public static void info(Class caller, String info) {
 
-		info(caller, getImplicitPrintKeyword(caller), info);
+//		info(caller, getImplicitPrintKeyword(caller), info);
+		String implicitWordKind = getImplicitPrintKeyword(caller);
+		if (!getKeywordPrintStatus(implicitWordKind))
+			return ;
+		
+		String body = toInfoBody(caller, getImplicitPrintKeyword(caller), info);
+		if (body != null)
+		System.out.println(body);
+//		System.out.println(toInfoBody(caller, getImplicitPrintKeyword(caller), info));
 	}
 
 	public static void info(Object caller, String info) {
+		if (caller instanceof Class) {
+			info ((Class) caller, info);
+			return;
+		}
 
 //		info(caller, getImplicitPrintKeyword(caller), info);
 		printInfo(toInfo(caller, info));
