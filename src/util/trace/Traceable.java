@@ -257,7 +257,7 @@ public  class Traceable extends RuntimeException implements EqualPropertiesDefin
 		try {
 			List<String> anArgs = getArgs(aTraceLine, Tracer.EVENT_TYPE);
 			if (anArgs.size() == 0) {
-				System.err.println("Did not find event type in:" + aTraceLine);
+				System.out.println("Did not find event type in:" + aTraceLine);
 				return null;
 			}
 			return Class.forName(anArgs.get(0));
