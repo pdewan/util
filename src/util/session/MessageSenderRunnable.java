@@ -5,4 +5,8 @@ public interface MessageSenderRunnable extends Runnable {
 
 	void setLocalProcessGroup(ProcessGroupLocal localProcessGroup);
 
+	boolean isRelayedMode();
+
+	void setRelayedMode(boolean relayedMode);
+
 }

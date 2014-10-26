@@ -14,6 +14,9 @@ public class AMessageSenderRunnable implements MessageSenderRunnable {
 	SessionManager sessionManager;
 	Session session;
 	long delayToServer;
+	boolean relayedMode; // allow the mode to be changed if communicator is direct
+
+	
 
 	public AMessageSenderRunnable(ABoundedBuffer<SentMessage> theMessageQueue,
 			DelayManager theDelayManager, SessionManager theSessionManager) {
@@ -44,6 +47,11 @@ public class AMessageSenderRunnable implements MessageSenderRunnable {
 	void sleepIfRemoteMulticastGroup(long delay) throws InterruptedException {
 		if (localMulticastGroup == null)
 			sleep(delay);
+	}
+	//  relayed if there is no direct communicator or if the direct communicator is
+	// in the relayed mode
+	public boolean isRelayed() {
+		return isRelayedMode() || localMulticastGroup == null;
 	}
 
 	public void run() {
@@ -86,7 +94,8 @@ public class AMessageSenderRunnable implements MessageSenderRunnable {
 						break;
 					}
 					sleepIfRemoteMulticastGroup(delay);
-					if (localMulticastGroup != null)
+//					if (localMulticastGroup != null && !isRelayedMode())
+					if (!isRelayed())
 						localMulticastGroup.toOthers(args[0], (String) args[1],
 								(ObjectReceiver) args[2],
 								message.getTimeStamp());
@@ -106,7 +115,8 @@ public class AMessageSenderRunnable implements MessageSenderRunnable {
 						break;
 					}
 					sleepIfRemoteMulticastGroup(delay);
-					if (localMulticastGroup != null)
+//					if (localMulticastGroup != null)
+					if (!isRelayed())
 						localMulticastGroup.toOthers(args[0], (String) args[1],
 								(ObjectReceiver) args[2],
 								message.getTimeStamp());
@@ -126,7 +136,8 @@ public class AMessageSenderRunnable implements MessageSenderRunnable {
 						break;
 					}
 					sleepIfRemoteMulticastGroup(delay);
-					if (localMulticastGroup != null)
+//					if (localMulticastGroup != null)
+					if (!isRelayed())
 						localMulticastGroup.toAll(args[0], (String) args[1],
 								(ObjectReceiver) args[2],
 								message.getTimeStamp());
@@ -158,7 +169,8 @@ public class AMessageSenderRunnable implements MessageSenderRunnable {
 						break;
 					}
 					sleepIfRemoteMulticastGroup(delay);
-					if (localMulticastGroup != null)
+//					if (localMulticastGroup != null)
+					if (!isRelayed())
 						localMulticastGroup.toUsers((String[]) args[0],
 								args[1], (String) args[2],
 								(ObjectReceiver) args[3],
@@ -180,6 +192,14 @@ public class AMessageSenderRunnable implements MessageSenderRunnable {
 			}
 		}
 
+	}
+	@Override
+	public boolean isRelayedMode() {
+		return relayedMode;
+	}
+	@Override
+	public void setRelayedMode(boolean relayedMode) {
+		this.relayedMode = relayedMode;
 	}
 
 }

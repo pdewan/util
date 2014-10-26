@@ -38,6 +38,7 @@ public abstract class ASessionManagerCommunicator extends ASessionListenable
 	SessionManager sessionManager;
 	ABoundedBuffer<SentMessage> outputMessageQueue;
 	MessageSenderRunnable messageSenderRunnable;
+	
 	Thread messageSenderThread;
 	Map<ObjectReceiver, String>  messageReceiverToClientName = new HashMap();
 	SerializedProcessGroups serializedMulticastGroups;
@@ -317,6 +318,14 @@ public abstract class ASessionManagerCommunicator extends ASessionListenable
 			retVal.createThread();
 		}
 		return retVal;
+	}
+	@Override
+	public MessageSenderRunnable getMessageSenderRunnable() {
+		return messageSenderRunnable;
+	}
+	@Override
+	public void setMessageSenderRunnable(MessageSenderRunnable messageSenderRunnable) {
+		this.messageSenderRunnable = messageSenderRunnable;
 	}
 
 }

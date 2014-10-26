@@ -70,4 +70,8 @@ public interface Communicator {
 
 	String getApplicationName();
 
+	MessageSenderRunnable getMessageSenderRunnable();
+
+	void setMessageSenderRunnable(MessageSenderRunnable messageSenderRunnable);
+
 }
