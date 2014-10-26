@@ -26,12 +26,12 @@ public class AnExtendibleTelePointerGlassPane extends JPanel implements Extendib
 	int y = 50;
 	int clickX, clickY;
 	boolean pointerSelected;
-	JFrame frame;
+	transient JFrame frame;
 	protected int pointerWidth = DIAMETER, pointerHeight = DIAMETER;
-	protected List<GraphicsPainter> painters = new ArrayList();
-	protected List<PointListener> telepointerListeners = new ArrayList();
+	transient protected List<GraphicsPainter> painters = new ArrayList();
+	transient protected List<PointListener> telepointerListeners = new ArrayList();
 	boolean showTelePointer;
-	GlassPaneController glassPaneController;
+	transient GlassPaneController glassPaneController;
 	
 	
 	

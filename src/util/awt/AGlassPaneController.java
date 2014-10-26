@@ -6,7 +6,7 @@ import util.annotations.PreferredWidgetClass;
 import util.annotations.Visible;
 
 public class AGlassPaneController implements GlassPaneController{
-	GlassPaneController glassPane;
+	transient GlassPaneController glassPane;
 	public AGlassPaneController(GlassPaneController aGlassPane) {
 		glassPane = aGlassPane;
 	}

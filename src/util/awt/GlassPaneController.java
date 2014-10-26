@@ -1,6 +1,8 @@
 package util.awt;
 
-public interface GlassPaneController {
+import java.io.Serializable;
+
+public interface GlassPaneController extends Serializable{
 	int getPointerSize();
 
 	void setPointerSize(int aSize);
