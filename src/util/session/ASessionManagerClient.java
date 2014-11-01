@@ -24,7 +24,7 @@ public abstract class ASessionManagerClient extends ASessionListenable
 		MessageDispatcher, Serializable {
 	MessageProcessor<SentMessage> sentMessageProcessor;
 	MessageProcessor<ReceivedMessage> receivedMessageProcessor;
-	MessageFilter<SentMessage> sentMessageQueuer;
+	MessageFilter<SentMessage> sentMessageFilter;
 	MessageFilter<ReceivedMessage> receivedMessageQueuer;
 	ObjectReceiver exportedMessageReceiver;
 	String clientName;
@@ -82,11 +82,11 @@ public abstract class ASessionManagerClient extends ASessionListenable
 	}
 
 	public MessageFilter<SentMessage> getSentMessageFilter() {
-		if (sentMessageQueuer == null) {
+		if (sentMessageFilter == null) {
 			setSentMessageFilter(SentMessageFilterSelector
 					.getMessageFilterCreator().getMessageFilter());
 		}
-		return sentMessageQueuer;
+		return sentMessageFilter;
 	}
 
 	void createOutputBufferAndThread() {
@@ -365,11 +365,11 @@ public abstract class ASessionManagerClient extends ASessionListenable
 	public SerializedProcessGroups getSerializedMulticastGroups() {
 		return serializedMulticastGroups;
 	}
-
+	@Override
 	public void setSentMessageFilter(
 			MessageFilter<SentMessage> theSentMessageQueuer) {
-		sentMessageQueuer = theSentMessageQueuer;
-		sentMessageQueuer.setMessageProcessor(sentMessageProcessor);
+		sentMessageFilter = theSentMessageQueuer;
+		sentMessageFilter.setMessageProcessor(sentMessageProcessor);
 	}
 
 	public void setReceivedMessageQueuer(
