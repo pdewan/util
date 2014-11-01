@@ -16,7 +16,9 @@ import java.io.Serializable;
  * At the server end, this is receivged even tho it is called a sent message, 
  * and it is converted into a received message later
  */ 
-public interface SentMessage extends Serializable, util.models.CorrectCloneable {
+//public interface SentMessage extends Serializable, util.models.CorrectCloneable {
+public interface SentMessage extends GroupMessage, util.models.CorrectCloneable {
+
 
 	public abstract SentMessageType getSentMessageType();
 
@@ -26,27 +28,27 @@ public interface SentMessage extends Serializable, util.models.CorrectCloneable 
 
 	public abstract void setArgs(Object[] args);
 
-	public abstract long getTimeStamp();
-
-	public abstract void setTimeStamp(long timeStamp);
-
-	public boolean isUserMessage();
-
-	public Object getUserMessage();
-
-	public void setUserMessage(Object theMessage);
-
+//	public abstract long getTimeStamp();
+//
+//	public abstract void setTimeStamp(long timeStamp);
+//
+//	public boolean isUserMessage();
+//
+//	public Object getUserMessage();
+//
+//	public void setUserMessage(Object theMessage);
+//
 	public String getSendingUser();
 
 	public void setSendingUser(String theUser);
 
-	public String getApplicationName();
-
-	public void setApplicationName(String applicationName);
-
-	public String getSessionName();
-
-	public void setSessionName(String sessionName);
+//	public String getApplicationName();
+//
+//	public void setApplicationName(String applicationName);
+//
+//	public String getSessionName();
+//
+//	public void setSessionName(String sessionName);
 
 	public ObjectReceiver getMessageReceiver();
 
