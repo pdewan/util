@@ -46,7 +46,7 @@ public class AnUmarshalledReceivedMessageDispatcherAndSessionStateManager implem
 	public MessageFilter<ReceivedMessage> getReceivedMessageFilter() {
 		if (receivedMessageFilter == null) {
 			setReceivedMessageFilter(ReceivedMessageFilterSelector
-					.getMessageFilterFactory().getMessageFilter());
+					.getMessageFilterCreator().getMessageFilter());
 		}
 		return receivedMessageFilter;
 	}

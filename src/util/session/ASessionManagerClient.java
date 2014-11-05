@@ -106,7 +106,7 @@ public abstract class ASessionManagerClient extends ASessionListenable
 	public MessageFilter<ReceivedMessage> getReceivedMessageFilter() {
 		if (receivedMessageQueuer == null) {
 			setReceivedMessageQueuer(ReceivedMessageFilterSelector
-					.getMessageFilterFactory().getMessageFilter());
+					.getMessageFilterCreator().getMessageFilter());
 		}
 		return receivedMessageQueuer;
 	}
