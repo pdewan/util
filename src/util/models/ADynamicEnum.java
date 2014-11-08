@@ -94,6 +94,7 @@ public class ADynamicEnum<ElementType> implements java.io.Serializable,
 	public void setChoices(List<ElementType> newValue) {
 		List<ElementType> oldValue = choices;
 		choices = newValue;
+		if (propertyChange != null)
 		propertyChange.firePropertyChange("choices", oldValue, newValue);
 		initCurrentChoice();
 	}
