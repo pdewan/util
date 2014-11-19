@@ -35,7 +35,7 @@ public class ASessionManager implements SessionManager, SessionManagerLocal {
 		sentMessageProcessor = new ASentMessageQueuer(outputMessageQueue);
 
 		messageQueuer = ServerSentMessageFilterSelector
-				.getMessageQueuerFactory().getMessageQueuer();
+				.getMessageQueuerFactory().getServerMessageFilter();
 		messageQueuer.setMessageProcessor(sentMessageProcessor);
 		messageSenderThread.setName("Session Manager Message Receiver");
 		ThreadCreated.newCase(CommunicatorSelector.getProcessName(), messageSenderThread.getName(), this);

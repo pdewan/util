@@ -4,7 +4,7 @@ public class AServerMessageForwarderCreator implements
 		ServerMessageFilterCreator {
 
 	@Override
-	public ServerMessageFilter getMessageQueuer() {
+	public ServerMessageFilter getServerMessageFilter() {
 		return new AServerMessageForwarder();
 	}
 
