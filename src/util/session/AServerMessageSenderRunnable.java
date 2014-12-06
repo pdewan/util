@@ -17,6 +17,9 @@ public class AServerMessageSenderRunnable implements Runnable {
 		outputMessageQueue = theMessageQueue;
 		multicastGroup = theProcessGroup;
 		sessionManager = theSessionManager;
+		if (sessionManager == null) {
+			sessionManager = ASessionManagerSelector.getSessionManager();
+		}
 	}
 	
 	public void run() {
