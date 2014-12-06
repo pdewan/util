@@ -3,7 +3,7 @@ package util.session;
 public class ServerSentMessageFilterSelector {
 	static ServerMessageFilterCreator factory = new AServerMessageForwarderCreator();
 
-	public static ServerMessageFilterCreator getMessageQueuerFactory() {
+	public static ServerMessageFilterCreator getMessageFilterFactory() {
 		return factory;
 	}
 
