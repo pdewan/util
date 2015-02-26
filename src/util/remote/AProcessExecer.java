@@ -37,11 +37,13 @@ public class AProcessExecer implements ProcessExecer {
 	public AProcessExecer( String aCommand, boolean anIsRdirectIO) {
 		command = aCommand;
         redirectIO = anIsRdirectIO;
+        title = aCommand;
 	}
 	
 	public AProcessExecer( String[] aCommandComponents, boolean anIsRdirectIO) {
 		commandComponents = aCommandComponents;
         redirectIO = anIsRdirectIO;
+        title = aCommandComponents.toString();
 	}
 	
 	
