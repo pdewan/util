@@ -76,11 +76,23 @@ public class AProcessExecer implements ProcessExecer {
 		 
 //		   File binDirectory = null;
 		   String binName = null;
-		   if (workingDirectory.endsWith("bin"))
-				   binName = ".";
-		   else
-			   binName = "bin";
-		   File binDirectory = new File(binName);
+		   File binDirectory = null;
+		   if (workingDirectory.endsWith("bin")) {
+//				   binName = ".";
+//		   		    binName = workingDirectory;	
+		   binDirectory = new File(workingDirectory);
+
+		   } else {
+			   binName =  workingDirectory + "/bin";	
+			   binDirectory = new File(binName);
+			   if (!binDirectory.exists())
+				   binDirectory = new File(workingDirectory);
+		   }
+//		   File binDirectory = new File(binName);
+//		   if (!binDirectory.exists()) {
+//			   System.err.println("Working directrory does not exist!" + binDirectory);
+//			   return null;
+//		   }
 		   if (command != null) {
 			   Tracer.info(this, "Execing command " + command);
 			   process = rt.exec(command, null, binDirectory);
