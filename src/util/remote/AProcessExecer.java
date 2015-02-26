@@ -15,6 +15,7 @@ public class AProcessExecer implements ProcessExecer {
 	String args;
 	ConsoleModel consoleModel;
 	
+	String[] commandComponents;
 	String command;
 	String title;
 	boolean redirectIO;
@@ -35,6 +36,11 @@ public class AProcessExecer implements ProcessExecer {
 	}
 	public AProcessExecer( String aCommand, boolean anIsRdirectIO) {
 		command = aCommand;
+        redirectIO = anIsRdirectIO;
+	}
+	
+	public AProcessExecer( String[] aCommandComponents, boolean anIsRdirectIO) {
+		commandComponents = aCommandComponents;
         redirectIO = anIsRdirectIO;
 	}
 	
@@ -62,7 +68,6 @@ public class AProcessExecer implements ProcessExecer {
 	public Process execProcess() {
 		try {
 		   Runtime rt = Runtime.getRuntime();
-		   Tracer.info(this, "Execing command " + command);
 		   String workingDirectory = System.getProperty("user.dir");
 //		   Tracer.info(this, "Working Directory = " +
 //		           System.getProperty("user.dir"));
@@ -76,7 +81,17 @@ public class AProcessExecer implements ProcessExecer {
 		   else
 			   binName = "bin";
 		   File binDirectory = new File(binName);
-		   process = rt.exec(command, null, binDirectory);
+		   if (command != null) {
+			   Tracer.info(this, "Execing command " + command);
+			   process = rt.exec(command, null, binDirectory);
+		   } else if (commandComponents != null ) {
+			   Tracer.info(this, "Execing command " + commandComponents);
+			   process = rt.exec(commandComponents, null, binDirectory);
+
+		   } else {
+			   System.err.println("Null command or command components");
+			   return null;
+		   }
 //		   consoleModel = new AConsoleModel(process, title);
 		   if (consoleModel == null)
 			   consoleModel = new AConsoleModel(process, title, execedClass, true);
