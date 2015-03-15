@@ -104,7 +104,8 @@ public class Common {
 		String retVal = "";
 		if (anArray.length < 1)
 			return "";
-		retVal = anArray[0].toString();
+//		retVal = anArray[0].toString(); 
+		retVal = "" + anArray[0]; // element can be null
 		for (int i = 1; i < anArray.length; i++) {
 			retVal += aSeparator + anArray[i];
 		}
