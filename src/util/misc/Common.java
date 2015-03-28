@@ -1034,6 +1034,9 @@ public class Common {
 
 		return null;
 	}
+	public static String getCurrentDirectory() {
+		return  System.getProperty("user.dir");
+	}
 	// changing user.dir
 	 public static boolean setCurrentDirectory(String directory_name)
 	    {
@@ -1055,9 +1058,7 @@ public class Common {
 		} catch (Exception e) {
 			System.out.println("Could not convert file " + anImageFileName + " to image because of:" + e);
 			return null;
-		}
-		
-		
+		}		
 	}
 
 	
