@@ -1034,6 +1034,32 @@ public class Common {
 
 		return null;
 	}
+	// changing user.dir
+	 public static boolean setCurrentDirectory(String directory_name)
+	    {
+	        boolean result = false;  // Boolean indicating whether directory was set
+	        File    directory;       // Desired current working directory
+
+	        directory = new File(directory_name).getAbsoluteFile();
+	        if (directory.exists() || directory.mkdirs())
+	        {
+	            result = (System.setProperty("user.dir", directory.getAbsolutePath()) != null);
+	        }
+
+	        return result;
+	    }
+	public static Image toImage (String anImageFileName) {
+		try {
+		File anImageFile = new File(anImageFileName).getAbsoluteFile(); // respecting user.dir
+		return ImageIO.read(anImageFile);
+		} catch (Exception e) {
+			System.out.println("Could not convert file " + anImageFileName + " to image because of:" + e);
+			return null;
+		}
+		
+		
+	}
+
 	
 	public static Image toImage (String imageFile, Object aCaller) {
 		try {
