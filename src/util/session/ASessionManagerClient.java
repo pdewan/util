@@ -14,6 +14,8 @@ import util.models.ABoundedBuffer;
 import util.trace.Tracer;
 import util.trace.session.ClientJoinFinished;
 import util.trace.session.ClientJoinInitiated;
+import util.trace.session.ClientLeaveFinished;
+import util.trace.session.ClientLeaveInitiated;
 import util.trace.session.MessagePutInQueue;
 import util.trace.session.QueueCreated;
 import util.trace.session.ThreadCreated;
@@ -174,8 +176,29 @@ public abstract class ASessionManagerClient extends ASessionListenable
 
 	@Override
 	public void leave() {
-		inSession = false;
+		ClientLeaveInitiated.newCase(CommunicatorSelector.getProcessName(), clientName, applicationName, sessionName, this);
+		asyncLeave();		
+		ClientLeaveFinished.newCase(CommunicatorSelector.getProcessName(), clientName, applicationName, sessionName, this);
 
+
+	}
+	public void asyncLeave() {
+
+		Object[] args = { sessionName, applicationName, clientName,
+				exportedMessageReceiver };
+		SentMessage sentMessage = new ASentMessage(sessionName, applicationName, clientName,
+				exportedMessageReceiver, SentMessageType.Leave, args);
+		MessagePutInQueue.newCase(CommunicatorSelector.getProcessName(), sentMessage, null, outputMessageQueue.getName(), this);
+		try {
+			outputMessageQueue.put(sentMessage);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+//		outputMessageQueue
+//				.put(new ASentMessage(sessionName, applicationName, clientName,
+//						exportedMessageReceiver, SentMessageType.Join, args));
+		inSession = false;
 	}
 
 	@Override
