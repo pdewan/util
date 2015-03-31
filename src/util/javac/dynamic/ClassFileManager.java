@@ -2,6 +2,8 @@ package util.javac.dynamic;
 
 import java.io.IOException;
 import java.security.SecureClassLoader;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.tools.FileObject;
 import javax.tools.ForwardingJavaFileManager;
@@ -16,6 +18,9 @@ SimpleClassFileManager {
 * compiled bytecode of our class
 */
 private JavaClassObject jclassObject;
+
+protected Map<String, JavaClassObject> javaClassObjects = new HashMap();
+protected Map<String, byte[]> javaClassBytes = new HashMap();
 
 /**
 * Will initialize the manager with the specified
@@ -67,6 +72,7 @@ public SimpleJavaFileObject getJavaFileForOutput(Location location,
 String className, Kind kind, FileObject sibling)
     throws IOException {
     jclassObject = new JavaClassObject(className, kind);
+    javaClassObjects.put(className, jclassObject);
 return jclassObject;
 }
 }

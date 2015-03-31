@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.processing.AbstractProcessor;
 import javax.tools.JavaCompiler;
@@ -173,6 +175,36 @@ public class CodeParserController {
 
 		        invokeProcessor(jfiles, processor, fileManager);
 		        return fileManager.getClassBytes();
+//		}
+		// Get the valid source files as a list
+		
+//		if (files.size() > 0) {
+//			// Get the list of java file objects
+//			Iterable<? extends JavaFileObject> compilationUnits1 = standardFileManager
+//					.getJavaFileObjectsFromFiles(files);
+//			invokeProcessor(compilationUnits1, processor, fileManager);
+//		}
+
+	}
+	public Map<String, byte[]> compileInMemory(Map<String, StringBuffer> aClassTexts, AbstractProcessor processor) {
+		// Gets the Java programming language compiler
+		JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
+		// Get a new instance of the standard file manager implementation
+		StandardJavaFileManager standardFileManager = compiler.getStandardFileManager(
+				null, null, null);
+		ClassFileManager fileManager = new
+	              ClassFileManager(standardFileManager);
+		
+			ClassLoader classLoader = getClass().getClassLoader();
+			Set<String> aClassNames = aClassTexts.keySet();
+			for (String aClassName:aClassNames) {
+			CharSequenceJavaFileObject javaFileObject = new CharSequenceJavaFileObject(aClassName, aClassTexts.get(aClassName));
+			 List<JavaFileObject> jfiles = new ArrayList<JavaFileObject>();
+		        jfiles.add(javaFileObject);
+
+		        invokeProcessor(jfiles, processor, fileManager);
+		        return fileManager.getClassBytes();
+			}
 //		}
 		// Get the valid source files as a list
 		

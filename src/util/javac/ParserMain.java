@@ -1,6 +1,8 @@
 package util.javac;
 
 import java.nio.CharBuffer;
+import java.util.List;
+import java.util.Map;
 
 import javax.tools.JavaFileObject;
 
@@ -167,7 +169,16 @@ public class ParserMain {
 
       }
     
-    
+ public static Map<String, byte[]> compile(Map<String, StringBuffer> aClassTexts) {
+
+     
+//	ClassFile aClassFile = SourceClassManager.getInstance().getClassInfo(aClassName);
+//	if (aClassFile != null) return;
+   CodeParserController controller = new CodeParserController();
+	return controller.compileInMemory(aClassTexts, new CodeParserProcessor());
+	
+
+}
         
     
 
