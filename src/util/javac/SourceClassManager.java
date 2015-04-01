@@ -28,8 +28,8 @@ public class SourceClassManager {
         return classInfoMap.get(className);
     }
     
-    public SourceClass getOrCreateClassInfo(Class aClass) {
-    	return getOrCreateClassInfo(aClass.getName());
+    public SourceClass getOrCreateClassInfo(Class aClass, String aClassPath) {
+    	return getOrCreateClassInfo(aClass.getName(), aClassPath);
 //    	SourceClass aSourceClass = getClassInfo(aClass.getName());
 //    	if (aSourceClass == null) {
 //    		ParserMain.parse(aClass);
@@ -37,20 +37,20 @@ public class SourceClassManager {
 //        return classInfoMap.get(aClass.getName());
     }
     
-    public SourceClass getOrCreateClassInfo(String aClassName, StringBuffer aSource) {
+    public SourceClass getOrCreateClassInfo(String aClassName, StringBuffer aSource, String aClassPath) {
     	SourceClass aSourceClass = getClassInfo(aClassName);
     	if (aSourceClass == null) {
-    		ParserMain.parseClassNoByteCode(aClassName, aSource);
+    		ParserMain.parseClassNoByteCode(aClassName, aSource, aClassPath);
     	}    		
         return classInfoMap.get(aClassName);
     }
     
     
     
-    public SourceClass getOrCreateClassInfo(String aClassName) {
+    public SourceClass getOrCreateClassInfo(String aClassName, String aClassPath) {
     	SourceClass aSourceClass = getClassInfo(aClassName);
     	if (aSourceClass == null) {
-    		ParserMain.parseClassNoByteCode(aClassName);
+    		ParserMain.parseClassNoByteCode(aClassName, aClassPath);
     	}    		
         return classInfoMap.get(aClassName);
     }

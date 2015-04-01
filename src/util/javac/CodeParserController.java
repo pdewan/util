@@ -42,7 +42,7 @@ public class CodeParserController {
 	 * @param fileNames
 	 *            Names of files to be verified
 	 */
-	public void invokeProcessor(String fileNames, AbstractProcessor processor) {
+	public void invokeProcessor(String fileNames, String aClassPath, AbstractProcessor processor) {
 		// Gets the Java programming language compiler
 		JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
 		// Get a new instance of the standard file manager implementation
@@ -58,7 +58,7 @@ public class CodeParserController {
 			Iterable<? extends JavaFileObject> compilationUnits1 = fileManager
 					.getJavaFileObjectsFromFiles(files);
 			final Iterable<String> options =
-					Arrays.asList( new String[] { "-d", "compiledfiles"} );
+					Arrays.asList( new String[] { "-d", "compiledfiles", "-cp", aClassPath} );
 			// Create the compilation task
 //			CompilationTask task = compiler.getTask(null, fileManager, null,
 //					null, null, compilationUnits1);
@@ -83,7 +83,7 @@ public class CodeParserController {
 			System.exit(0);
 		}
 	}
-	public void invokeProcessorFileByteCode(String fileNames, AbstractProcessor processor) {
+	public void invokeProcessorFileByteCode(String fileNames, String aClassPath, AbstractProcessor processor) {
 		// Gets the Java programming language compiler
 		JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
 		// Get a new instance of the standard file manager implementation
@@ -95,11 +95,11 @@ public class CodeParserController {
 			// Get the list of java file objects
 			Iterable<? extends JavaFileObject> compilationUnits1 = fileManager
 					.getJavaFileObjectsFromFiles(files);
-			invokeProcessor(compilationUnits1, processor, fileManager);
+			invokeProcessor(compilationUnits1, aClassPath, processor, fileManager);
 		}
 
 	}
-	public void invokeProcessorNoByteCodeMaybeResource(String fileName, AbstractProcessor processor) {
+	public void invokeProcessorNoByteCodeMaybeResource(String fileName, String aClassPath, AbstractProcessor processor) {
 		// Gets the Java programming language compiler
 		JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
 		// Get a new instance of the standard file manager implementation
@@ -113,7 +113,7 @@ public class CodeParserController {
 			files.add(file);
 			Iterable<? extends JavaFileObject> compilationUnits1 = standardFileManager
 					.getJavaFileObjectsFromFiles(files);
-			invokeProcessor(compilationUnits1, processor, fileManager);
+			invokeProcessor(compilationUnits1, aClassPath, processor, fileManager);
 		} else {
 			ClassLoader classLoader = getClass().getClassLoader();
 			InputStream inputStream = classLoader.getResourceAsStream(fileName);
@@ -121,7 +121,7 @@ public class CodeParserController {
 			 List<JavaFileObject> jfiles = new ArrayList<JavaFileObject>();
 		        jfiles.add(javaFileObject);
 
-		        invokeProcessor(jfiles, processor, fileManager);
+		        invokeProcessor(jfiles, aClassPath, processor, fileManager);
 		}
 		// Get the valid source files as a list
 		
@@ -133,7 +133,7 @@ public class CodeParserController {
 //		}
 
 	}
-	public void invokeProcessorNoByteCode(String aClassName, StringBuffer aSource, AbstractProcessor processor) {
+	public void invokeProcessorNoByteCode(String aClassName, StringBuffer aSource, String aClassPath, AbstractProcessor processor) {
 		// Gets the Java programming language compiler
 		JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
 		// Get a new instance of the standard file manager implementation
@@ -147,7 +147,7 @@ public class CodeParserController {
 			 List<JavaFileObject> jfiles = new ArrayList<JavaFileObject>();
 		        jfiles.add(javaFileObject);
 
-		        invokeProcessor(jfiles, processor, fileManager);
+		        invokeProcessor(jfiles, aClassPath, processor, fileManager);
 //		}
 		// Get the valid source files as a list
 		
@@ -159,7 +159,7 @@ public class CodeParserController {
 //		}
 
 	}
-	public byte[] compileInMemory(String aClassName, StringBuffer aSource, AbstractProcessor processor) {
+	public byte[] compileInMemory(String aClassName, String aClassPath, StringBuffer aSource, AbstractProcessor processor) {
 		// Gets the Java programming language compiler
 		JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
 		// Get a new instance of the standard file manager implementation
@@ -173,7 +173,7 @@ public class CodeParserController {
 			 List<JavaFileObject> jfiles = new ArrayList<JavaFileObject>();
 		        jfiles.add(javaFileObject);
 
-		        invokeProcessor(jfiles, processor, fileManager);
+		        invokeProcessor(jfiles, aClassPath, processor, fileManager);
 		        return fileManager.getClassBytes();
 //		}
 		// Get the valid source files as a list
@@ -186,7 +186,7 @@ public class CodeParserController {
 //		}
 
 	}
-	public Map<String, byte[]> compileInMemory(Map<String, StringBuffer> aClassTexts, AbstractProcessor processor) {
+	public Map<String, byte[]> compileInMemory(Map<String, StringBuffer> aClassTexts, String aClassPath, AbstractProcessor processor) {
 		// Gets the Java programming language compiler
 		JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
 		// Get a new instance of the standard file manager implementation
@@ -202,9 +202,10 @@ public class CodeParserController {
 			 List<JavaFileObject> jfiles = new ArrayList<JavaFileObject>();
 		        jfiles.add(javaFileObject);
 
-		        invokeProcessor(jfiles, processor, fileManager);
-		        return fileManager.getClassBytes();
+		        invokeProcessor(jfiles, aClassPath, processor, fileManager);
+		        return fileManager.getJavaClassesBytes();
 			}
+			return null;
 //		}
 		// Get the valid source files as a list
 		
@@ -216,7 +217,7 @@ public class CodeParserController {
 //		}
 
 	}
-	public void invokeProcessorNoByteCode(String fileNames, AbstractProcessor processor) {
+	public void invokeProcessorNoByteCode(String fileNames, String aClassPath, AbstractProcessor processor) {
 		// Gets the Java programming language compiler
 		JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
 		// Get a new instance of the standard file manager implementation
@@ -230,11 +231,11 @@ public class CodeParserController {
 			// Get the list of java file objects
 			Iterable<? extends JavaFileObject> compilationUnits1 = standardFileManager
 					.getJavaFileObjectsFromFiles(files);
-			invokeProcessor(compilationUnits1, processor, fileManager);
+			invokeProcessor(compilationUnits1, aClassPath, processor, fileManager);
 		}
 
 	}
-	public void invokeProcessor(Iterable<? extends JavaFileObject> compilationUnits, AbstractProcessor processor, JavaFileManager fileManager ) {
+	public void invokeProcessor(Iterable<? extends JavaFileObject> compilationUnits, String aClassPath, AbstractProcessor processor, JavaFileManager fileManager ) {
 		// Gets the Java programming language compiler
 		JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
 		// Get a new instance of the standard file manager implementation
@@ -249,7 +250,7 @@ public class CodeParserController {
 			final Iterable<String> options =
 //					Arrays.asList( new String[] { /*"-d", "compiledfiles"*/} );
 //			Arrays.asList( new String[] {"-Xmaxerrs", "0", "-nowarn", "-g:none" } );
-					Arrays.asList( new String[] {"-Xmaxerrs", "1", "-nowarn"} );
+					Arrays.asList( new String[] {"-Xmaxerrs", "1", "-nowarn", "-cp", aClassPath} );
 
 			// Create the compilation task
 //			CompilationTask task = compiler.getTask(null, fileManager, null,

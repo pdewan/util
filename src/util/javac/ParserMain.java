@@ -38,7 +38,7 @@ public class ParserMain {
      */
 	
     public static void main(String[] args) {
-    	parse(args);
+    	parse(args, ".");
 
 //        try {
 //
@@ -70,29 +70,29 @@ public class ParserMain {
 //            t.printStackTrace();
 //        }
     }
-    public static void parse(Class[] args) {
+    public static void parse(Class[] args, String aClassPath) {
     	String[] retVal = new String[args.length];
     	for (int i = 0; i < args.length; i++) {
     		retVal[i] = Common.classToSourceFileNameInSrc(args[i]);
     	}
-    	parse(retVal);
+    	parse(retVal, aClassPath);
     	
     }
     
-    public static void parse(Class aClass) {
-    	parse (new Class[] {aClass});
+    public static void parse(Class aClass, String aClassPath) {
+    	parse (new Class[] {aClass}, aClassPath);
     	
     }
     
-    public static void parseClass(String aClassName) {
+    public static void parseClass(String aClassName, String aClassPath) {
 //    	parse (new String[] {Common.classNameToSourceFileNameInSrc(aClassName)});
-    	parseFile(Common.classNameToSourceFileNameInSrc(aClassName));
+    	parseFile(Common.classNameToSourceFileNameInSrc(aClassName), aClassPath);
     	
     }
     
-    public static void parseClassNoByteCode(String aClassName) {
+    public static void parseClassNoByteCode(String aClassName, String aClassPath) {
 //    	parse (new String[] {Common.classNameToSourceFileNameInSrc(aClassName)});
-    	parseFileNoByteCode(Common.classNameToSourceFileNameInSrc(aClassName));
+    	parseFileNoByteCode(Common.classNameToSourceFileNameInSrc(aClassName), aClassPath);
     	
     }
 //    public static void parseClassNoByteCode(String aClassName, StringBuffer text) {
@@ -102,7 +102,7 @@ public class ParserMain {
 //    }
 //    
 
-    public static void parse(String[] args) {
+    public static void parse(String[] args, String aClassPath) {
 
         try {
 
@@ -115,7 +115,7 @@ public class ParserMain {
                 System.exit(0);
             } 
             else {
-            	parseFile(args[0]);
+            	parseFile(args[0],aClassPath);
 //				ClassFile aClassFile = SourceClassManager.getInstance().getClassInfo(args[0]);
 //				if (aClassFile != null) return;
 //                CodeParserController controller = new CodeParserController();
@@ -127,55 +127,55 @@ public class ParserMain {
         }
     }
     
-    public static void parseFile(String aFileName) {
+    public static void parseFile(String aFileName, String aClassPath) {
 
      
 				ClassFile aClassFile = SourceClassManager.getInstance().getClassInfo(aFileName);
 				if (aClassFile != null) return;
                 CodeParserController controller = new CodeParserController();
-				controller.invokeProcessorFileByteCode(aFileName, new CodeParserProcessor());
+				controller.invokeProcessorFileByteCode(aFileName, aClassPath, new CodeParserProcessor());
 
             }
     
-    public static void parseFileNoByteCode(String aFileName) {
+    public static void parseFileNoByteCode(String aFileName, String aClassPath) {
 
         
 		ClassFile aClassFile = SourceClassManager.getInstance().getClassInfo(aFileName);
 		if (aClassFile != null) return;
         CodeParserController controller = new CodeParserController();
-		controller.invokeProcessorNoByteCodeMaybeResource(aFileName, new CodeParserProcessor());
+		controller.invokeProcessorNoByteCodeMaybeResource(aFileName, aClassPath, new CodeParserProcessor());
 		
 
     }
     
-    public static void parseClassNoByteCode(String aClassName, StringBuffer aSource) {
+    public static void parseClassNoByteCode(String aClassName, StringBuffer aSource, String aClassPath) {
 
         
   		ClassFile aClassFile = SourceClassManager.getInstance().getClassInfo(aClassName);
   		if (aClassFile != null) return;
           CodeParserController controller = new CodeParserController();
-  		controller.invokeProcessorNoByteCode(aClassName, aSource, new CodeParserProcessor());
+  		controller.invokeProcessorNoByteCode(aClassName, aSource, aClassPath, new CodeParserProcessor());
   		
 
       }
- public static byte[] compile(String aClassName, StringBuffer aSource) {
+ public static byte[] compile(String aClassName,  StringBuffer aSource, String aClassPath) {
 
         
 //  		ClassFile aClassFile = SourceClassManager.getInstance().getClassInfo(aClassName);
 //  		if (aClassFile != null) return;
           CodeParserController controller = new CodeParserController();
-  		return controller.compileInMemory(aClassName, aSource, new CodeParserProcessor());
+  		return controller.compileInMemory(aClassName, aClassPath, aSource, new CodeParserProcessor());
   		
 
       }
     
- public static Map<String, byte[]> compile(Map<String, StringBuffer> aClassTexts) {
+ public static Map<String, byte[]> compile(Map<String, StringBuffer> aClassTexts, String aClassPath) {
 
      
 //	ClassFile aClassFile = SourceClassManager.getInstance().getClassInfo(aClassName);
 //	if (aClassFile != null) return;
    CodeParserController controller = new CodeParserController();
-	return controller.compileInMemory(aClassTexts, new CodeParserProcessor());
+	return controller.compileInMemory(aClassTexts, aClassPath, new CodeParserProcessor());
 	
 
 }

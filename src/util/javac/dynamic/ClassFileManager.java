@@ -19,8 +19,10 @@ SimpleClassFileManager {
 */
 private JavaClassObject jclassObject;
 
-protected Map<String, JavaClassObject> javaClassObjects = new HashMap();
-protected Map<String, byte[]> javaClassBytes = new HashMap();
+protected Map<String, JavaClassObject> javaClassesObjects = new HashMap();
+protected Map<String, byte[]> javaClassesBytes = new HashMap();
+
+
 
 /**
 * Will initialize the manager with the specified
@@ -72,7 +74,10 @@ public SimpleJavaFileObject getJavaFileForOutput(Location location,
 String className, Kind kind, FileObject sibling)
     throws IOException {
     jclassObject = new JavaClassObject(className, kind);
-    javaClassObjects.put(className, jclassObject);
+    javaClassesObjects.put(className, jclassObject);
 return jclassObject;
+}
+public Map<String, byte[]> getJavaClassesBytes() {
+	return javaClassesBytes;
 }
 }
