@@ -1468,8 +1468,14 @@ public class Common {
 //			}
 	}
 	public static void writeText(File file, String text) throws IOException {
-		if (!file.exists())
-			file.mkdirs();
+		if (!file.exists()) {
+			File aFolder = file.getParentFile();
+			if (!aFolder.exists()) 
+				aFolder.mkdirs();
+			file.createNewFile();
+		}
+//		if (!file.exists())
+//			file.mkdirs();
 		FileOutputStream fos = null;
 		try {
 			fos = new FileOutputStream(file);
