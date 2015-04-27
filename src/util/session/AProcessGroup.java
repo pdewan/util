@@ -279,7 +279,10 @@ public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
 			ObjectReceiver theClient, long timeStamp) throws RemoteException {
 		for (ObjectReceiver client : clients.keySet()) {
 			if (clients.get(client).equals(userName)) {
-				client.newObject(clients.get(theClient), theClient, object); // rmi call in the client object
+				ReceivedMessage receivedMessage = receivedMessageCreator.newObject(
+						clients.get(theClient), theClient, object);
+				asyncDelay (client, receivedMessage, timeStamp, clients.get(client));
+//				client.newObject(clients.get(theClient), theClient, object); // rmi call in the client object
 				MessageSent.newCase(CommunicatorSelector.getProcessName(), object , clients.get(client),  this);
 
 				return;
