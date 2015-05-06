@@ -376,7 +376,40 @@ public class Common {
 			} else
 				sb.append(s.charAt(i));
 	}
-	
+	public static final String FILE_SEPARATOR = "/";
+
+
+	public static String quotePath(String path) {
+		if (!path.contains(" ")) return path;
+	    boolean startSlash = path.startsWith("\\") || path.startsWith("/");
+	    boolean endSlash = path.endsWith("\\") || path.endsWith("/");
+	    String[] split = path.split("[\\\\/]+");
+
+	    StringBuilder quotPath = new StringBuilder(path.length());
+
+	    if (startSlash) {
+	        quotPath.append(FILE_SEPARATOR);
+	    }
+	    
+	    for(int i = 0; i < split.length; i ++) {
+	    	String s = split[i];
+	        if (s.contains(" ")) {
+//	            s = "\"" + s + "\"";
+	            s = "\\\"" + s + "\\\"";
+
+	        }
+	        quotPath.append(s);
+	        if (i+1 < split.length) {
+	            quotPath.append(FILE_SEPARATOR);
+	        }
+	    }
+	    
+	    if (endSlash) {
+	        quotPath.append(FILE_SEPARATOR);
+	    }
+	    
+	    return quotPath.toString();
+	}
 
 	static public String fileNameToPackageName(String fileName) {
 		String removeDot = fileName;
