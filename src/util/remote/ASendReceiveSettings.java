@@ -1,4 +1,4 @@
-package util.session;
+package util.remote;
 
 import util.misc.ClearanceManagerFactory;
 import util.misc.ThreadSupport;

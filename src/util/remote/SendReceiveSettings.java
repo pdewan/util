@@ -1,4 +1,4 @@
-package util.session;
+package util.remote;
 
 public interface SendReceiveSettings {
 	public boolean isWaitForReceive() ;
