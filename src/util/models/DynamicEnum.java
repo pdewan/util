@@ -3,7 +3,7 @@ package util.models;
 import java.beans.PropertyChangeListener;
 import java.util.List;
 
-public interface DynamicEnum<ElementType> extends PropertyListenerRegistrar{
+public interface DynamicEnum<ElementType> extends PropertyListenerRegisterer{
 
 	public int choicesSize();
 

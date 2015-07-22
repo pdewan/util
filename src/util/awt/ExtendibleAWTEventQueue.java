@@ -2,9 +2,9 @@ package util.awt;
 
 import java.awt.AWTEvent;
 
-import util.models.PropertyVetoerRegistrar;
+import util.models.PropertyVetoerRegisterer;
 
-public interface ExtendibleAWTEventQueue extends PropertyVetoerRegistrar {
+public interface ExtendibleAWTEventQueue extends PropertyVetoerRegisterer {
 	public static final String WINDOW = "Window";
 	public void addEventQueueHandler(AWTEventQueueHandler listener);
 

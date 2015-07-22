@@ -5,9 +5,9 @@ import java.awt.event.WindowListener;
 
 import util.annotations.Visible;
 import util.models.LocalGlobalTranscriptManager;
-import util.models.PropertyListenerRegistrar;
+import util.models.PropertyListenerRegisterer;
 
-public interface ConsoleModel extends PropertyListenerRegistrar/*, WindowListener*/{
+public interface ConsoleModel extends PropertyListenerRegisterer/*, WindowListener*/{
 	public final String OUTPUT_LINE = "outputLine";
 	public final String OUTPUT = "output";
 	public final String INPUT = "input";

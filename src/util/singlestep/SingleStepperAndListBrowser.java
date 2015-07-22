@@ -4,7 +4,7 @@ import java.beans.PropertyChangeListener;
 import java.util.List;
 
 import util.misc.ClearanceManager;
-import util.models.PropertyListenerRegistrar;
+import util.models.PropertyListenerRegisterer;
 
 public interface SingleStepperAndListBrowser extends  SingleStepper, ListBrowser {
 	

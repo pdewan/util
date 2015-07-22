@@ -1,9 +1,9 @@
 package util.remote;
 
 import util.misc.ClearanceManager;
-import util.models.PropertyListenerRegistrar;
+import util.models.PropertyListenerRegisterer;
 
-public interface DistributedProcessController extends PropertyListenerRegistrar{
+public interface DistributedProcessController extends PropertyListenerRegisterer{
 
 	public abstract ClearanceManager getClearanceManager();
 
