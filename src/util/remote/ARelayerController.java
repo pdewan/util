@@ -5,7 +5,7 @@ import util.annotations.ComponentWidth;
 
 public class ARelayerController extends ADistributedProcessController implements RelayerController {
 	boolean echoBack;
-	String clients = "";
+	String relayClients = "";
 	
 	@Override
 	public boolean isEchoBack() {
@@ -19,11 +19,11 @@ public class ARelayerController extends ADistributedProcessController implements
 	}
 	@ComponentWidth(400)
 	public String getClients() {
-		return clients;
+		return relayClients;
 	}
-	public void setClients(String clients) {
-		this.clients = clients;
-		propertyChangeSupport.firePropertyChange("Clients", null, clients);
+	public void setRelayClients(String clients) {
+		this.relayClients = clients;
+		propertyChangeSupport.firePropertyChange("Relay Clients", null, clients);
 	}
 
 }

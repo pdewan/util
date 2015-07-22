@@ -7,6 +7,6 @@ public interface RelayerController extends DistributedProcessController{
 
 	void setEchoBack(boolean echoBack);
 	public String getClients() ;
-	public void setClients(String clients) ;
+	public void setRelayClients(String clients) ;
 
 }
