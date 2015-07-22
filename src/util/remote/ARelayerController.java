@@ -18,12 +18,12 @@ public class ARelayerController extends ADistributedProcessController implements
 
 	}
 	@ComponentWidth(400)
-	public String getClients() {
+	public String getRelayClients() {
 		return relayClients;
 	}
 	public void setRelayClients(String clients) {
 		this.relayClients = clients;
-		propertyChangeSupport.firePropertyChange("Relay Clients", null, clients);
+		propertyChangeSupport.firePropertyChange("RelayClients", null, clients);
 	}
 
 }
