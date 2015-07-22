@@ -2,6 +2,7 @@ package util.remote;
 
 
 public class AClientController extends ADistributedProcessController implements ClientController {
+	String serverHost;
 	String serverId;
 	@Override
 	public String getServerId() {
@@ -12,6 +13,13 @@ public class AClientController extends ADistributedProcessController implements 
 		this.serverId = newVal;
 		propertyChangeSupport.firePropertyChange("ServerId", null, newVal );
 	}
-	
+	public String getServerHost() {
+		return serverId;
+	}
+	@Override
+	public void setServerHost(String newVal) {
+		this.serverId = newVal;
+		propertyChangeSupport.firePropertyChange("ServerHost", null, newVal );
+	}
 
 }
