@@ -14,11 +14,11 @@ public class AClientController extends ADistributedProcessController implements 
 		propertyChangeSupport.firePropertyChange("ServerId", null, newVal );
 	}
 	public String getServerHost() {
-		return serverId;
+		return serverHost;
 	}
 	@Override
 	public void setServerHost(String newVal) {
-		this.serverId = newVal;
+		this.serverHost = newVal;
 		propertyChangeSupport.firePropertyChange("ServerHost", null, newVal );
 	}
 
