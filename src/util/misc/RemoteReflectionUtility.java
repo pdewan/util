@@ -74,7 +74,7 @@ public class RemoteReflectionUtility {
 		if (o == null)
 			return;
 		try {
-			Tracer.info("Calling on object: " + o + " method"
+			Tracer.info(RemoteReflectionUtility.class, "Calling on object: " + o + " method"
 					+ INIT_SERIALIZED_OBJECT);
 			Method init = o.getClass().getMethod(INIT_SERIALIZED_OBJECT,
 					emptyClassArgs);
@@ -82,7 +82,7 @@ public class RemoteReflectionUtility {
 				return;
 			init.invoke(o, emptyArgs);
 		} catch (NoSuchMethodException me) {
-			Tracer.info("Object: " + o + "does not have method: "
+			Tracer.warning ("Class: " + o.getClass() + "does not have method: "
 					+ INIT_SERIALIZED_OBJECT);
 		} catch (Exception e) {
 			e.printStackTrace();
