@@ -10,6 +10,9 @@ import util.annotations.Keywords;
 public class Tracer {
 
 	public static String ALL_KEYWORDS = "All Key Words";
+	static boolean displayThreadName = false;
+	
+
 	static Map<String, Boolean> keyWordToPrintStatus = new HashMap();
 	static Map<String, Boolean> keyWordToDisplayStatus = new HashMap();
 	static Map<String, Boolean> keyWordToWaitStatus = new HashMap(); //wait status is stronger as it implicit displaying
@@ -121,6 +124,10 @@ public class Tracer {
 	
 	public static String toInfoWithPrefix(String prefix, String info) {
 		String qualifier = prefix.contains("trace")?EVENT_TYPE:EVENT_SOURCE;
+		if (isDisplayThreadName()) {
+			String aThreadName = Thread.currentThread().getName();
+			qualifier += "{" + aThreadName + "}";
+		}
 		return toInfo(qualifier + "(" + prefix + ") " + info);
 	}
 
@@ -253,8 +260,9 @@ public class Tracer {
 			return ;
 		
 		String body = toInfoBody(caller, getImplicitPrintKeyword(caller), info);
-		if (body != null)
+		if (body != null) {
 		System.out.println(body);
+		}
 //		System.out.println(toInfoBody(caller, getImplicitPrintKeyword(caller), info));
 	}
 
@@ -486,6 +494,12 @@ public class Tracer {
 		return (keyWordToWaitStatus.get(ALL_KEYWORDS) != null && keyWordToWaitStatus.get(ALL_KEYWORDS))
 				|| (keyWordToWaitStatus.get(keyWord) != null && keyWordToWaitStatus
 						.get(keyWord));
+	}
+	public static boolean isDisplayThreadName() {
+		return displayThreadName;
+	}
+	public static void setDisplayThreadName(boolean displayThreadName) {
+		Tracer.displayThreadName = displayThreadName;
 	}
 
 	static {
