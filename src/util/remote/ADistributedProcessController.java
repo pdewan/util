@@ -3,12 +3,15 @@ package util.remote;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
+import util.misc.AClearanceManager;
 import util.misc.ClearanceManager;
 import util.misc.ClearanceManagerFactory;
 
 public class ADistributedProcessController implements DistributedProcessController {
 	protected ClearanceManager clearanceManager = ClearanceManagerFactory.getOrCreateClearanceManager();
-	protected SendReceiveSettings sendReceiveSettings = SendReceiveSettingsFactory.getOrCreateSettings();
+	protected SendReceiveSettings sendReceiveSettings = SendReceiveSettingsFactory.getOrCreateSingleton();
+//	protected ClearanceManager clearanceManager = new AClearanceManager();
+//	protected SendReceiveSettings sendReceiveSettings = new ASendReceiveSettings();
 //	protected boolean markCommands = true;
 	protected PropertyChangeSupport propertyChangeSupport = new PropertyChangeSupport(this);
 	

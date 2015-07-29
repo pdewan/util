@@ -5,6 +5,7 @@ import util.annotations.ComponentWidth;
 
 public class ARelayerController extends ADistributedProcessController implements RelayerController {
 	boolean echoBack;
+	boolean waitForRelay;
 	String relayClients = "";
 	
 	@Override
@@ -24,6 +25,14 @@ public class ARelayerController extends ADistributedProcessController implements
 	public void setRelayClients(String clients) {
 		this.relayClients = clients;
 		propertyChangeSupport.firePropertyChange("RelayClients", null, clients);
+	}
+	@Override
+	public boolean isWaitForRelay() {
+		return waitForRelay;
+	}
+	@Override
+	public void setWaitForRelay(boolean newVal) {
+		waitForRelay = newVal;
 	}
 
 }

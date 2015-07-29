@@ -37,20 +37,25 @@ public class AClearanceManager implements ClearanceManager {
 //			}
 //		}
 //	}
-	public synchronized void waitForClearance() {
+	public synchronized boolean waitForClearance() {
 		if (!clearance) {
 				waitingThreadsList.add(Thread.currentThread().getName());
 				propertyChangeSupport.firePropertyChange("WaitingThreads", null, waitingThreadsList.toString());
 				doWait();
-				clearance = false;
 				waitingThreadsList.remove(Thread.currentThread().getName());
 				propertyChangeSupport.firePropertyChange("WaitingThreads", null, waitingThreadsList.toString());
+				clearance = false;
+				return true;
+
 
 		}
+		clearance = false;
+		return true;
+
 	}
 	@Row(0) 
 	@Column(1)
-	@ComponentWidth(150)
+	@ComponentWidth(250)
 	@Override
 	public String getWaitingThreads() {
 		return waitingThreadsList.toString();
