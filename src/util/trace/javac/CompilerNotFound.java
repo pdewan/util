@@ -10,7 +10,9 @@ public class CompilerNotFound extends UncheckedTraceableException{
 	}
 	
 	public static CompilerNotFound newCase(Object aFinder) {
-		String aMessage = "Compiler not found. In eclipse make jdk be the execution environment instead of jre";
+		String home = System.getProperty("java.home");
+//		System.out.println("Java Home =" + home);
+		String aMessage = "Compiler not found. In eclipse make jdk be the execution environment instead of jre\n Your java home is:" + home;
 		CompilerNotFound retVal = new CompilerNotFound(aMessage, aFinder);
 		retVal.announce();
 		return retVal;
