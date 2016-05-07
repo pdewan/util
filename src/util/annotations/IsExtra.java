@@ -4,6 +4,6 @@ import java.lang.annotation.*;
 
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-public @interface IsExtraCredit {
+public @interface IsExtra {
 	boolean value();
 }
