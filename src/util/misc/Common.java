@@ -29,6 +29,7 @@ import java.io.InvalidClassException;
 import java.io.NotSerializableException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
 import java.io.Reader;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Modifier;
@@ -1524,7 +1525,10 @@ public class Common {
 	}
 	
 	public static void writeText(String aFileName, String text) throws IOException {
-		 writeText (new File(aFileName), text);
+//		 writeText (new File(aFileName), text);
+		 try(  PrintWriter out = new PrintWriter( aFileName )  ){
+			    out.println( text );
+			}
 	}
 
 	public static void close(Closeable closeable) {
