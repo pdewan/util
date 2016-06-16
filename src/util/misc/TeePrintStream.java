@@ -4,7 +4,7 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 
 public class TeePrintStream extends PrintStream{
-	static PrintStream stdout;
+	PrintStream stdout;
 	
 	public TeePrintStream(OutputStream outputStream, PrintStream redirected) {
 		super(outputStream);
