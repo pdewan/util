@@ -29,6 +29,21 @@ public class TeePrintStream extends PrintStream{
 		super.println(anInt);
 		stdout.println(anInt);
 	}
+	@Override
+	public void print(String newLine) {
+		super.print(newLine);
+		stdout.print(newLine);
+	}
+	@Override
+	public void print(double aDouble) {
+		super.print(aDouble);
+		stdout.print(aDouble);
+	}
+	@Override
+	public void print(int anInt) {
+		super.print(anInt);
+		stdout.print(anInt);
+	}
 	
 //	static {
 //		stdout = System.out;
