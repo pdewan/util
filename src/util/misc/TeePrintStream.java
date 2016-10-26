@@ -44,6 +44,12 @@ public class TeePrintStream extends PrintStream{
 		stdout.println(aBoolean);
 	}
 	@Override
+	public void println(Object anObject) {
+		echoedPrint = true;
+		super.println(anObject);
+		stdout.println(anObject);
+	}
+	@Override
 	public void print(String newLine) {
 		super.print(newLine);
 		if (!echoedPrint)
