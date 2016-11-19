@@ -4,11 +4,13 @@ import java.beans.MethodDescriptor;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.*;
+
 import util.models.HashtableListener;
 import util.models.RemotePropertyChangeListener;
 import util.models.VectorListener;
 import util.trace.Tracer;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -18,6 +20,7 @@ import java.util.Observer;
 import java.util.Set;
 import java.util.Vector;
 import java.util.Hashtable;
+
 import javax.swing.JTable;
 import javax.swing.JTree;
 
@@ -2067,6 +2070,17 @@ public class JavaIntrospectUtility {
 			return false;
 		}
 	}
+	public static boolean matchConstructor(Constructor method,
+			 Class[] targetParameterTypes) {
+		String name = method.getName();
+		try {
+			return 	targetParameterTypes == null || (isAssignableFrom(
+							targetParameterTypes, method.getParameterTypes()));
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
 
 	public static boolean isAssignableFrom(Object[] p1Types, Object[] p2Types) {
 		if (p1Types.length != p2Types.length)
@@ -2087,12 +2101,47 @@ public class JavaIntrospectUtility {
 	 * 
 	 * }
 	 */
+	
+	public static Method getMethodISA(Class c, String targetName,
+			Class targetReturnType, Class... targetParameterTypes) throws NoSuchMethodException{
+		Method retVal = getMethod(c, targetName, targetReturnType, targetParameterTypes);
+		if (retVal == null) {
+			String aMessage =					
+					c + "." + targetName + ":" + Arrays.asList(targetParameterTypes) +
+					" ->" + targetReturnType;
+			throw new NoSuchMethodException(aMessage);
+		}
+		return retVal;
+	}
+	public static Constructor getConstructorISA(Class c,  Class... targetParameterTypes) throws NoSuchMethodException{
+		Constructor retVal = getConstructor(c,  targetParameterTypes);
+		if (retVal == null) {
+			String aMessage =					
+					c + " constructor " + Arrays.asList(targetParameterTypes);
+					
+			throw new NoSuchMethodException(aMessage);
+		}
+		return retVal;
+	}
+
 
 	public static Method getMethod(Class c, String targetName,
 			Class targetReturnType, Class[] targetParameterTypes) {
 		// Method[] methods = c.getMethods();
 		Method[] methods = getMethods(c);
 		return getMethod(methods, targetName, targetReturnType,
+				targetParameterTypes);
+		/*
+		 * for (int i = 0; i < methods.length; i++) if (matchMethod(methods[i],
+		 * targetName, targetReturnType, targetParameterTypes)) return
+		 * methods[i]; return null;
+		 */
+
+	}
+	public static Constructor getConstructor(Class c,  Class[] targetParameterTypes) {
+		// Method[] methods = c.getMethods();
+		Constructor[] methods = c.getConstructors();
+		return getConstructor(methods, 
 				targetParameterTypes);
 		/*
 		 * for (int i = 0; i < methods.length; i++) if (matchMethod(methods[i],
@@ -2108,6 +2157,21 @@ public class JavaIntrospectUtility {
 			if (matchMethod(methods[i], targetName, targetReturnType,
 					targetParameterTypes))
 				return methods[i];
+//		System.out.println ("Could not find method matching:" + 
+//				targetName + ":" + Arrays.asList(targetParameterTypes) +
+//				" ->" + targetReturnType);
+		return null;
+
+	}
+	public static Constructor getConstructor(Constructor[] methods, 
+			Class[] targetParameterTypes) {
+		for (int i = 0; i < methods.length; i++)
+			if (matchConstructor(methods[i],
+					targetParameterTypes))
+				return methods[i];
+//		System.out.println ("Could not find method matching:" + 
+//				targetName + ":" + Arrays.asList(targetParameterTypes) +
+//				" ->" + targetReturnType);
 		return null;
 
 	}
