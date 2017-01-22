@@ -29,7 +29,7 @@ public  class Traceable extends RuntimeException implements EqualPropertiesDefin
 	static boolean printThread = true; // rmi threads can be have different names in different invocations
 	
 
-	static boolean printTime = true; // again time makes it difficult to diff different traces
+	static boolean printTime = false; // again time makes it difficult to diff different traces
 	static Set<Class> instantiatedClasses = new HashSet();
 	static Set<Class> notInstantiatedClasses = new HashSet();
 	static boolean defaultInstantiate;
@@ -101,7 +101,7 @@ public  class Traceable extends RuntimeException implements EqualPropertiesDefin
 	}
 	
 	public void announce() {
-		maybePrintMessage(getMessage(), exists);
+		maybePrintMessage(messagePrefix() + " " + getMessage(), exists);
 
 		TraceableBus.newEvent(this);
 
@@ -167,11 +167,14 @@ public  class Traceable extends RuntimeException implements EqualPropertiesDefin
 		
 //		return   " Time(" + aTime + ", " + toTime(date) + ")" + 
 //		" " + "Thread(" + Thread.currentThread().getName() + ")" ;
-		return (printTime?  TIME + "(" + aTime + ", " + toTime(date) + ")":"") +
+		return (printTime?  TIME + "(" + aTime + ", " + toTime(date) + ")":""); 
 //				" Time(" + aTime + ", " + toTime(date) + ")" + 
 //		" " + "Thread(" + Thread.currentThread().getName() + ")" ;
-		(printThread?" " +  THREAD + "(" +  Thread.currentThread().getName() + ")" :"");
+//		+ (printThread?" " +  THREAD + "(" +  Thread.currentThread().getName() + ")" :"");
 		
+	}
+	public static String messagePrefix() {
+		return toString(System.currentTimeMillis());
 	}
 	public static Traceable toTraceable (String aMessage) {
 		Long aTimeStamp = toTimeStamp(aMessage);
