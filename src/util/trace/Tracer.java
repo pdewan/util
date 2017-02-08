@@ -393,7 +393,9 @@ public class Tracer {
 		case OBJECT_CLASS_NAME:
 			return c.getName();
 		case OBJECT_PACKAGE_NAME:
+			if (c.getPackage() != null) {			
 			return c.getPackage().getName();
+			} else return c.getName();
 		case OBJECT_TO_STRING:
 			error("Cannot get implicit keyword for class as implicit keyword is OBJECT_TO_STRING");
 			return "";
