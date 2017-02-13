@@ -123,7 +123,8 @@ public class Tracer {
 	}
 	
 	public static String toInfoWithPrefix(String prefix, String info) {
-		String qualifier = prefix.contains("trace")?EVENT_TYPE:EVENT_SOURCE;
+//		String qualifier = prefix.contains("trace")?EVENT_TYPE:EVENT_SOURCE;
+		String qualifier = "";
 		if (isDisplayThreadName()) {
 			String aThreadName = Thread.currentThread().getName();
 			qualifier += "{" + aThreadName + "}";
