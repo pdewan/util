@@ -34,6 +34,12 @@ public  class Traceable extends RuntimeException implements EqualPropertiesDefin
 	static Set<Class> notInstantiatedClasses = new HashSet();
 	static boolean defaultInstantiate;
 	
+	public static void clear() {
+		instantiatedClasses.clear();
+		notInstantiatedClasses.clear();
+		messages.clear();
+	}
+	
 	protected void maybePrintMessage(String aMessage, boolean isDuplicate) {
 		
 	}
