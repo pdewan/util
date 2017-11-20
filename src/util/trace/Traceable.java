@@ -25,6 +25,7 @@ public  class Traceable extends RuntimeException implements EqualPropertiesDefin
 	protected boolean exists;
 	protected List<String> equalPropertiesList;
 	protected String[] equalPropertiesArray = {"Class"};
+	protected static boolean logMessages = true;
 	
 	static boolean printThread = true; // rmi threads can be have different names in different invocations
 	
@@ -38,6 +39,14 @@ public  class Traceable extends RuntimeException implements EqualPropertiesDefin
 		instantiatedClasses.clear();
 		notInstantiatedClasses.clear();
 		messages.clear();
+	}
+	
+	public static void setLogMesssages(boolean newValue) {
+		logMessages = newValue;
+	}
+	
+	public static boolean isLogMesssages() {
+		return logMessages;
 	}
 	
 	protected void maybePrintMessage(String aMessage, boolean isDuplicate) {
@@ -63,7 +72,7 @@ public  class Traceable extends RuntimeException implements EqualPropertiesDefin
 		eventSource = anEventSource;
 		boolean retVal;
 		// what are we doing with retVal?
-		if (!exists)
+		if (!exists && isLogMesssages())
 		 retVal =messages.add(aMessage);
 //		equalPropertiesList = Arrays.asList(equalPropertiesArray);
 		setEqualPropertiesList();
