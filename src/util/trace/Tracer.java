@@ -1,6 +1,8 @@
 package util.trace;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.JOptionPane;
@@ -11,6 +13,10 @@ public class Tracer {
 
 	public static String ALL_KEYWORDS = "All Key Words";
 	static boolean displayThreadName = false;
+	static boolean bufferTracedMessages = false;
+	static StringBuffer tracedMessages = new StringBuffer();
+	
+
 	
 
 	static Map<String, Boolean> keyWordToPrintStatus = new HashMap();
@@ -89,12 +95,32 @@ public class Tracer {
 		}
 	}
 	public static final String INFO_PREFIX = "I***";
+	public static boolean showInfo() {
+		return showInfo || tracingLevel.ordinal() >= TracingLevel.INFO.ordinal();
+	}
 	public static void info(String info) {
-		if (showInfo) {
-			System.out.println(INFO_PREFIX + info);
-		} else if (tracingLevel.ordinal() >= TracingLevel.INFO.ordinal()) {
-			System.out.println(INFO_PREFIX + info);
+		
+		if (!showInfo() && !isBufferTracedMessages() ) {
+			return;
 		}
+		String aMessage = INFO_PREFIX + info;
+		if (isBufferTracedMessages()) {
+			tracedMessages.append(aMessage + "\n");
+		} else {
+			System.out.println(aMessage);
+
+		}
+//		if (showInfo()) {
+//			System.out.println(aMessage);
+//		} else {
+//			tracedMessages.append(aMessage + "\n");
+//		}
+//		
+//		if (showInfo) {
+//			System.out.println(INFO_PREFIX + info);
+//		} else if (tracingLevel.ordinal() >= TracingLevel.INFO.ordinal()) {
+//			System.out.println(INFO_PREFIX + info);
+//		}
 	}
 	
 	public static String toInfo(String info) {
@@ -287,7 +313,11 @@ public class Tracer {
 	}
 	static void  printInfo(String anInfo) {
 		if (anInfo == null) return;
+		if (isBufferTracedMessages()) {
+			tracedMessages.append(anInfo + "\n");
+		} else {
 		System.out.println(anInfo);
+		}
 	}
 	public static String toInfo(Object caller, String info) {
 
@@ -503,6 +533,20 @@ public class Tracer {
 	}
 	public static void setDisplayThreadName(boolean displayThreadName) {
 		Tracer.displayThreadName = displayThreadName;
+	}
+	public static boolean isBufferTracedMessages() {
+		return bufferTracedMessages;
+	}
+	public static void setBufferTracedMessages(boolean bufferUntracedMessages) {
+		System.out.println("Buffer traced nessages ="  + bufferUntracedMessages);
+		Tracer.bufferTracedMessages = bufferUntracedMessages;
+	}
+	
+	public static void clearTracedMessages() {
+		tracedMessages.setLength(0);
+	}
+	public static String getBufferedTracedMessages() {
+		return tracedMessages.toString();
 	}
 
 	static {
