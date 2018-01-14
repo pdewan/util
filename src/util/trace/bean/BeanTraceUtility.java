@@ -13,6 +13,6 @@ public class BeanTraceUtility {
 		Tracer.setImplicitPrintKeywordKind(ImplicitKeywordKind.OBJECT_CLASS_NAME);		
 		Tracer.setKeywordPrintStatus(SetProperty.class, true);
 		Tracer.setKeywordPrintStatus(NotifiedPropertyChangeEvent.class, true);
-		
+		Tracer.setKeywordPrintStatus(AddedPropertyChangeListener.class, true);
 	}
 }
