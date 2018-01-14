@@ -22,7 +22,7 @@ public class AddedPropertyChangeListener extends TraceableInfo{
 	
 
 	public static AddedPropertyChangeListener newCase(Object aFinder,
-			PropertyChangeEvent anEvent, PropertyChangeListener aPropertyChangeListener) {
+			PropertyChangeListener aPropertyChangeListener) {
     	String aMessage =  aPropertyChangeListener.toString();
     	AddedPropertyChangeListener traceable =
     			new AddedPropertyChangeListener(aMessage, aFinder, aPropertyChangeListener);
