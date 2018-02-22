@@ -3,8 +3,18 @@ package util.trace;
 public class TraceableLogFactory {
 	static TraceableLog traceableLog;
 	public static final int LARGE_SIZE = 1000;
+	static boolean enableTraceableLog = true;
+	
+	public static boolean isEnableTraceableLog() {
+		return enableTraceableLog;
+	}
+
+	public static void setEnableTraceableLog(boolean enableTraceableLog) {
+		TraceableLogFactory.enableTraceableLog = enableTraceableLog;
+	}
+
 	public static TraceableLog getTraceableLog() {
-		if (traceableLog == null) {
+		if (traceableLog == null && isEnableTraceableLog()) {
 			traceableLog = new ATraceableLog(LARGE_SIZE);
 			TraceableBus.addTraceableListener(traceableLog);
 		}
