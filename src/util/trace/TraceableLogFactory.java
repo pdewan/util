@@ -3,7 +3,7 @@ package util.trace;
 public class TraceableLogFactory {
 	static TraceableLog traceableLog;
 	public static final int LARGE_SIZE = 1000;
-	static boolean enableTraceableLog = true;
+	static boolean enableTraceableLog = false;
 	
 	public static boolean isEnableTraceableLog() {
 		return enableTraceableLog;
