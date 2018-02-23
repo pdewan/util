@@ -13,6 +13,9 @@ public class Tracer {
 
 	public static String ALL_KEYWORDS = "All Key Words";
 	static boolean displayThreadName = false;
+	static boolean displayTime = false;
+	
+
 	static boolean bufferTracedMessages = false;
 	static StringBuffer tracedMessages = new StringBuffer();
 	
@@ -150,12 +153,17 @@ public class Tracer {
 	
 	public static String toInfoWithPrefix(String prefix, String info) {
 //		String qualifier = prefix.contains("trace")?EVENT_TYPE:EVENT_SOURCE;
-		String qualifier = "";
+		String aThreadQualifier = "";
+		String aTimeQualifier = "";
+		if (isDisplayTime()) {
+			aTimeQualifier = "@" + System.nanoTime() + " ";
+		}
 		if (isDisplayThreadName()) {
 			String aThreadName = Thread.currentThread().getName();
-			qualifier += "{" + aThreadName + "}";
+			aThreadQualifier += "{" + aThreadName + "}";
 		}
-		return toInfo(qualifier + "(" + prefix + ") " + info);
+		
+		return toInfo(aTimeQualifier + aThreadQualifier + "(" + prefix + ") " + info);
 	}
 
 	public static void info(Object object, String keyWord, String info) {
@@ -533,6 +541,12 @@ public class Tracer {
 	}
 	public static void setDisplayThreadName(boolean displayThreadName) {
 		Tracer.displayThreadName = displayThreadName;
+	}
+	public static boolean isDisplayTime() {
+		return displayTime;
+	}
+	public static void setDisplayTime(boolean displayTime) {
+		Tracer.displayTime = displayTime;
 	}
 	public static boolean isBufferTracedMessages() {
 		return bufferTracedMessages;
