@@ -351,6 +351,9 @@ public class Tracer {
 		case OBJECT_CLASS_NAME:
 			return caller.getClass().getName();
 		case OBJECT_PACKAGE_NAME:
+			if (caller.getClass().getPackage() == null) {
+				return caller.getClass().getName();
+			}
 			return caller.getClass().getPackage().getName();
 		case OBJECT_TO_STRING:
 			return caller.toString();
