@@ -14,8 +14,11 @@ public class Tracer {
 	public static String ALL_KEYWORDS = "All Key Words";
 	static boolean displayThreadName = false;
 	static boolean displayTime = false;
-	
+	static int maxTraces = 1000;
+	static int numTraces = 0;
 
+	
+	
 	static boolean bufferTracedMessages = false;
 	static StringBuffer tracedMessages = new StringBuffer();
 	
@@ -93,8 +96,10 @@ public class Tracer {
 	public static void warning(String warning) {
 		if (showWarnings) {
 			System.out.println("W***" + warning);
+			incNumTraces();
 		} else if (tracingLevel.ordinal() >= TracingLevel.WARNING.ordinal()) {
 			System.out.println("W***" + warning);
+			incNumTraces();
 		}
 	}
 	public static final String INFO_PREFIX = "I***";
@@ -111,6 +116,7 @@ public class Tracer {
 			tracedMessages.append(aMessage + "\n");
 		} else {
 			System.out.println(aMessage);
+			incNumTraces();
 
 		}
 //		if (showInfo()) {
@@ -297,6 +303,7 @@ public class Tracer {
 		String body = toInfoBody(caller, getImplicitPrintKeyword(caller), info);
 		if (body != null) {
 		System.out.println(body);
+		incNumTraces();
 		}
 //		System.out.println(toInfoBody(caller, getImplicitPrintKeyword(caller), info));
 	}
@@ -325,6 +332,7 @@ public class Tracer {
 			tracedMessages.append(anInfo + "\n");
 		} else {
 		System.out.println(anInfo);
+		incNumTraces();
 		}
 	}
 	public static String toInfo(Object caller, String info) {
@@ -466,12 +474,14 @@ public class Tracer {
 	public static void debug(String debugMessage) {
 		if (tracingLevel.ordinal() >= TracingLevel.DEBUG.ordinal()) {
 			System.out.println("D***" + debugMessage);
+			incNumTraces();
 		}
 	}
 
 	public static void userMessage(String userMessage) {
 //		if (tracingLevel.ordinal() >= TracingLevel.USER_MESSAGE.ordinal()) {
 			System.out.println("U***" + userMessage);
+			incNumTraces();
 //		}
 	}
 
@@ -565,6 +575,25 @@ public class Tracer {
 	public static String getBufferedTracedMessages() {
 		return tracedMessages.toString();
 	}
+	public static int getMaxTraces() {
+		return maxTraces;
+	}
+	public static void setMaxTraces(int maxPrints) {
+		Tracer.maxTraces = maxPrints;
+	}
+	public static int getNumTraces() {
+		return numTraces;
+	}
+	
+	public static void incNumTraces() {
+		if (numTraces > getMaxTraces()) {
+			throw new RuntimeException("Printed > " + numTraces + " messages. Suspect infinite loop or recursion.");
+		}
+		numTraces++;
+		
+	}
+
+
 
 	static {
 		// do not need this as lack of this entry means false
