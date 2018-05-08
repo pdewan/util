@@ -14,7 +14,7 @@ public class Tracer {
 	public static String ALL_KEYWORDS = "All Key Words";
 	static boolean displayThreadName = false;
 	static boolean displayTime = false;
-	static int maxTraces = 1000;
+	static int maxTraces = 2000;
 	static int numTraces = 0;
 
 	
@@ -587,10 +587,17 @@ public class Tracer {
 	
 	public static void incNumTraces() {
 		if (numTraces > getMaxTraces()) {
-			throw new RuntimeException("Printed > " + numTraces + " messages. Suspect infinite loop or recursion.");
+			throw new TooManyTracesException("Printed > " + numTraces + " messages. Suspect infinite loop or recursion.");
 		}
 		numTraces++;
 		
+	}
+	public static void setNumTraces(int aNumTraces) {
+		numTraces = 0;		
+	}
+	
+	public static void resetNumTraces() {
+		setNumTraces(0);		
 	}
 
 
