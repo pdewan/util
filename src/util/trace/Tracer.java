@@ -303,6 +303,9 @@ public class Tracer {
 		String body = toInfoBody(caller, getImplicitPrintKeyword(caller), info);
 		if (body != null) {
 		System.out.println(body);
+		if (isBufferTracedMessages()) {
+			tracedMessages.append(body + "\n");
+		} 
 		incNumTraces();
 		}
 //		System.out.println(toInfoBody(caller, getImplicitPrintKeyword(caller), info));
