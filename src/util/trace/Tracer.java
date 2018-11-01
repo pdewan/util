@@ -302,18 +302,19 @@ public class Tracer {
 			return ;
 		
 		String body = toInfoBody(caller, getImplicitPrintKeyword(caller), info);
-		if (body != null) {
-			incNumTraces();
-			if (isBufferTracedMessages()) {
-//				System.out.println (" buffer traced messages = true");
-				tracedMessages.append(body + "\n");
-			} else {
-//				System.out.println (" buffer traced messages = false");
-				System.out.println(body);
-		
-//		incNumTraces();
-			}
-		}
+		printInfo(body);
+//		if (body != null) {
+//			incNumTraces();
+//			if (isBufferTracedMessages()) {
+////				System.out.println (" buffer traced messages = true");
+//				tracedMessages.append(body + "\n");
+//			} else {
+////				System.out.println (" buffer traced messages = false");
+//				System.out.println(body);
+//		
+////		incNumTraces();
+//			}
+//		}
 //		System.out.println(toInfoBody(caller, getImplicitPrintKeyword(caller), info));
 	}
 
@@ -337,11 +338,12 @@ public class Tracer {
 	}
 	static void  printInfo(String anInfo) {
 		if (anInfo == null) return;
+		incNumTraces();
 		if (isBufferTracedMessages()) {
 			tracedMessages.append(anInfo + "\n");
 		} else {
 		System.out.println(anInfo);
-		incNumTraces();
+//		incNumTraces();
 		}
 	}
 	public static String toInfo(Object caller, String info) {
