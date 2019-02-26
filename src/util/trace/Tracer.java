@@ -576,7 +576,7 @@ public class Tracer {
 		return bufferTracedMessages;
 	}
 	public static void setBufferTracedMessages(boolean bufferUntracedMessages) {
-		System.out.println("Buffer traced nessages ="  + bufferUntracedMessages);
+		System.out.println("Buffer traced messages ="  + bufferUntracedMessages);
 		Tracer.bufferTracedMessages = bufferUntracedMessages;
 	}
 	
