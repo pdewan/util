@@ -595,10 +595,20 @@ public class Tracer {
 	public static int getNumTraces() {
 		return numTraces;
 	}
+	protected static boolean maxTraceMessageGiven = false;
 	
+	public static boolean isMaxTraceMessageGiven() {
+		return maxTraceMessageGiven;
+	}
+	public static void setMaxTraceMessageGiven(boolean maxTraceMessageGiven) {
+		Tracer.maxTraceMessageGiven = maxTraceMessageGiven;
+	}
 	public static void incNumTraces() {
-		if (numTraces > getMaxTraces()) {
+		if (numTraces > getMaxTraces()) { 
+			if (!maxTraceMessageGiven) {
+				maxTraceMessageGiven = true;
 			throw new TooManyTracesException("Printed > " + numTraces + " messages. Suspect infinite loop or recursion.");
+			}
 		}
 		numTraces++;
 		
