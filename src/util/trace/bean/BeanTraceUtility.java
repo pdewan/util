@@ -14,5 +14,7 @@ public class BeanTraceUtility {
 		Tracer.setKeywordPrintStatus(SetProperty.class, true);
 		Tracer.setKeywordPrintStatus(NotifiedPropertyChangeEvent.class, true);
 		Tracer.setKeywordPrintStatus(AddedPropertyChangeListener.class, true);
+		Tracer.setKeywordPrintStatus(RemovedPropertyChangeListener.class, true);
+
 	}
 }
