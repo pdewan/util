@@ -19,6 +19,7 @@ import util.annotations.Row;
 import util.annotations.Visible;
 import util.misc.Common;
 import util.models.ALocalGlobalTranscriptManager;
+import util.models.ATerminalModel;
 import util.models.LocalGlobalTranscriptManager;
 import util.trace.Tracer;
 import util.trace.console.ConsoleError;
@@ -27,16 +28,16 @@ import util.trace.console.ConsoleOutput;
 /*
  * Both input and output threads are accessing, so syncchronized
  */
-public class AConsoleModel implements ConsoleModel {
-	public static final String DEFAULT_INPUT_PROMPT = "$ ";
-	public static final String OUT_SUFFIX = "Output";
-	public static final String ERROR_SUFFIX = "Input";
-	String input = "";
-	StringBuilder output = new StringBuilder("");
+public class AConsoleModel extends ATerminalModel implements ConsoleModel {
+//	public static final String DEFAULT_INPUT_PROMPT = "$ ";
+//	public static final String OUT_SUFFIX = "Output";
+//	public static final String ERROR_SUFFIX = "Input";
+//	String input = "";
+//	StringBuilder output = new StringBuilder("");
 	Thread outputThread, errorThread;
 	PrintStream printStream;
 	Process process;
-	String title;
+//	String title;
 	String processName;
 	boolean redirectIO; // should we actually redirect output from System.in and System.out to ConsoleModel strings
 
@@ -44,7 +45,7 @@ public class AConsoleModel implements ConsoleModel {
 	
 
 	//	String globalTranscriptFile, localTranscriptFile;
-	String inputPrompt = DEFAULT_INPUT_PROMPT;
+//	String inputPrompt = DEFAULT_INPUT_PROMPT;
 //	int index;
 	String logDirectory;
 	Class execedClass;
@@ -54,11 +55,12 @@ public class AConsoleModel implements ConsoleModel {
 
 	
 
-	public static final int CONSOLE_WIDTH = 320;
-	public static final int CONSOLE_HEIGHT =350;
-	PropertyChangeSupport propertyChangeSupport;
+//	public static final int CONSOLE_WIDTH = 320;
+//	public static final int CONSOLE_HEIGHT =350;
+//	PropertyChangeSupport propertyChangeSupport;
 	public AConsoleModel() {
-		propertyChangeSupport = new PropertyChangeSupport(this);
+		super();
+//		propertyChangeSupport = new PropertyChangeSupport(this);
 		localGlobalTranscriptManager = new ALocalGlobalTranscriptManager();
 		
 	}
@@ -79,6 +81,7 @@ public class AConsoleModel implements ConsoleModel {
 //		errorThread.start();
 	}
 	@Override
+	@Visible(false)
 	public void init(Process aProcess, String aTitle, Class aClass, boolean anIsRdirectIO) {
 		redirectIO = anIsRdirectIO;
 		execedClass = aClass;

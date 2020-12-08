@@ -81,7 +81,7 @@ public class ADelayManager implements DelayManager {
 		long delay = aUserDelayRecord.getDeliveryTime() - currentTime;
 		ReceivedMessage aReceivedMessage = aUserDelayRecord.getReceivedMessage();
 		if (aReceivedMessage == null) {
-			System.out.println("Null received message!");
+			System.err.println("Null received message!");
 			return;
 		}
 			

@@ -37,16 +37,16 @@ public class RecentMessage {
 	public static void error(String error) {
 		if (s_outputLoggingLevel.ordinal() >= OutputLoggingLevel.ERROR
 				.ordinal()) {
-			System.out.println("E***" + error);
+			System.err.println("E***" + error);
 		}
 	}
 
 	public static void warning(String warning) {
 		if (showWarnings) {
-			System.out.println("W***" + warning);
+			System.err.println("W***" + warning);
 		} else if (s_outputLoggingLevel.ordinal() >= OutputLoggingLevel.WARNING
 				.ordinal()) {
-			System.out.println("W***" + warning);
+			System.err.println("W***" + warning);
 		}
 	}
 
@@ -55,21 +55,21 @@ public class RecentMessage {
 			System.out.println("I***" + info);
 		} else if (s_outputLoggingLevel.ordinal() >= OutputLoggingLevel.INFO
 				.ordinal()) {
-			System.out.println("I***" + info);
+			System.err.println("I***" + info);
 		}
 	}
 
 	public static void debug(String debugMessage) {
 		if (s_outputLoggingLevel.ordinal() >= OutputLoggingLevel.DEBUG
 				.ordinal()) {
-			System.out.println("D***" + debugMessage);
+			System.err.println("D***" + debugMessage);
 		}
 	}
 
 	public static void userMessage(String userMessage) {
 		if (s_outputLoggingLevel.ordinal() >= OutputLoggingLevel.USER_MESSAGE
 				.ordinal()) {
-			System.out.println("U***" + userMessage);
+			System.err.println("U***" + userMessage);
 		}
 	}
 }

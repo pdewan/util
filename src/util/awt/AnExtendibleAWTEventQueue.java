@@ -90,7 +90,7 @@ public class AnExtendibleAWTEventQueue extends EventQueue implements ExtendibleA
 		try {
 		vetoChangeSupport.fireVetoableChange(WINDOW, null, anEvent);
 		} catch (PropertyVetoException e) {
-			System.out.println("Not Dispatching event:" + anEvent);
+			System.err.println("Not Dispatching event:" + anEvent);
 
 			return;
 		}

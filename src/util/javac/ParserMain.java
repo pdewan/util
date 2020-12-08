@@ -108,10 +108,10 @@ public class ParserMain {
 
             if (args.length < 1 || args[0] == null ||
                     args[0].trim().length() <= 0 ) {
-				System.out.println("Please provide the java source file(s) "
+				System.err.println("Please provide the java source file(s) "
 						+ "to be verified as argument");                
-                System.out.println("Usage: java Main {<comma separated list of source files>}");
-                System.out.println("Exiting from the program");
+                System.err.println("Usage: java Main {<comma separated list of source files>}");
+                System.err.println("Exiting from the program");
                 System.exit(0);
             } 
             else {

@@ -294,7 +294,7 @@ public class AProcessGroup implements ProcessGroup, ProcessGroupLocal {
 	@Override
 	public void toUsers(String[] userNames, Object object, String clientName,
 			ObjectReceiver client, long timeStamp) throws RemoteException {
-		System.out.println("to users not implemented as yet");
+		System.err.println("to users not implemented as yet");
 
 	}
 

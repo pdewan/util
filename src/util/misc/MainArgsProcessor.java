@@ -26,11 +26,11 @@ public class MainArgsProcessor {
 	public static final Object NO_VALUE = "";
 
 	public static void printFlags(String[] regFlags, String[] boolFlags) {
-		System.out.println("Boolean Flags Supported:");
+		System.err.println("Boolean Flags Supported:");
 		for (int i = 0; i < boolFlags.length; i++) {
 			System.out.println(boolFlags[i]);
 		}
-		System.out.println("Regular Flags Supported:");
+		System.err.println("Regular Flags Supported:");
 		for (int i = 0; i < regFlags.length; i++) {
 			System.out.println(regFlags[i]);
 		}
@@ -119,7 +119,7 @@ public class MainArgsProcessor {
 			argVector.remove(flag);
 		}
 		for (int i = 0; i < argVector.size(); i++) {
-			System.out.println("Warning: Unrecognized main argument:"
+			System.err.println("Warning: Unrecognized main argument:"
 					+ argVector.elementAt(i));
 		}
 		if (argVector.size() > 0)
@@ -129,7 +129,7 @@ public class MainArgsProcessor {
 	}
 
 	static void missingArgument(String flag) {
-		System.out.println("Warning: " + flag
+		System.err.println("Warning: " + flag
 				+ " should be followed by an argument. Ignoring flag");
 		// flagTable.put(flag, NO_VALUE);
 	}

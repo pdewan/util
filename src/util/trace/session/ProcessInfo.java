@@ -48,9 +48,9 @@ public class ProcessInfo extends TraceableInfo {
 		return new ProcessInfo(aMessage, aProcessName, aTraceable);
 		
 		} catch (Exception e) {
-			System.out.println(e);
+			System.err.println("Process info:" + e);
 
-			System.out.println("Did not find process info in:" + aMessage);
+			System.err.println("Did not find process info in:" + aMessage);
 			return null;
 		}		
 	}

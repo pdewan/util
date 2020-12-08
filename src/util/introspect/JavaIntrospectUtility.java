@@ -3353,7 +3353,7 @@ public class JavaIntrospectUtility {
 				return;
 			init.invoke(o, emptyArgs);
 		} catch (NoSuchMethodException me) {
-			System.out.println("Object: " + o + "does not have method: "
+			System.err.println("Object: " + o + "does not have method: "
 					+ INIT_SERIALIZED_OBJECT);
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -98,7 +98,7 @@ public class AUserDelayRecord implements UserDelayRecord {
 	@Override
 	public void setReceivedMessage(ReceivedMessage newVal) {
 		if (newVal == null) {
-			System.out.println("Null message set:" + newVal);
+			System.err.println("Null message set:" + newVal);
 		}
 		this.receivedMessage = newVal;
 	}

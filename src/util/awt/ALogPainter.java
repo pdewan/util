@@ -20,12 +20,12 @@ public class ALogPainter implements LogPainter {
 	}
 
 	public synchronized void add(SerializableGraphicsRequest theRequest) {
-		System.out.println("request added:" + theRequest);
+		System.err.println("request added:" + theRequest);
 		requests.add(theRequest);
 	}
 
 	public synchronized void clear() {
-		System.out.println("Log Cleared");
+		System.err.println("Log Cleared");
 		requests.clear();
 	}
 

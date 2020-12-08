@@ -110,7 +110,7 @@ public class AnExtendibleTelePointerGlassPane extends JPanel implements Extendib
 	@Visible(false)
 	@Override
 	 public void eventDispatched(AWTEvent event) { 
-		System.out.println("foo");
+//		System.out.println("foo");
 		  if (event instanceof MouseEvent) { 
 	            MouseEvent me = (MouseEvent) event; 
 	            if (!SwingUtilities.isDescendingFrom(me.getComponent(), frame)) { 
@@ -208,7 +208,7 @@ public class AnExtendibleTelePointerGlassPane extends JPanel implements Extendib
 	@Visible(false)
 	@Override
 	public void keyPressed(KeyEvent arg0) {
-		System.out.println("Key pressed in relepointer");
+		System.err.println("Key pressed intelepointer");
 	}
 	@Visible(false)
 	@Override

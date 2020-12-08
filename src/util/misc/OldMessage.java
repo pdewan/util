@@ -29,7 +29,7 @@ public class OldMessage {
 
 	public static void fatalError(String error) {
 		String msg = "Fatal Error***" + error + ". Terminating program";
-		System.out.println(msg);
+		System.err.println(msg);
 		JOptionPane.showMessageDialog(null, msg);
 		System.exit(1);
 	}
@@ -37,39 +37,39 @@ public class OldMessage {
 	public static void error(String error) {
 		if (s_outputLoggingLevel.ordinal() >= OutputLoggingLevel.ERROR
 				.ordinal()) {
-			System.out.println("E***" + error);
+			System.err.println("E***" + error);
 		}
 	}
 
 	public static void warning(String warning) {
 		if (showWarnings) {
-			System.out.println("W***" + warning);
+			System.err.println("W***" + warning);
 		} else if (s_outputLoggingLevel.ordinal() >= OutputLoggingLevel.WARNING
 				.ordinal()) {
-			System.out.println("W***" + warning);
+			System.err.println("W***" + warning);
 		}
 	}
 
 	public static void info(String info) {
 		if (showInfo) {
-			System.out.println("I***" + info);
+			System.err.println("I***" + info);
 		} else if (s_outputLoggingLevel.ordinal() >= OutputLoggingLevel.INFO
 				.ordinal()) {
-			System.out.println("I***" + info);
+			System.err.println("I***" + info);
 		}
 	}
 
 	public static void debug(String debugMessage) {
 		if (s_outputLoggingLevel.ordinal() >= OutputLoggingLevel.DEBUG
 				.ordinal()) {
-			System.out.println("D***" + debugMessage);
+			System.err.println("D***" + debugMessage);
 		}
 	}
 
 	public static void userMessage(String userMessage) {
 		if (s_outputLoggingLevel.ordinal() >= OutputLoggingLevel.USER_MESSAGE
 				.ordinal()) {
-			System.out.println("U***" + userMessage);
+			System.err.println("U***" + userMessage);
 		}
 	}
 }

@@ -254,7 +254,7 @@ public class ACommunicatedAWTEventSupport implements CommunicatedAWTEventSupport
 			sentEvent = AWTMisc.nested(anEvent);
 		}
 		if (AWTMisc.isGlobalCursorEvent(anEvent)) {
-			System.out.println("Dispathcing as null:" + anEvent);
+			System.err.println("Dispathcing as null:" + anEvent);
 
 			sentEvent = null;
 //			anId = ComponentRegistry.GLOBAL_CURSOR_EVENT_ID;

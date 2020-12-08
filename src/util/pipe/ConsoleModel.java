@@ -6,17 +6,18 @@ import java.awt.event.WindowListener;
 import util.annotations.Visible;
 import util.models.LocalGlobalTranscriptManager;
 import util.models.PropertyListenerRegisterer;
+import util.models.TerminalModel;
 
-public interface ConsoleModel extends PropertyListenerRegisterer/*, WindowListener*/{
+public interface ConsoleModel extends TerminalModel /* PropertyListenerRegisterer/*, WindowListener*/{
 	public final String OUTPUT_LINE = "outputLine";
-	public final String OUTPUT = "output";
-	public final String INPUT = "input";
+//	public final String OUTPUT = "output";
+//	public final String INPUT = "input";
 
 
-	public String getInput() ;
+//	public String getInput() ;
 	public void addOutput(String newVal) ;
 	public void setInput(String newVal);
-	public StringBuilder getOutput() ;
+//	public StringBuilder getOutput() ;
 	public String getTitle() ;
 	public void exit();
 //	void setOutput(StringBuilder newVal);

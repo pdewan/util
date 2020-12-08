@@ -89,16 +89,16 @@ public class Tracer {
 
 	public static void error(String error) {
 		if (tracingLevel.ordinal() >= TracingLevel.ERROR.ordinal()) {
-			System.out.println("E***" + error);
+			System.err.println("E***" + error);
 		}
 	}
 
 	public static void warning(String warning) {
 		if (showWarnings) {
-			System.out.println("W***" + warning);
+			System.err.println("W***" + warning);
 			incNumTraces();
 		} else if (tracingLevel.ordinal() >= TracingLevel.WARNING.ordinal()) {
-			System.out.println("W***" + warning);
+			System.err.println("W***" + warning);
 			incNumTraces();
 		}
 	}

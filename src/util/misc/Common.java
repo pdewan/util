@@ -732,7 +732,7 @@ public class Common {
 
 			// Class classFromName = runnable.getClassFromName();
 			if (classFromName == null) {
-				System.out
+				System.err
 						.println("asynchronousClassForName could not convert "
 								+ name
 								+ " to class probably because of infinite loop in initializers of static variables.");
@@ -745,7 +745,7 @@ public class Common {
 			// return runnable.getClassFromName();
 
 		} catch (Exception e) {
-			System.out
+			System.err
 					.println("asynchronousClassForName: could not convert:"
 							+ name
 							+ " to class probably because of infinite loop in initializers of static variables.");
@@ -838,7 +838,7 @@ public class Common {
 			// Object instance = instanceBuffer.get(timeOut);
 			Object instance = instanceBuffer.get();
 			if (instance == null) {
-				System.out
+				System.err
 						.println("asynchronousNewInstance could not instantiate "
 								+ c);
 				// thread.stop(new Exception());
@@ -1090,7 +1090,7 @@ public class Common {
 		File anImageFile = new File(anImageFileName).getAbsoluteFile(); // respecting user.dir
 		return ImageIO.read(anImageFile);
 		} catch (Exception e) {
-			System.out.println("Could not convert file " + anImageFileName + " to image because of:" + e);
+			System.err.println("Could not convert file " + anImageFileName + " to image because of:" + e);
 			return null;
 		}		
 	}
@@ -1256,7 +1256,7 @@ public class Common {
 //			nse.printStackTrace();
 
 		} catch (IOException e) {
-			System.out.println(e + ": " + orig);
+			System.err.println( "Common:" + e + ": " + orig);
 //			e.printStackTrace();
 		} catch (ClassNotFoundException cnfe) {
 //			cnfe.printStackTrace();
@@ -1517,7 +1517,7 @@ public class Common {
 			fos.flush();
 			
 		} catch (IOException e) {
-			System.out.println(file.getName() + " " + e.getMessage());
+			System.err.println(file.getName() + " " + e.getMessage());
 			Common.close(fos);
 			throw e;
 		}

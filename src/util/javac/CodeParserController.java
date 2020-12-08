@@ -75,7 +75,7 @@ public class CodeParserController {
 			try {
 				fileManager.close();
 			} catch (IOException e) {
-				System.out.println(e.getLocalizedMessage());
+				System.err.println("Code Parser:" + e.getLocalizedMessage());
 			}
 		} else {
 			System.out.println("No valid source files to process. "
@@ -268,10 +268,10 @@ public class CodeParserController {
 			try {
 				fileManager.close();
 			} catch (IOException e) {
-				System.out.println(e.getLocalizedMessage());
+				System.err.println("Code Parser:" + e.getLocalizedMessage());
 			}
 		} else {
-			System.out.println("No valid source files to process. "
+			System.err.println("No valid source files to process. "
 					+ "Extiting from the program");
 			System.exit(0);
 		}
@@ -296,7 +296,7 @@ public class CodeParserController {
 			if (sourceFile != null && sourceFile.exists()) {
 				files.add(sourceFile);
 			} else {
-				System.out.println(fileName + " is not a valid file. "
+				System.err.println(fileName + " is not a valid file. "
 						+ "Ignoring the file ");
 			}
 		}

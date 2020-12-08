@@ -64,7 +64,7 @@ public class AddWebDocumentsAnnotations {
 
 			File file = new File(fileName);
 			if (!file.exists()) {
-				System.out.println("File does not exist:" + fileName);
+				System.err.println("File does not exist:" + fileName);
 			}
 			processFile(file, aSuffixList);
 
@@ -149,7 +149,7 @@ public class AddWebDocumentsAnnotations {
 	public static void processDirectory(String aDirectoryName, List<String> aDocumentTypeList) {
 		File directory = new File(aDirectoryName);
 		if (!directory.exists()) {
-			System.out.println("Directory does not exist:" + aDirectoryName);
+			System.err.println("Directory does not exist:" + aDirectoryName);
 			return;
 		}
 		processDirectory(directory, aDocumentTypeList);

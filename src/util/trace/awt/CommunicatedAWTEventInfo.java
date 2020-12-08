@@ -137,7 +137,7 @@ public class CommunicatedAWTEventInfo extends CommunicatedInfo {
 //	    static String toString(AWTEvent anAWTEvent, String aGlobalId) {
 		static String toString(String aProcessName, AWTEvent anAWTEvent, String aGlobalId,  String aDestinationOrSource) {
 		if (anAWTEvent == null) {
-			System.out.println("Null event");
+			System.err.println("Null event");
 			return "";
 		}
 		String aName = "";
@@ -166,7 +166,7 @@ public class CommunicatedAWTEventInfo extends CommunicatedInfo {
 	}
 	public static String toLocalInfoToString(AWTEvent anAWTEvent, String aGlobalId) {
 		if (anAWTEvent == null) {
-			System.out.println("Null event");
+			System.err.println("Null event");
 			return "";
 		}
 		String aName = "";

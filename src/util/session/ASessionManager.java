@@ -81,7 +81,7 @@ public class ASessionManager implements SessionManager, SessionManagerLocal {
 			SessionManager exportedServer = (SessionManager) UnicastRemoteObject
 					.exportObject(this, 0);
 			registry.rebind(SESSION_MANAGER_NAME, exportedServer);
-			System.out.println("Registered " + SESSION_MANAGER_NAME
+			System.err.println("Registered " + SESSION_MANAGER_NAME
 					+ " with RMI Server (" + Common.getHostName() + ", "
 					+ Common.DEFAULT_RMI_PORT + ")");
 		} catch (Exception e) {
