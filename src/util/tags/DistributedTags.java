@@ -11,6 +11,26 @@ public interface DistributedTags {
 	String SOCKETS = "Sockets";
 	String NIO = "NIO";
 	String GIPC = "GIPC";
+	String SERVER_REMOTE_INTERFACE = "ServerRemoteInterface";
+	String CLIENT_REMOTE_INTERFACE = "ClientRemoteInterface";
+	String SERVER_REMOTE_OBJECT = "ServerRemoteObject";
+	String CLIENT_REMOTE_OBJECT = "ClientRemoteObject";	
+//	String REMOTE_INTERFACE = "RemoteInterface";
+//	String SERVER_REMOTE_OBJECT = "ServerRemoteObject";
+//	String REMOTE_OBJECT = "RemoteObject";
+	String CLIENT_OUT_COUPLER = "ClientOutCoupler";
+	String SERVER_OUT_COUPLER = "ClientOutCoupler";
+
+	String CLIENT_CONFIGURER = "ClientConfigurer";
+	String SERVER_CONFIGURER = "ServerConfigurer";
+	
+	String ATOMIC_BROADCAST = "AtomicBroadcast";
+	String TWO_PHASE_COMMIT = "TwoPhaseCommit";
+	String PAXOS = "Paxos";
+
+
+//	String CONFIGURER = "Configurer";
+
 	// some typical client names
 	String CLIENT_1 = "Alice";
 	String CLIENT_2 = "Bob";
