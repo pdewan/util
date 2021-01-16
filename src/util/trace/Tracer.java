@@ -608,7 +608,7 @@ public class Tracer {
 		return numTraces;
 	}
 	protected static boolean maxTraceMessageGiven = false;
-//	protected static boolean maxPrintedTraceMessageGiven = false;
+	protected static boolean maxPrintedTraceMessageGiven = false;
 
 	
 	public static boolean isMaxTraceMessageGiven() {
@@ -624,9 +624,12 @@ public class Tracer {
 			throw new TooManyTracesException("Printed > " + numTraces + " messages. Suspect infinite loop or recursion.");
 			}
 		}
-		if (numTraces > getMaxPrintedTraces()) { 
+		if (numTraces > getMaxPrintedTraces() ) { 
+			if (!maxPrintedTraceMessageGiven) {
 			System.err.println("Number of traces > " + getMaxPrintedTraces() + "  turning tracing off");
+			}
 			showInfo(false);
+			maxPrintedTraceMessageGiven = true;
 			return;
 		}
 		numTraces++;
@@ -637,7 +640,11 @@ public class Tracer {
 	}
 	
 	public static void resetNumTraces() {
-		setNumTraces(0);		
+		setNumTraces(0);	
+		if (maxPrintedTraceMessageGiven) {
+			maxPrintedTraceMessageGiven = false;
+			showInfo(true);
+		}
 	}
 
 
