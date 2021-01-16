@@ -588,6 +588,9 @@ public class Tracer {
 	
 	public static void clearTracedMessages() {
 		tracedMessages.setLength(0);
+		if (isBufferTracedMessages()) {
+			resetNumTraces();
+		}
 	}
 	public static String getBufferedTracedMessages() {
 		return tracedMessages.toString();
@@ -639,12 +642,16 @@ public class Tracer {
 		numTraces = 0;		
 	}
 	
-	public static void resetNumTraces() {
-		setNumTraces(0);	
+	public static void resetMaxPrintedMessages() {
 		if (maxPrintedTraceMessageGiven) {
 			maxPrintedTraceMessageGiven = false;
 			showInfo(true);
-		}
+		}		
+	}
+	
+	public static void resetNumTraces() {
+		setNumTraces(0);	
+		resetMaxPrintedMessages();
 	}
 
 
