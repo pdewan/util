@@ -14,7 +14,13 @@ public class Tracer {
 	public static String ALL_KEYWORDS = "All Key Words";
 	static boolean displayThreadName = false;
 	static boolean displayTime = false;
-	static int maxTraces = 2000;
+	public static final int DEFAULT_MAX_TRACES = 2000;
+	static int maxTraces = DEFAULT_MAX_TRACES;
+	public static final int DEFAULT_PRINTER_MAX_TRACES = 2000;
+
+	static int maxPrintedTraces = DEFAULT_PRINTER_MAX_TRACES;
+	
+
 	static int numTraces = 0;
 
 	
@@ -592,10 +598,18 @@ public class Tracer {
 	public static void setMaxTraces(int maxPrints) {
 		Tracer.maxTraces = maxPrints;
 	}
+	public static int getMaxPrintedTraces() {
+		return maxPrintedTraces;
+	}
+	public static void setMaxPrintedTraces(int maxPrintedTraces) {
+		Tracer.maxPrintedTraces = maxPrintedTraces;
+	}
 	public static int getNumTraces() {
 		return numTraces;
 	}
 	protected static boolean maxTraceMessageGiven = false;
+//	protected static boolean maxPrintedTraceMessageGiven = false;
+
 	
 	public static boolean isMaxTraceMessageGiven() {
 		return maxTraceMessageGiven;
@@ -609,6 +623,11 @@ public class Tracer {
 				maxTraceMessageGiven = true;
 			throw new TooManyTracesException("Printed > " + numTraces + " messages. Suspect infinite loop or recursion.");
 			}
+		}
+		if (numTraces > getMaxPrintedTraces()) { 
+			System.err.println("Number of traces > " + getMaxPrintedTraces() + "  turning tracing off");
+			showInfo(false);
+			return;
 		}
 		numTraces++;
 		
