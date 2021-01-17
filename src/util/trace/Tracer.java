@@ -600,6 +600,7 @@ public class Tracer {
 		String retVal =  getBufferedTracedMessages();
 		numConsumedBufferedTraces += tracedMessages.length();
 		numTraces = 0; // should we have two different variables for numConsumed and non consumed
+		maxPrintedTraceMessageGiven = false;
 		return retVal;
 		
 	}
