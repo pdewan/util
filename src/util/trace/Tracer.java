@@ -637,9 +637,9 @@ public class Tracer {
 			}
 		}
 		if (tracedMessages.length() + numConsumedBufferedTraces > getMaxPrintedTraces() ) { 
-			if (!maxPrintedTraceMessageGiven) {
+//			if (!maxPrintedTraceMessageGiven) {
 			System.err.println("Number of traces > " + getMaxPrintedTraces() + "  turning tracing off");
-			}
+//			}
 			showInfo(false);
 			maxPrintedTraceMessageGiven = true;
 			return;
