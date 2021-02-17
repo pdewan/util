@@ -22,6 +22,7 @@ public class Tracer {
 	
 
 	static int numTraces = 0;
+	static int numUnconsumedTraces = 0;
 	static int numConsumedBufferedTraces = 0;
 
 	
@@ -348,6 +349,7 @@ public class Tracer {
 		incNumTraces();
 		if (isBufferTracedMessages()) {
 			tracedMessages.append(anInfo + "\n");
+			numUnconsumedTraces++;
 		} else {
 		System.out.println(anInfo);
 //		incNumTraces();
@@ -589,6 +591,8 @@ public class Tracer {
 	
 	public static void clearTracedMessages() {
 		tracedMessages.setLength(0);
+		numUnconsumedTraces = 0;
+
 		if (isBufferTracedMessages()) {
 			resetNumTraces();
 		}
@@ -598,7 +602,9 @@ public class Tracer {
 	}
 	public static String consumeBufferedTracedMessages() {
 		String retVal =  getBufferedTracedMessages();
-		numConsumedBufferedTraces += tracedMessages.length();
+//		numConsumedBufferedTraces += tracedMessages.length();
+		numConsumedBufferedTraces += numUnconsumedTraces;
+
 		numTraces = 0; // should we have two different variables for numConsumed and non consumed
 		maxPrintedTraceMessageGiven = false;
 		return retVal;
@@ -636,7 +642,9 @@ public class Tracer {
 			throw new TooManyTracesException("Printed > " + numTraces + " messages. Suspect infinite loop or recursion.");
 			}
 		}
-		if (tracedMessages.length() + numConsumedBufferedTraces > getMaxPrintedTraces() ) { 
+		if (numUnconsumedTraces + numConsumedBufferedTraces > getMaxPrintedTraces() ) { 
+
+//		if (tracedMessages.length() + numConsumedBufferedTraces > getMaxPrintedTraces() ) { 
 //			if (!maxPrintedTraceMessageGiven) {
 			System.err.println("Number of traces > " + getMaxPrintedTraces() + "  turning tracing off");
 //			}
@@ -659,6 +667,7 @@ public class Tracer {
 	}
 	
 	public static void resetNumTraces() {
+//		numUnconsumedTraces = 0;
 		setNumTraces(0);	
 		resetMaxPrintedMessages();
 	}
