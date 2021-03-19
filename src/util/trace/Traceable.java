@@ -78,7 +78,9 @@ public  class Traceable extends RuntimeException implements EqualPropertiesDefin
 		setEqualPropertiesList();
 	}
 	protected void setEqualPropertiesList() {
-		equalPropertiesList = Common.arrayToArrayList(equalPropertiesArray);
+//		equalPropertiesList = Common.arrayToArrayList(equalPropertiesArray);
+		equalPropertiesList =  Arrays.asList (equalPropertiesArray);
+
 
 	}
 	public Traceable(String aMessage, Long aTimeStamp, String aThreadName, String anEventSource, Object aFinder) {

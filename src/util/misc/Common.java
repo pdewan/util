@@ -1759,10 +1759,19 @@ public class Common {
 			return first.equals(second);
 		}
 	 
-		public static final JLabel jLabel = new JLabel("");
+//		public static  final JLabel jLabel = new JLabel("");
+		public static JLabel jLabel;
+
+		
+		public static JLabel jLabel( ) {
+			if (jLabel == null) {
+				jLabel = new JLabel("");
+			}
+			return jLabel;
+		}
 
 		public static Font getDefaultFont() {
-			return jLabel.getFont();
+			return jLabel().getFont();
 		}
 		
 		
@@ -1772,7 +1781,7 @@ public class Common {
 //			}
 			aFont = toFontSize(aFont, aFontSize);
 	 
-		FontMetrics fontMetrics = (FontMetrics) jLabel.getFontMetrics(aFont);
+		FontMetrics fontMetrics = (FontMetrics) jLabel().getFontMetrics(aFont);
 		return fontMetrics.stringWidth(aString);
 	
 		}
@@ -1794,7 +1803,7 @@ public class Common {
 //			if (aFont == null)
 				aFont = Common.toFontSize(aFont, aFontSize);
 			 
-			FontMetrics fontMetrics = (FontMetrics) jLabel.getFontMetrics(aFont);
+			FontMetrics fontMetrics = (FontMetrics) jLabel().getFontMetrics(aFont);
 			return fontMetrics.getHeight();
 		
 		}
