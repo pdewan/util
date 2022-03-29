@@ -24,9 +24,16 @@ public interface DistributedTags {
 	String CLIENT_CONFIGURER = "ClientConfigurer";
 	String SERVER_CONFIGURER = "ServerConfigurer";
 	
+	
 	String ATOMIC_BROADCAST = "AtomicBroadcast";
 	String TWO_PHASE_COMMIT = "TwoPhaseCommit";
 	String PAXOS = "Paxos";
+	
+
+	String SERVER_READ_THREAD = "Server Read Thread";
+	String CLIENT_READ_THREAD = "Client Read Thread";
+	String READ_THREAD_INTERFACE = "Read Thread Interface";
+	
 
 
 //	String CONFIGURER = "Configurer";
