@@ -19,38 +19,38 @@ public class TeePrintStream extends PrintStream{
 	 * println calls print
 	 */
 	@Override
-	public void println(String newLine) {
+	public synchronized void println(String newLine) {
 		echoedPrint = true;
 		super.println(newLine);
 		stdout.println(newLine);
 		
 	}
 	@Override
-	public void println(double aDouble) {
+	public synchronized void println(double aDouble) {
 		echoedPrint = true;
 		super.println(aDouble);
 		stdout.println(aDouble);
 	}
 	@Override
-	public void println(int anInt) {
+	public synchronized void println(int anInt) {
 		echoedPrint = true;
 		super.println(anInt);
 		stdout.println(anInt);
 	}
 	@Override
-	public void println(boolean aBoolean) {
+	public synchronized void println(boolean aBoolean) {
 		echoedPrint = true;
 		super.println(aBoolean);
 		stdout.println(aBoolean);
 	}
 	@Override
-	public void println(Object anObject) {
+	public synchronized void println(Object anObject) {
 		echoedPrint = true;
 		super.println(anObject);
 		stdout.println(anObject);
 	}
 	@Override
-	public void print(String newLine) {
+	public synchronized void print(String newLine) {
 		super.print(newLine);
 		if (!echoedPrint)
 		    stdout.print(newLine);
@@ -58,7 +58,7 @@ public class TeePrintStream extends PrintStream{
 		 echoedPrint = false;
 	}
 	@Override
-	public void print(double aDouble) {
+	public synchronized void print(double aDouble) {
 		super.print(aDouble);
 		if (!echoedPrint)
 			stdout.print(aDouble);
@@ -67,7 +67,7 @@ public class TeePrintStream extends PrintStream{
 
 	}
 	@Override
-	public void print(int anInt) {
+	public synchronized void print(int anInt) {
 		super.print(anInt);
 		if (!echoedPrint)
 			stdout.print(anInt);
@@ -75,7 +75,7 @@ public class TeePrintStream extends PrintStream{
 			echoedPrint = false;
 	}
 	@Override
-	public void print(boolean aBoolean) {
+	public synchronized void print(boolean aBoolean) {
 		super.print(aBoolean);
 		if (!echoedPrint)
 			stdout.print(aBoolean);
