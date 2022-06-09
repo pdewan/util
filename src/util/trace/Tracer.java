@@ -673,7 +673,13 @@ public class Tracer {
 	}
 
 
-
+	public static boolean isTrace(String aString) {
+		return aString.length() > 4 && 
+				aString.charAt(1) == '*' &&
+				aString.charAt(2) == '*' &&
+				aString.charAt(3) == '*';
+	}
+	
 	static {
 		// do not need this as lack of this entry means false
 //		setKeyWordStatus(ALL_KEYWORDS, false);
